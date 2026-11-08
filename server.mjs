@@ -1,17 +1,21 @@
 import http from 'node:http';
+import net from 'node:net';
 import {DatabaseSync} from 'node:sqlite';
 import {randomBytes, createHash, scrypt, timingSafeEqual} from 'node:crypto';
 import {promisify} from 'node:util';
+import {gzipSync, createGzip} from 'node:zlib';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
 import {createState, normalizeState, recordAnswer, importBackup, dismissWrongAnswers} from './dist/core.js';
 
 const ROOT=path.dirname(fileURLToPath(import.meta.url)), DIST=path.join(ROOT,'dist');
+const DIST_REAL=fs.realpathSync(DIST);
 const DATA=path.resolve(process.env.DATA_DIR || path.join(ROOT,'data'));
 const BASE=(process.env.BASE_PATH || '').replace(/\/$/,'');
 if (BASE && !/^\/[a-zA-Z0-9_/-]+$/.test(BASE)) throw new Error('BASE_PATH 必须是以 / 开头的路径，例如 /practice');
 const SECURE=process.env.COOKIE_SECURE==='true';
+const TRUSTED_PROXY=process.env.TRUSTED_PROXY==='true';
 const INVITE_CODE=process.env.INVITE_CODE || '';
 const HOST=process.env.HOST || '127.0.0.1', PORT=Number(process.env.PORT || 3000);
 const SESSION_AGE=30*86400*1000;
@@ -40,10 +44,43 @@ const rate=new Map();
 const cookieName='zhixu_session';
 function cookie(token,age=SESSION_AGE/1000){return `${cookieName}=${token}; Path=${BASE || '/'}; Max-Age=${age}; HttpOnly; SameSite=Lax${SECURE?'; Secure':''}`;}
 function getToken(req){return (req.headers.cookie || '').split(';').map(s=>s.trim()).find(s=>s.startsWith(cookieName+'='))?.slice(cookieName.length+1) || '';}
+function clientIp(req){
+  if(TRUSTED_PROXY){
+    const real=req.headers['x-real-ip'];
+    if(typeof real==='string' && net.isIP(real.trim()))return real.trim();
+    const forwarded=req.headers['x-forwarded-for'];
+    if(typeof forwarded==='string' && forwarded.length<=1024){
+      const last=forwarded.split(',').map(s=>s.trim()).filter(Boolean).pop();
+      if(last && net.isIP(last))return last;
+    }
+  }
+  return req.socket.remoteAddress || '';
+}
+function acceptsGzip(req){return /\bgzip\b/.test(req.headers['accept-encoding'] || '');}
+function matchesEtag(req,etag,mtimeMs){
+  const inm=req.headers['if-none-match'];
+  if(typeof inm==='string'){
+    if(inm.trim()==='*')return true;
+    return inm.split(',').some(raw=>{const tag=raw.trim().replace(/^W\//,'');return tag===etag;});
+  }
+  const ims=req.headers['if-modified-since'];
+  if(typeof ims==='string'){
+    const since=Date.parse(ims);
+    return Number.isFinite(since) && Math.floor(mtimeMs/1000)*1000<=since;
+  }
+  return false;
+}
 function auth(req){const token=getToken(req);return token && token.length<200 ? sql.session.get(hashToken(token),Date.now()) : null;}
 function sessionFor(userId,res){const token=randomBytes(32).toString('hex');sql.addSession.run(hashToken(token),userId,Date.now()+SESSION_AGE);res.setHeader('Set-Cookie',cookie(token));}
 function fail(status,message){throw Object.assign(new Error(message),{status});}
-function json(res,status,value){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(value));}
+function json(res,status,value){
+  const body=Buffer.from(JSON.stringify(value));
+  const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',Vary:'Accept-Encoding'};
+  const payload=res.acceptGzip && body.length>=1024?gzipSync(body):body;
+  if(payload!==body)headers['Content-Encoding']='gzip';
+  headers['Content-Length']=payload.length;
+  res.writeHead(status,headers);res.end(payload);
+}
 function security(res){
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');
   res.setHeader('Referrer-Policy','same-origin');
@@ -64,7 +101,7 @@ async function body(req){
   try {const value=JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');if(!value || typeof value!=='object' || Array.isArray(value)) fail(400,'提交格式无效');return value;} catch(e){if(e.status)throw e;fail(400,'JSON 格式无效');}
 }
 function throttle(req,username=''){
-  const key=`${req.socket.remoteAddress}|${username}`;const now=Date.now();const r=rate.get(key);
+  const key=`${clientIp(req)}|${username}`;const now=Date.now();const r=rate.get(key);
   const limit=username?20:1000;
   if(r && now<r.until && r.count>=limit) fail(429,'尝试次数较多，请 15 分钟后重试');
   if(!r || now>=r.until)rate.set(key,{count:1,until:now+15*60*1000});else r.count++;
@@ -181,6 +218,7 @@ async function api(req,res,route){
 const MIME={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.ico':'image/x-icon'};
 const server=http.createServer(async(req,res)=>{
   security(res);
+  res.acceptGzip=acceptsGzip(req);
   try{
     const url=new URL(req.url,'http://localhost');let pathname;
     try{pathname=decodeURIComponent(url.pathname);}catch{fail(400,'地址格式不正确');}
@@ -195,14 +233,31 @@ const server=http.createServer(async(req,res)=>{
     if(!filename.startsWith(DIST+path.sep))fail(404,'文件不存在');
     let stat;try{stat=fs.statSync(filename);}catch{fail(404,'文件不存在');}
     if(!stat.isFile())fail(404,'文件不存在');
-    if(!fs.realpathSync(filename).startsWith(fs.realpathSync(DIST)+path.sep))fail(403,'文件访问被拒绝');
-    const ext=path.extname(filename);res.writeHead(200,{'Content-Type':MIME[ext] || 'application/octet-stream','Content-Length':stat.size,
-      'Cache-Control':['.html','.json','.js','.css'].includes(ext)?'no-cache':'public, max-age=604800'});
+    if(!fs.realpathSync(filename).startsWith(DIST_REAL+path.sep))fail(403,'文件访问被拒绝');
+    const ext=path.extname(filename),type=MIME[ext] || 'application/octet-stream';
+    const etag=`"${stat.size.toString(16)}-${Math.floor(stat.mtimeMs).toString(16)}"`;
+    res.setHeader('Content-Type',type);
+    res.setHeader('Cache-Control',['.html','.json','.js','.css'].includes(ext)?'no-cache':'public, max-age=604800');
+    res.setHeader('ETag',etag);
+    res.setHeader('Last-Modified',new Date(Math.floor(stat.mtimeMs/1000)*1000).toUTCString());
+    res.setHeader('Vary','Accept-Encoding');
+    if(matchesEtag(req,etag,stat.mtimeMs)){res.writeHead(304);return res.end();}
+    const compressible=/^(?:text\/|application\/(?:json|javascript)|image\/svg\+xml)/.test(type) && acceptsGzip(req);
+    if(compressible)res.setHeader('Content-Encoding','gzip');
+    else res.setHeader('Content-Length',stat.size);
+    res.writeHead(200);
     if(req.method==='HEAD')return res.end();
-    const stream=fs.createReadStream(filename);stream.on('error',()=>res.destroy());stream.pipe(res);
+    const stream=fs.createReadStream(filename);stream.on('error',()=>res.destroy());
+    if(compressible)stream.pipe(createGzip()).pipe(res);else stream.pipe(res);
   }catch(e){if(!res.headersSent)json(res,e.status || 500,{error:e.status?e.message:'服务器暂时无法处理请求，请稍后重试'});else res.destroy();if(!e.status)console.error('Request failed:',e.message);}
 });
 server.requestTimeout=30000;server.headersTimeout=15000;
+server.on('error',error=>{
+  if(error.code==='EADDRINUSE')console.error(`启动失败：端口 ${PORT} 已被占用，请换一个 PORT 或先停掉占用该端口的进程。`);
+  else if(error.code==='EACCES')console.error(`启动失败：没有权限监听 ${HOST}:${PORT}（1024 以下端口通常需要管理员权限）。`);
+  else console.error('启动失败：'+(error.message || error));
+  process.exit(1);
+});
 server.listen(PORT,HOST,()=>console.log(`知序已启动 http://${HOST}:${server.address().port}${BASE}/`));
 const cleanup=setInterval(()=>{db.prepare('DELETE FROM sessions WHERE expires_at<?').run(Date.now());},3600000);cleanup.unref();
 function shutdown(){clearInterval(cleanup);server.close(()=>{db.close();process.exit(0);});setTimeout(()=>process.exit(0),5000).unref();}

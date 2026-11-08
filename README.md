@@ -35,12 +35,16 @@ curl http://127.0.0.1:8080/api/health
 
 1. 将域名解析到服务器，并准备该域名的 HTTPS 证书。
 2. 将随附 `nginx.conf` 中的 `study.example.com`、证书与密钥路径替换为实际值，放入服务器的 Nginx 站点配置。
-3. 在 `compose.yaml` 的 `environment` 中设置：
+3. 在仓库根目录的 `.env` 中设置（`compose.yaml` 会读取这些值）：
 
-   ```yaml
-   COOKIE_SECURE: "true"
-   APP_ORIGIN: "https://你的域名"
+   ```ini
+   INVITE_CODE=你的邀请码
+   COOKIE_SECURE=true
+   APP_ORIGIN=https://你的域名
+   TRUSTED_PROXY=true
    ```
+
+   也可以继续直接写在 `compose.yaml` 的 `environment` 里，两种方式等价。
 
 4. 将 `ports` 改成 `"127.0.0.1:8080:3000"`，使应用通过 Nginx 提供 HTTPS 访问。
 5. 应用修改后的配置：
@@ -52,6 +56,8 @@ curl http://127.0.0.1:8080/api/health
    ```
 
 之后访问 `https://你的域名`。`COOKIE_SECURE=true` 仅适用于 HTTPS；本地 HTTP 预览或首次通过 IP 测试时保留 `false`。
+
+`TRUSTED_PROXY=true` 用于告诉应用「我前面有反向代理」：Nginx 会用自己的地址转发请求，开启后应用才会从 `X-Real-IP` / `X-Forwarded-For` 取访客真实 IP，否则登录限流会把所有访客算成同一个来源，访问日志里也只有 Nginx 的地址。直接暴露 3000 端口、没有反向代理时保持 `false`，避免客户端伪造该请求头。
 
 随附 Nginx 配置已传递 `Host`、`X-Forwarded-Proto` 等请求头，并将网页和 API 一起反向代理到应用。使用宝塔等管理面板时，可配置等效的 HTTPS 反向代理，目标为 `http://127.0.0.1:8080`。
 
@@ -142,6 +148,7 @@ Compose 会重建使用新配置的容器。只执行 `docker compose restart` �
 | `COOKIE_SECURE` | `false` | HTTPS 部署时设置为 `true` |
 | `APP_ORIGIN` | 未设置 | 网站对外的来源地址，例如 `https://study.example.com`，不含路径 |
 | `BASE_PATH` | 空 | 可选访问前缀，例如 `/practice`，末尾不加 `/` |
+| `TRUSTED_PROXY` | `false` | 前面有 Nginx 等反向代理时设为 `true`，才按 `X-Real-IP` / `X-Forwarded-For` 取访客真实 IP 限流 |
 | `INVITE_CODE` | 空 | 自己设定的注册邀请密码；为空时关闭新注册，已有账号仍可登录 |
 | `ALLOW_REGISTRATION` | `true` | 设置 `false` 完全关闭新注册；为 `true` 时仍需要正确邀请密码 |
 
@@ -164,8 +171,13 @@ docker compose start
 更新网站文件后，在项目目录运行：
 
 ```bash
+git pull
 docker compose up -d --build
 ```
+
+重新构建只会替换镜像和容器，`zhixu-data` 数据卷里的账号与进度不受影响。静态资源带 `ETag`，浏览器会走 `304` 复用缓存，升级后刷新一次页面即可拿到新版本。
+
+服务器只装 Nginx 反向代理时，通常是 `git pull` 之后 `docker compose up -d --build`，再 `sudo systemctl reload nginx`（改了 `nginx.conf` 时）。
 
 ## 题库与参考答案
 
