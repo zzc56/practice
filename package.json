@@ -1,0 +1,15 @@
+{
+  "name": "zhixu-data-structures",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "数据结构选择题刷题网站，支持账号与跨设备进度同步",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "preview:static": "node tools/serve.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

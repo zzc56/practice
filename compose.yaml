@@ -1,0 +1,18 @@
+services:
+  zhixu:
+    build: .
+    ports:
+      - "8080:3000"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      NODE_ENV: production
+      DATA_DIR: /app/data
+      COOKIE_SECURE: "false"
+      INVITE_CODE: "${INVITE_CODE:-}"
+    volumes:
+      - zhixu-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  zhixu-data:

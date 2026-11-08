@@ -1,0 +1,2183 @@
+[
+  {
+    "id": "E001",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数据的逻辑结构按关系特点分为线性结构和非线性结构。",
+    "questionType": "single"
+  },
+  {
+    "id": "E002",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "逻辑结构关注数据元素之间的逻辑关系，不依赖数据内容或在计算机中的存储形式。",
+    "questionType": "single"
+  },
+  {
+    "id": "E003",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "同一逻辑结构中的元素应有一致的数据项组成及相对应的数据项类型。",
+    "questionType": "single"
+  },
+  {
+    "id": "E004",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "不同应用的数据内容可以不同，但数据元素间的逻辑关系可以相同。",
+    "questionType": "single"
+  },
+  {
+    "id": "E005",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "有序表说明元素按关键字有序，属于逻辑特征；顺序队列、链表和链栈描述存储实现。",
+    "questionType": "single"
+  },
+  {
+    "id": "E121",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线性表描述一对一的逻辑关系，顺序表和各类链表才描述具体存储方式。",
+    "questionType": "single"
+  },
+  {
+    "id": "E123",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "连续存储即顺序存储，元素占用连续的存储单元；原资料的冲突标注已据定义更正。",
+    "questionType": "single"
+  },
+  {
+    "id": "E124",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线性表是逻辑结构；顺序表、循环链表和单链表均是存储实现。",
+    "questionType": "single"
+  },
+  {
+    "id": "E136",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉树具有分支关系，属于非线性结构；栈、队列和线性表均为线性结构。",
+    "questionType": "single"
+  },
+  {
+    "id": "E147",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "01为根，02、03、04为其孩子，其余元素各有一个父结点，关系构成树。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0001",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序存储通常不需要为每个元素另存指针，因此其存储密度一般大于链式存储；C将大小关系说反。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0004",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "逻辑结构定义元素间的关系，与具体计算机及物理存储实现无关。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0005",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "逻辑结构与存储结构是不同层次，同一逻辑结构可以有多种存储实现。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0006",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链式结点既要有整数数据域，也要有指向同类结点的指针域；不能在结构内直接嵌套同类完整对象。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0007",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "程序用具体语言和存储方式实现算法与数据结构，二者与程序并非概念上的同一事物。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0009",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按每一步走棋向后展开棋局的博弈树，父子棋局之间是层次关系。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0010",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n个学生记录需要连续分配sizeof(struct node)*n字节，并在题目的C++写法中转换为相应指针类型。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0014",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "ADT包括数据对象、数据之间的关系和抽象操作，不把具体存储结构作为其抽象定义的一部分。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0017",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "ADT给出数据、关系和抽象操作的规范，操作的具体实现属于实现层。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0019",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "树的一个结点可以有多个孩子，是非线性结构；其余三项均为线性结构。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0021",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "交通网络中的地点和道路可以分别建模为图的顶点与边。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0023",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按题目所说的元素间结构关系，三类为线性、树形和图；集合中的元素不具有指定的前后或层次关系。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0024",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序存储要求逻辑上相邻的数据元素在物理上连续存放。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0026",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数据结构既包含数据元素，也包含它们之间的逻辑关系。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0034",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "同一个ADT可以采用顺序、链式等不同实现，所以实现并不唯一。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0035",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数据结构作为独立研究领域是在计算机非数值应用发展后形成，并非在计算机诞生之初便形成该学科。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0038",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "ADT的使用者通过已定义的接口操作数据，不能任意改变其抽象操作规范或绕过封装。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0440",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "单链表描述用结点和指针组织元素的存储结构，树、线性表和图描述逻辑关系。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0463",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数据结构是存在一种或多种特定关系的数据元素的集合。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0469",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "存储数据结构除了存储元素值，还需直接或间接表示数据元素之间的逻辑关系。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0470",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "多路交通流之间存在相互制约的网络关系，适合用图的顶点和边建模。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0471",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数据对象是性质相同的数据元素的集合，是数据的一个子集。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0531",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "栈仅规定后进先出的逻辑和运算约束，可以用数组或链表实现。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0927",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "抽象数据类型通过数据对象、关系和操作规范定义完整的数据结构抽象。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0928",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "逻辑结构不依赖具体存储实现，同一种逻辑结构可以选择不同存储结构。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0002",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "该题按课程对递归分解问题并求解子问题的分类，采用分治策略。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0013",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "有穷性要求算法对每个合法输入都在有限步骤内终止。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0027",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "分治算法的效率依赖合理的子问题划分、求解和合并方式，不能保证随意分解合并就高效。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0030",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "贪心法的关键是选择贪心准则，并证明局部选择能够得到全局最优解。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0032",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "程序是算法的一种实现表示，程序可以含不终止过程，二者并不等同。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0036",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "有限次测试只能发现错误，不能保证算法对所有合法输入都正确。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0039",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "算法是求解问题的明确、有限的步骤序列。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0040",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "算法的五个基本特性为输入、输出、有穷性、确定性和可行性。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0465",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每一步能够由可执行的基本操作在有限次数内实现，描述的是可行性。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "E120",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "原题没有唯一的严格答案：(1)忽略常数，O(n)并不保证对任意相同n都更快；(3)执行效率也不能仅由语言级别决定。按常见出题意图选C，但不宜据此作唯一判分。",
+    "questionType": "invalid",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C"
+    ],
+    "referenceAnswer": "按常见出题意图选C；严格而言(1)、(3)均有问题，题目无唯一答案。"
+  },
+  {
+    "id": "M0003",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "算法分析用时间、空间等指标评价效率，并据此寻找改进方法。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0008",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "渐近阶只比较足够大规模下的增长趋势，常数和具体输入会影响实际耗时，不能保证线性算法任何时候都更快。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0011",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "循环每次把n除以2，执行次数等于二进制位数，量级为log₂n。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0012",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每层递归仅调用一次，参数约减半，满足T(n)=T(n/2)+O(1)，故为O(log n)。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0015",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "只取三个元素并作常数次比较，操作次数不随n增长。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0016",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "渐近分析最终比较的是基本操作次数随规模增长的趋势，而不是某个固定输入规模下的绝对次数。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0018",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "y每次加1，循环在(y+1)²大于n时结束，因此循环约√n次。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0020",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "Ω表示渐近下界，给出函数增长速度的下限。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0022",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "描述算法计算量随问题规模增长大小的指标称为计算复杂度。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0028",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每次递归将n减少1且只作常数工作，总共约n层，因此为O(n)。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0029",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "两层循环各执行n次，矩阵元素共检查n²次，因此T(n)=c₁n²+c₂。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0031",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "当n充分大时，n!的增长快于2ⁿ、n²和log n，因此阶乘阶最慢；原图圈选并非正确答案。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0033",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "O表示渐近上界，给出函数增长速度的一个上限。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0037",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "i从1开始不断翻倍，至超过n只需约log₂n次循环。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0416",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "外层和内层循环均执行n次，基本语句共执行n²次。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0425",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最坏情况下每次比较都交换，交换次数为1+2+…+(n−1)=n(n−1)/2，量级为n²。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0435",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "操作次数既受输入规模影响，也可能随相同规模数据的初始排列或取值而变化。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  {
+    "id": "M0444",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "两层独立的n次循环形成n²次基本操作。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0454",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "矩阵乘法的三层循环各运行约n次，乘加语句共执行n³次。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0482",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "两层循环各遍历n次，赋零语句执行n²次。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0536",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "原图if(lo<hi)后多了分号，交换和递归块会无条件执行，程序不能正常终止。删除该分号后，每次交换两端并把区间缩短2，预期答案为A：O(n)。",
+    "questionType": "invalid",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "referenceAnswer": "原代码有误；删除if语句后的多余分号后选A，O(n)。"
+  },
+  {
+    "id": "M0929",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "i每轮乘2，经过约log₂n轮超过n，所以时间复杂度为O(log n)。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-001",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序表可通过下标直接访问第i个元素及第i−1个元素，两项操作均为O(1)。",
+    "questionType": "single"
+  },
+  {
+    "id": "E007",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第五个元素地址为100+(5−1)×2=108。",
+    "questionType": "single"
+  },
+  {
+    "id": "E008",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序表按下标访问元素及其直接前驱都可直接计算地址，时间为O(1)。",
+    "questionType": "single"
+  },
+  {
+    "id": "E009",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "127个元素共有128个等可能插入位置，移动数为0至127，平均为127/2=63.5。",
+    "questionType": "single"
+  },
+  {
+    "id": "E015",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第i个元素至第n个元素都要后移，共n−i+1个。",
+    "questionType": "single"
+  },
+  {
+    "id": "E016",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线性表内部元素各有唯一直接前驱和后继，首元素无前驱、尾元素无后继，且允许空表。",
+    "questionType": "single"
+  },
+  {
+    "id": "E018",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序存储擅长随机访问，链式存储擅长频繁插删，不能笼统断言链式结构总更优。",
+    "questionType": "single"
+  },
+  {
+    "id": "E125",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序表能按序号O(1)访问元素，且尾端插入、删除通常不需移动已有元素。",
+    "questionType": "single"
+  },
+  {
+    "id": "E126",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序存储用位置关系表达相邻关系，通常无需为每个元素另存链接指针，因此存储密度大。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0051",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "删除第i个元素后，要把其后的n−i个元素依次向前移动。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0060",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一般位置插入可能需要移动线性数量的后续元素，最坏及平均时间量级为O(n)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0061",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "下标访问可直接算地址为O(1)，一般位置插入需移动元素为O(n)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0079",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第i个元素之前有i−1个元素，每个占l个单元，地址为h+(i−1)l。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0086",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序存储只要求空间连续，既可静态分配，也可动态申请连续数组。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0353",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序表在一般位置插删需要移动元素，因此“便于插入删除”的断言不成立。",
+    "questionType": "single",
+    "mode": "text",
+    "stem": "下面关于线性表的叙述中，错误的是（　）。",
+    "options": [
+      "线性表采用链式存储，不必占用一片连续的存储单元。",
+      "线性表采用链式存储，便于插入和删除操作。",
+      "线性表采用顺序存储，必须占用一片连续的存储单元。",
+      "线性表采用顺序存储，便于进行插入和删除操作。"
+    ]
+  },
+  {
+    "id": "M0364",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线性表是具有相同数据类型元素的有限序列，元素个数可以为0。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0365",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线性表的元素称为数据元素；数据项是数据元素内部可分解的组成单位。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0397",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "容量足够时在表尾插入无需移动原有元素，只需写入新值并更新表长。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0411",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "链式存储通过指针表示前后关系，顺序存储通过相邻地址表示前后关系，因此B、D均符合题干，原单选题无唯一答案。散列存储本身不保留线性次序。",
+    "questionType": "invalid",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "referenceAnswer": "B、D均能表示线性逻辑关系，单选题无唯一答案。"
+  },
+  {
+    "id": "M0412",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "题目未规定头结点或额外保留单元；按每个元素占一个所述存储单元，1005个单元最多可存1005个元素。原标1004需要另占一个单元的附加条件。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0423",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序表的下标访问为O(1)，一般位置的增加或删除需移动元素为O(n)。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0504",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序存储中逻辑相邻的元素按连续地址排列，物理位置必然相邻。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0541",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n个元素每个占m字节，数据区至少需要n×m字节连续空间。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0558",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "空表应令last=−1，同时为data申请maxSize个元素的连续存储空间。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0930",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链式结构利用指针显式表示关系，便于实现线性、树形和图形等多种逻辑关系。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0945",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序结构支持O(1)随机读取，适合频繁按位置访问且较少插删的场景。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-002",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "新结点先指向原首结点，再把头指针HL改为p，避免丢失原链。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-003",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先让p接到q原来的后继，再令q->next=p，完成在q后插入。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-004",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先保存待删后继结点p，再让q跳过p指向p的后继，最后释放p。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-005",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "s->next=p->next保存原后继，随后p->next=s把新结点接到p之后。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "C006-008",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "删除p时，p的前驱与后继应互相连接：p->next->prior=p->prior和p->prior->next=p->next。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "C006-009",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先设置q的前后指针，再修改原后继的prior，最后把p->next指向q，避免覆盖原后继地址。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "E011",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链式结构通过指针关联结点，不要求结点物理地址连续，也不禁止恰好连续。",
+    "questionType": "single"
+  },
+  {
+    "id": "E012",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "频繁插删时链式结构可通过修改链接完成，不必整体搬移元素。",
+    "questionType": "single"
+  },
+  {
+    "id": "E013",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "结点除了数据域还占用指针空间，数据占用空间小于结点总空间，故存储密度小于1。",
+    "questionType": "single"
+  },
+  {
+    "id": "E017",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按逐个元素进行有序插入的常见建表方法，第k次最多扫描k−1个结点，总工作量为1+…+(n−1)，即O(n²)。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0025",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链式结点可以分别申请，地址不要求连续，但也可能恰好连续。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0041",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线性关系仅对首元素外的元素要求唯一前驱，仅对尾元素外的元素要求唯一后继。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0043",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "带头结点的循环单链表中，尾结点的链接重新指向头结点h。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0048",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "循环链表首尾相接，从任一结点不断沿后继指针均可遍历整张表。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0052",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链表按位置访问通常要从头逐个沿指针查找，不支持顺序表式的随机访问。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0056",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "双向链表能从已知结点直接访问前驱和后继，并以修改少量指针完成插删。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0065",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链式结点之间靠指针相连，逻辑相邻不等于物理地址相邻。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0068",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "持有循环单链表的尾指针，既能直接访问尾结点，又能经尾结点的后继访问表头。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0070",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "把p的前驱的后继改为p的后继，同时把p的后继的前驱改为p的前驱，即可双向跳过p。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0073",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "已知p时可直接找到其后继并绕过它；删除p本身通常还需寻找前驱。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0075",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先设置s的前驱和后继，再令原后继的前驱指向s，最后令p的后继指向s；C中的s-llink按明显排印错误更正为s->llink。",
+    "questionType": "single",
+    "options": [
+      "p->rlink=s;s->llink=p;p->rlink->llink=s;s->rlink=p->rlink;",
+      "s->llink=p;s->rlink=p->rlink;p->rlink=s;p->rlink->llink=s;",
+      "s->llink=p;s->rlink=p->rlink;p->rlink->llink=s;p->rlink=s;",
+      "p->rlink=s;p->rlink->llink=s;s->llink=p;s->rlink=p->rlink;"
+    ],
+    "note": "参考题面已将原选项C中的s-llink排印错误更正为s->llink。"
+  },
+  {
+    "id": "M0080",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按第i个位置定位结点仍需遍历，耗时O(n)；已知结点及其邻居的删除只需改动常数个指针。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0081",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "同样数量、同样结点格式的单链表与循环单链表仅尾指针取值不同，不额外增加指针域。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0082",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "带头结点表的首元素是HL->next，新结点应先接原首元素，再由头结点接入。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0084",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "s的后继设为p，q的后继设为s，便形成q→s→p的链接。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0085",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "仅有尾指针的循环单链表能O(1)访问首尾，尾后插入和删除首元素均可O(1)完成。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0089",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先保存p原前驱到q，连接q与p，再把原前驱的后继改为q，最后修改p的前驱。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0356",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "带头结点的空单链表仍有头结点，判空应检查头结点后面没有数据结点。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0394",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先使新结点q指向p原来的后继，再令p->next=q，才能保持原链。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0396",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "在以H为头指针的循环链表中，尾结点P的next重新指向H。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0401",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "执行llink(p)=llink(q)后，llink(p)和llink(q)指向同一原前驱，所以A与C均能把该前驱的rlink改为p；原题单选设定有误。",
+    "questionType": "invalid",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "referenceAnswer": "A、C在给定执行顺序下等价且均正确，单选题无唯一答案。"
+  },
+  {
+    "id": "M0413",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链式结构不要求物理位置连续，但若结点恰好相邻分配，完全可以连续存放。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0464",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先把s的left和right接到p及原后继，再修复原后继的left，最后更新p->right。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0543",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "带头结点的非循环单链表为空时，头结点存在而head->next为NULL。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0623",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "静态链表用数组下标充当游标，下一结点下标存放在r[j].next中，因此应令j=r[j].next。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0944",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链式结点一般由存放元素值的数据域和表示元素关系的指针域组成。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-026",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "top初始在数组高端之外，栈向低地址增长，进栈应先减top再把x写入V[top]。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-030",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先输出d后，a、b、c必须按c、b、a输出；e可以插在这三个元素之前、之间或之后，共4种。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-035",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链栈按需申请结点，在可用内存范围内没有固定容量上限；普通顺序栈受已分配数组容量限制。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-037",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "新结点S先指向原栈顶，再令top指向S，完成链栈入栈。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-038",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "尾递归等递归可以直接改为循环，不一定需要显式栈；函数调用通常由栈而非队列管理。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-040",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "输出a后，为输出f需把b至f入栈，此后f、e、d必须连续退栈，违反不能连续三次退栈的限制。",
+    "questionType": "single"
+  },
+  {
+    "id": "E022",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "若先输出4、3，则1仍在2下方，不能在2之前输出1，因此4,3,1,2,5不合法。",
+    "questionType": "single"
+  },
+  {
+    "id": "E025",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先保存栈顶数据域到x，再令top移到原栈顶的link指向的下一结点。",
+    "questionType": "single"
+  },
+  {
+    "id": "E027",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "递归、函数调用和表达式求值都需要后进先出的信息保存，均是栈的典型应用。",
+    "questionType": "single"
+  },
+  {
+    "id": "E030",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "栈底在高地址端时，新增栈顶向低地址移动，因此top应减1。",
+    "questionType": "single"
+  },
+  {
+    "id": "E031",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "遇左括号入栈，遇右括号与最近未匹配的左括号配对，符合栈的后进先出特点。",
+    "questionType": "single"
+  },
+  {
+    "id": "E128",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按允许进出栈交替的通常题意，输出d、c、e、f后，b仍压在a上，不能接着先输出a。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0042",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "两个栈分别从两端向中间增长，栈顶相邻时全部单元已被使用。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0046",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "C要先出栈，必须先把A、B、C依次全部压入，再连续弹出C、B、A。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0047",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按push A、push B、pop B、push C、pop C、pop A，再处理D、F、E，可实现所给序列，最大栈深为2。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0050",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "乘除优先且括号先算，先输出4 x *，再与5相加并乘6，最后减去2 y * 3 /。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0059",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "扫描到6前应先完成2*2和4+4，运算量栈为3,2,8，算符栈仍保留#、*、^、(、−。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0066",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "输出d、c、e之后，b仍位于a之上，不能先输出a再输出b。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0072",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "后缀表达式扫描时把运算量压栈，遇运算符弹出操作数计算并把结果压回，只需一个运算量栈。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0076",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "算符优先法分别用一个运算量栈和一个运算符栈保存待计算数据与运算符。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0078",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "栈和队列都是运算受限的线性表，插入和删除都只在允许的端点处执行。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0083",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "要先弹出n，必须已把1到n全部压入，之后只能逆序输出，第i个为n−i+1。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0088",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "队列保留栈的输出次序；在等待e4或e6先出栈时栈内最多同时保留3个元素，因此最小容量为3。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0362",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "栈仅在同一端进行插入和删除，最后压入的元素最先弹出。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0367",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先计算括号b+c，后与a相乘，再减d，后缀为a b c + * d −。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0398",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "对12485367依次压栈并适时弹出可得到12358467；其余序列在输出3后会被尚未输出的较大元素挡住。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0402",
+    "answer": [
+      1,
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "逐步模拟入栈与出栈可得B和C均合法；A输出到b时仍有c压在b上，D输出到a时仍有c、b压在a上。",
+    "questionType": "multiple",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0417",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链栈按结点动态申请内存，没有预设数组大小的限制，通常不会出现因固定容量用完而栈满。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0428",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "输入6,5,4,3后先输出3、4，此时5仍在6上面，不能再先输出6。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0451",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先输出5、4后，3仍压在1上，因此不能接着输出1；其余序列都可按栈规则实现。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0574",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "3先出栈意味着1、2已经在栈内，2压在1上，故不能接着先输出1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0575",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "输出c之后，b位于a之上，不能先输出a再输出b。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0583",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "栈和队列同为线性结构，区别在允许访问和插删的端点受到限制。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0933",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二者主要区别是插入、删除位置的限制：栈在同端，队列分别在队尾和队头。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0935",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "若先输出d、c，则b位于a之上，d,c,a,b违反后进先出顺序。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0943",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "s1一直留在栈底，等待s6弹出时最多同时保留s1、s5、s6三个元素，最小容量为3。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-024",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "f位于队头前一格、r指向队尾，沿循环方向从f到r的距离为(n+r−f)%n。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "C006-027",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数组下标0至m共有m+1个位置，尾指针前进时必须对m+1取模。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "C006-028",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "采用通常的循环队列指针约定，队空时没有元素，头尾指针重合。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "C006-029",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "通常出队只需移动头指针；若删除的是最后一个结点，还必须同时调整尾指针。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "C006-031",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "front指向首元素并初置0；rear指向末元素，初置n−1后首次入队先前进到0，正好写入A[0]。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-032",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "留一个空单元时两指针相等表示空；队尾后一个位置等于队头则表示满，双端操作也遵守此条件。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-033",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "预留一个空单元区分满与空，队尾再前进一格将到队头时即满，必须用模m处理回绕。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-034",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "带尾指针的循环链表既能直接访问尾结点，又能经尾结点找到头结点，便于O(1)入队和出队。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-036",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "把原尾结点的next指向已初始化的新结点s，再将尾指针r移到s。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-039",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "循环链表的尾指针能直接取得首结点，尾插和头删都只修改常数个指针。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-041",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "所有元素先入完再出，排在a之前的元素必须按逆入队次序排列；dbcae中b在c前，不能得到该序列。",
+    "questionType": "single"
+  },
+  {
+    "id": "E028",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "缓冲区应保持主机写入与打印机读取的先后顺序，采用先进先出的队列。",
+    "questionType": "single"
+  },
+  {
+    "id": "E134",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按题中模m并预留一个空单元的通常约定，rear再前进一步等于front即满；严格说这种实现实际最多存m−1个元素。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0045",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "带头结点的链队列为空时，队首与队尾指针均指向唯一的头结点。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0049",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "出队一次使front由3变4，入队两次使rear由0变2，所以rear、front依次为2、4。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0064",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链队列在尾部入队，应把原rear的link接到s，再把rear设为s。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0087",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "若队列不止一个结点，修改front即可；若删去唯一结点，还应令rear与front一起表示空队列。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0090",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "循环队列出队后，队首向后移动一格并对容量m取模，得到(front+1)%m。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0408",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "F指向队头前一位置，R指向当前队尾，元素数为两者沿循环方向的距离(R−F+M)%M。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0442",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按通常front指向队头、rear指向队尾后一位置的约定，元素个数为(rear−front+m)%m。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0497",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "等待调度的作业通常组织成队列，按调度策略从队列中选择作业。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0571",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "队列先进先出，出队顺序保持入队顺序，因此仍为EDCBA。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "id": "M0934",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "队列在队尾插入、队头删除，最早进入的元素最早离开。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0936",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "普通队列保持先进先出，输入1、2、3、4后输出也为1、2、3、4。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0946",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "队尾与队头的距离需按数组容量n回绕，元素数为(r−f+n)%n。",
+    "questionType": "single"
+  },
+  {
+    "id": "E026",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "调用序列为fact(n)、fact(n−1)、…、fact(0)，包含初次调用在内共n+1次。",
+    "questionType": "single"
+  },
+  {
+    "id": "E036",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "递归算法必须有避免无限递归的终止条件，并有逐步接近终止条件的递归调用部分。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0054",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "递归通常需要函数调用和栈维护开销，不能笼统认为执行效率高。",
+    "questionType": "single"
+  }
+]

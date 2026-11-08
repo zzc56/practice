@@ -1,0 +1,2346 @@
+[
+  {
+    "id": "C006-047",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "长度为8的串有8×9/2个非空子串，再加空串共37个。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E037",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "串的每个数据元素是一个字符，其余顺序或链式存储并非特殊性。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E038",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "空串的长度为0；由空格构成的串仍含字符，长度不为0。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E039",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按从1开始的KMP定义逐项回退，next为0,1,1,2,3,4,2,2,3,4,5,6。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E040",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按从1开始的改进失败函数定义，nextval为0,1,0,1,0,4,1,0,1。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E041",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "串长统计全部字符，包括空格和重复字符。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0044",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "BF最坏时每个起始位置都需比较约m个字符，总量为O(nm)。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0053",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "0基失败函数以-1起始，逐项计算得到-1,0,0,1,2,3,1,1,2,3,4,5。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0062",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "在主串位置0、1、2开始各比较3次，第三轮匹配成功，共9次。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0067",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "预处理模式串O(n)，扫描主串O(m)，合计O(m+n)。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0071",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "失配后主串位置i不回退，模式串按next[5]=2跳转，因此为i=5、j=2。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0355",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "串最基本的两类存储是顺序存储和链式存储。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0586",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按串ADT的一基位置，STR在DATASTRUCTURE中的起始位置为5。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0587",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "KMP只回退模式串的匹配位置，主串指针不会变小。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0588",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "原题未注明subs的起始编号。若从0编号，两个子串为CDEFG和FG，连接得CDEFGFG，对应B；若从1编号，得到BCDEFEF，四项均不符。",
+    "referenceAnswer": "下标从0开始时选B；从1开始时无正确选项。",
+    "questionType": "invalid",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0589",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "逐项计算改进失败函数得0,1,1,0,2,1,3,1,0,1,1,0,2,1,7,0,1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0591",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "模式串aaab按一基next定义，前缀回退位置依次为0、1、2、3。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0593",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一基next数组为0,1,1,1,2,2,3,1,1,2,3,4,5,6,7,1,2。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0597",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "定长顺序串超过容量时常采用截断法保留前MAX个字符；可变长实现也可报告溢出，本题按定长串截断约定。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": "按教材定长串的截尾处理约定；具体程序也可选择报告溢出。"
+  },
+  {
+    "id": "M0599",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按一基位置，从第5个字符起取9个字符得到STRUCTURE。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0604",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一基操作先把S1中的DEF替换为###得到ABC###G，再拼接S4中从第2位起的4个字符1234。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0607",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "互异字符使各非空子串互异；排除空串和自身，数量为n(n+1)/2−1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0608",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "在主串中寻找模式串首次出现的位置，称为模式匹配。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "C006-045",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第j列之前有j(j−1)/2个上三角元素，第j列第i个元素的位置为j(j−1)/2+i。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "C006-046",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先偏移为8×10+(5−1)=84；列优先需满足9(j−1)+i=84，解得i=3、j=10。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "C006-048",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "列优先偏移为(5×6+5)×5=175，地址为1175。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "C006-049",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "列优先地址为BA+[(8−1)×8+(5−1)]×3=BA+180。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "E042",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先地址为10+[(5−1)×100+(5−1)]×2=818。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E045",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "上三角元素先映射为对称的a[j,i]，其一基位置为j(j−1)/2+i。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E046",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按矩阵和压缩数组均采用一基下标的教材约定，上三角a[i,j]映射到第j行第i列，位置为j(j−1)/2+i。",
+    "questionType": "single",
+    "note": "按题中选项采用的一基下标约定。"
+  },
+  {
+    "id": "E047",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第i行前面有(i−1)n个元素，再加本行一基列号j。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E048",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "三个维度各有5、3、3个取值，元素个数为45；题中负下标区间按−3至−1理解。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E131",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按行优先（最右下标变化最快）存储，地址为100+[(3×3+1)×5+2]×4=308；原图280对应列优先，不能作为此约定下答案。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": "本参考按行优先（最右下标变化最快）解释原题的低下标优先。"
+  },
+  {
+    "id": "M0055",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一基三对角矩阵行优先位置k=2i+j−2，代入i=66、j=65得195。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0057",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "r个非零元素结点，加max(m,n)个行列头结点和1个总头结点。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0058",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先与列优先只改变排列顺序，不改变元素总量或存储空间。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0063",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "下标描述逻辑位置，必须结合首地址、维度长度和映像规则才能得到物理地址。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0069",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "矩阵ADT还规定加、乘等矩阵运算，数组ADT主要规定存取操作，二者不同。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0074",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "下三角按行压缩时，a85的一基地址为8×7/2+5=33。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0077",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数组共有6×8=48个元素，末元素首地址为(48−1)×6=282。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0357",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "数组的基本操作是按下标存取元素和修改元素；通常不改变其维数及长度。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0363",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "稀疏矩阵常以三元组顺序表或十字链表只存非零元素。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0390",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先地址为BA+[(5−1)×10+(8−1)]×3=BA+141。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0392",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "0基三对角矩阵按行压缩的偏移为2i+j−1=22个元素，乘3得66字节。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0409",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "对角、三角、对称矩阵有固定规律；稀疏矩阵的非零位置一般不规则。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0427",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "0基存储时上三角a[i,j]映射为a[j,i]，偏移为j(j+1)/2+i。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0460",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "三元组保存行号、列号和值，主要用于稀疏矩阵。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0477",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先偏移为[(3×3+1)×5+2]×8+5=421，地址为100+421×4=1784。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0491",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "队列在队尾入队、队头出队，具有先进先出性质；栈则是后进先出。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0496",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按从0开始的二维数组下标，行优先地址为1000+(1×8+4)×6=1072。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0598",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "矩阵下标从1开始而序号从0开始，前i−1行有i(i−1)/2个元素，再加本行偏移j−1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0611",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按行优先，2n+2=676−644=32，得每行15个元素；A[4][5]地址为644+4×15+5=709。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0614",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "10个非零元素各需行、列和值三个整数，另有矩阵行数、列数、非零数三个整数，共(10×3+3)×2=66字节。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0617",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "按矩阵一基下标且不含主对角线，第i行之前有(i−1)(i−2)/2个元素；B也从1编号，正确公式为(i−1)(i−2)/2+j，四个选项均不一致。",
+    "referenceAnswer": "无正确选项；正确下标为(i−1)(i−2)/2+j。",
+    "questionType": "invalid",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0625",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前29行共有2+28×3=86个元素，a30,30是本行第2个，因此0基下标为87。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0626",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "列优先偏移为[(4−1)×9+2]×4=116字节。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0627",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "列优先时第1列的第7行下标偏移为7，地址为7×4=28。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0628",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先地址为[3×5+(5−1)]×4=76。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0629",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先地址为[5×5+(3−1)]×4=108。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0630",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行优先地址为[(2−1)×8+4]×6=72。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0631",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一般情况下，要使转置位置在行列两种排列中有相同偏移，两个维度的上、下界应分别相同。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0632",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "共有6×8=48个元素，每个6字节，总量为288字节。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0639",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "对称矩阵只存一个三角部分并包含主对角线，需要1+2+…+n=n(n+1)/2个位置。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0640",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "压缩稀疏矩阵只保存少量非零元素及位置信息，主要目的是节约空间。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0641",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "行数9、列数10，每个元素6字节，共9×10×6=540字节。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0643",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第8列9个元素、第5行10个元素，交点只计一次，共(9+10−1)×6=108字节。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0653",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "列优先偏移为[7×6+(5−1)]×6=276。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0937",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "压缩存储省略重复值或大量零值，以减少不必要的存储空间。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0948",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "包含主对角线的一基下三角行序位置为i(i−1)/2+j。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "i(i-1)/2+j-1",
+      "i(i-1)/2+j",
+      "i(i+1)/2+j-1",
+      "i(i+1)/2+j"
+    ],
+    "stem": "设矩阵A是一个对称矩阵，将其下三角部分（包含主对角线，如图）按行序存放在一维数组B[1..n(n+1)/2]中。对下三角元素aᵢⱼ（i≥j），其在B中的下标k为（ ）。",
+    "note": ""
+  },
+  {
+    "id": "C006-042",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "Tail两次后表头是(c,d)，取Tail得到(d)，再取Head得到原子d。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "C006-044",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "外层只有一个子表元素，所以长度为1；内外两层括号使深度为2。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0621",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "非空广义表的表头是第一个元素，可能为原子，也可能为子表；表尾始终是表。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0622",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "依次取尾表((d,e,f))、表头(d,e,f)、尾表(e,f)、表头e。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0633",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "表头是第一个元素，原子a，而不是包含a的子表(a)。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0634",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "广义表长度只数最外层元素；这里只有一个子表(a,b,c)，因此长度为1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0635",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "表中有外层和子表(a,b,c)两层嵌套，深度为2。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0636",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "tail(C)=((b,A),B)，head得到(b,A)，再取tail得到仅含子表A的表(A)。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0637",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先取两次tail得到((u,t,w))，再head取(u,t,w)，随后tail取(t,w)、head取t。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0647",
+    "answer": [
+      2,
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "该表外层只有一个元素，即子表(a,b,c,d)，所以表头为C；删去唯一元素后表尾为空表()，为A。",
+    "questionType": "ordered",
+    "mode": "scan",
+    "options": [
+      "()",
+      "a",
+      "(a,b,c,d)",
+      "(b,c,d)"
+    ],
+    "referenceAnswer": "表头C，表尾A。",
+    "note": ""
+  },
+  {
+    "id": "M0648",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "表尾是删去第一个元素a后余下元素构成的表，因此为((b,c))，须保留外层括号。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0649",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "去掉第一个子表(a,b)后，表尾是只包含(c,d)的广义表((c,d))。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "C006-051",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "树中叶数n0=1+Σ(k−1)nk=1+3×20+2×10+1=82。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "C006-052",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "完全二叉树的叶子数为⌈n/2⌉，n=1001时为501。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "C006-054",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "根在第1层时，每下一层结点上限扩大m倍，第k层有m^(k−1)个结点。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "E060",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一般树常用双亲、孩子链表或孩子兄弟表示；普通顺序存储不能直接表达任意树的关系。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E140",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度h的二叉树至多2^h−1个结点；2^10−1<2000≤2^11−1，所以最小高度11。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E141",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第1至k层结点上限为1+2+…+2^(k−1)=2^k−1。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E143",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉树边数既是n−1也是n1+2n2，整理得n0=n2+1。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E145",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度按层数计为10时，最底层最多有2^9=512个叶子。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E146",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "完全二叉树深度为⌊log2 65⌋+1=7。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0091",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "树中除根之外的每个结点恰有一条来自双亲的边，共n−1条。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0095",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉树恒有n0=n2+1，因此叶子数为11。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0096",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "三叉链有3n个指针域，孩子链接n−1个、双亲链接n−1个，空指针数3n−2(n−1)=n+2。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0097",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "深度5的二叉树最多有2^5−1=31个结点。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0098",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉树第1层至多1个结点，第i层的上限为2^(i−1)。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0099",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "关系中只有A不作为任何边的子结点，因此A为根。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0102",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "完全二叉树的一基层序编号中右孩子编号为2i+1，但超过结点数时不存在。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0103",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "非叶结点必须至少有左孩子，条件为左孩子编号2i≤n。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0104",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "叶数=1+n2+2n3+3n4=1+2+2+3=8。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0107",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉树每个结点至多两个孩子，不要求一定出现度为2的结点。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0108",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最小高度为⌈log2(1025+1)⌉=11，退化成单链时高度可达1025。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0109",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度h的最少分支结点是h−1个，每个分支都有两个孩子，结点数为2(h−1)+1=2h−1。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0110",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度按结点层数计算，单链状二叉树的最大高度为n，而非n−1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0111",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度k的完全二叉树前k−1层全满且最后一层至少1个，至少有2^(k−1)个结点。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0112",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "3个结点二叉树的不同形态数是Catalan数C3=5。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0116",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度5的满三叉树至多(3^5−1)/2=121个结点，高度6可容纳364个，因此244个结点需6层。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0125",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "达到最小高度只限制层数，并不要求最后一层从左到右连续排列。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0126",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "单结点树的度为0，且同深度满二叉树结点最多；二叉树度不必为2，左右子树也不能任意混同。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0130",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最坏为全右链，末结点的一基下标为2^n−1，所需数组槽数减去n个实占结点，浪费2^n−n−1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0386",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度4至少需要填满前3层再加第4层1个结点，即7+1=8。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0387",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "高度5的二叉树至多含2^5−1=31个结点，满树也是完全二叉树。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0671",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前5层必须全满，共31个结点；第6层有8个叶子，总计39个。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0678",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按从1开始的层序编号，有右孩子时其编号为2i+1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0680",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n0=n2+1且n0+n2=98−48=50，得到2n2+1=50，无整数解，因此这样的树不存在。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0684",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "孩子兄弟表示每结点需要1个数据域和2个指针域，n个结点占3n个单位。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0690",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "满二叉树各层结点数为1、2、…、2^(k−1)，求和为2^k−1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0694",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n个结点有2n个孩子指针域，其中n−1个非空，其余为n+1个空链域。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0698",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "完全二叉树最后一个非叶结点是一基编号⌊n/2⌋，之后的结点没有孩子。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0704",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "满二叉树满足n=2^h−1，1023=2^10−1，因此高度10。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0708",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "非空完全二叉树高度为⌊log2 n⌋+1。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0713",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "完全二叉树共有1004个结点，叶子数是⌈1004/2⌉=502；四个选项250、500、254、504均不正确。",
+    "referenceAnswer": "无正确选项；正确叶子数为502。",
+    "questionType": "invalid",
+    "mode": "scan",
+    "options": [
+      "250",
+      "500",
+      "254",
+      "504"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0938",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "树表达一对多的父子关系，适合有分支层次的数据。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0939",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "由n0=n2+1，10个叶子对应9个度为2的结点。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0953",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "编号25的左孩子是50，右孩子是51；只有50在1至50范围内。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0954",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "结点数为偶数的完全二叉树可以有一个度为1的结点，例如最后一个非叶结点只有左孩子。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0955",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "叶数为1+(3−1)×2+(2−1)×1=6。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "C006-056",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "有左子树时，中序前驱是左子树中沿右孩子走到底的结点，它本身不一定是叶子。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "C006-057",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先序和后序恰好互逆说明每个分支至多一个孩子，整棵树呈单链，只有一个叶子。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "E058",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "后序先访问左右孩子再访问根，可保证双亲编号大于孩子且左孩子先于右孩子。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E059",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "后序先处理原来的左右子树，再交换当前结点两个指针，最便于避免交换影响递归对象。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E065",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线索化改变空指针域的利用方式，是二叉树的物理存储结构。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E139",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前序确定根C，中序划分左子树AB、右子树D；左子树后序BA，合并得BADC。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0092",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "中序顺序为左子树、根、右子树，根右侧恰是全部右子树结点。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0093",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "后序最后的E为根，中序中E左侧是ABCD，共4个结点。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0094",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "根可能没有左子树或右子树，中序序列中根的一侧可以没有元素。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0100",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "由前序和中序递归划分，I的左子树只有G，故左孩子为G。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0113",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前序与后序互逆要求每层至多一个结点，即树为可能左右交替的单链。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0117",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "根的编号紧挨左子树最小编号之前，左子树又整体先于右子树，符合根—左—右的前序。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0118",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "后序根E，中序划分ABCD与FG，递归重建后前序为EACBDGF。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0123",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "中序与前序同为ABCDEFG可由全右链得到；其他项与前序划分约束冲突或缺少结点。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0124",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "用空指针链接遍历前驱后继，重复遍历时可减少辅助栈和寻找开销。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0371",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "根A的左子树后序为CB、右子树后序为EFD，合并得CBEFDA。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0373",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前序首元素E为根，中序以E划分，右子树前序首元素为G，因此根的右孩子是G。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0669",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "DABC中A左侧只有D，则前序A之后应先访问D，与给定B冲突。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0685",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "由后序末尾A确定根，递归用中序分割可得到前序ABDFECG。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0718",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前序先根而中序先左子树；两序相同要求所有结点均无左孩子。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0722",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "根B的左子树根为E，E的中序左侧只有A，因此A是E的左孩子。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0940",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前序和后序不能区分单孩子是左孩子还是右孩子，因此一般不能唯一确定二叉树。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0941",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n结点二叉链表共有2n个孩子指针，非空孩子链接为n−1个，余下n+1个空域可作线索。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0942",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "后序根C，其左子树后序DABE、中序DEBA，递归得到先序CEDBA。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "C006-050",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一般树用左孩子右兄弟二叉链表表示，根没有兄弟，故根的右指针为空。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "C006-055",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每个非终端结点都有一个最右孩子，其右兄弟指针为空，共n个；再加森林最后一棵树根的右指针，共n+1个。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "E052",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "采用固定的左孩子右兄弟转换规则，有序树对应的二叉树形态唯一。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E132",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "左孩子右兄弟表示保持树的先根访问顺序，等于对应二叉树的先序。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0105",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第一棵树根的右子树表示其余两棵树，结点数为M2+M3。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0119",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "树的后根访问其各孩子后访问根，对应左孩子右兄弟二叉树的中序。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0120",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉树根的右子树表示其余森林，去掉这n个结点后剩余m−n属于第一棵树。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0949",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "根自身属于第一棵树；左子树含第一棵树剩余M1−1个结点，右子树含第二棵树M2个。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0101",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "每次选最小的两个权值合并，依次产生0.05、0.11、0.17、0.28、0.40、0.60、1.00。按小权在左且左0右1的明确约定，0.07的路径编码为1010，四个选项均不符。",
+    "questionType": "invalid",
+    "referenceAnswer": "无正确选项；按题定约定，0.07的编码为1010。",
+    "note": ""
+  },
+  {
+    "id": "M0106",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "哈夫曼树中非叶结点均有两个孩子，n个叶子对应n−1个分支结点，共2n−1。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0121",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "D中0是00的前缀，1是11的前缀，违反前缀码要求。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0374",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "C中的1是10、11、100的前缀，不能形成可即时解码的哈夫曼前缀码。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0677",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "哈夫曼树各次合并权值为3、5、7、12，带权路径长度即其和27位。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0681",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "哈夫曼树结点总数为2L−1，由67=2L−1得叶子数L=34。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0691",
+    "answer": null,
+    "answerSource": "reviewed",
+    "explanation": "哈夫曼编码的左右分支位分配未给出，具体码字本来不唯一；若沿用小权在左、左0右1，0.06的编码应为1001，也不在四个选项中。",
+    "questionType": "invalid",
+    "referenceAnswer": "条件不足，不能唯一选项；小权在左、左0右1时为1001。",
+    "note": ""
+  },
+  {
+    "id": "C006-013",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按层序检查，C中每个双亲都不小于其孩子，构成最大堆；其余序列各有违反堆序的父子对。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E102",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "D中每个双亲均不大于孩子，符合最小堆；其他序列既不全满足最小堆也不满足最大堆。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "E104",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "堆必须以完全二叉树为形状，并另满足双亲与孩子的堆序约束。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0122",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最小堆向根方向值不增，最大堆向根方向值不减，路径有序。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0127",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "采用通常的自底向上筛选法建最小堆，得到1,2,5,3,4,8,9,7,6,10；建堆算法不同可得到其他合法堆。",
+    "questionType": "single",
+    "note": "参考采用自底向上的筛选建堆；其他算法可能产生不同的合法堆。"
+  },
+  {
+    "id": "M0129",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最小堆的最大值只能保证出现在叶子中，未必是最后一个元素；线性建堆可做到O(n)，O(nlogn)也是较松上界。",
+    "questionType": "single",
+    "note": ""
+  },
+  {
+    "id": "M0661",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "将83插在末尾，先与50交换，再与76交换，遇到97停止，得到B中的序列。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  },
+  {
+    "id": "M0701",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "B中每个双亲均不大于其孩子；其他序列分别存在55>28、71>52或28>2的父子逆序。",
+    "questionType": "single",
+    "mode": "scan",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "note": ""
+  }
+]

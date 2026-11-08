@@ -1,0 +1,1934 @@
+[
+  {
+    "id": "E069",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "简单有向图中每个顶点可向其余 n−1 个顶点各发出一条弧，共 n(n−1) 条。",
+    "questionType": "single",
+    "stem": "具有 n 个顶点的简单有向图最多有（ ）条边。",
+    "options": [
+      "n",
+      "n(n−1)",
+      "n(n+1)",
+      "n²"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E114",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "固定顶点排列后邻接矩阵唯一，而邻接表中邻点的链结次序可以不同。",
+    "questionType": "single"
+  },
+  {
+    "id": "E148",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "完全无向图中每对不同顶点对应一条边，共 C(n,2)=n(n−1)/2 条。",
+    "questionType": "single"
+  },
+  {
+    "id": "E150",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n≥2 时有向环能以 n 条弧实现强连通，而每个顶点的出度至少为 1。",
+    "questionType": "single"
+  },
+  {
+    "id": "E151",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "无向图每条边对顶点度数和贡献 2，所以度数和为 2e；原题的“入度”应为“度”。",
+    "questionType": "single",
+    "stem": "设某无向图中有 n 个顶点、e 条边，则该图中所有顶点的度数之和为（ ）。",
+    "note": "原题对无向图使用“入度”，这里按通常的“度数和”更正。"
+  },
+  {
+    "id": "M0131",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按通常无向图的度数定义，每条边贡献两个关联端点，故度数和为边数的 2 倍。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0133",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "路径用相邻顶点依次构成的顶点序列表示；边数称为路径长度。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0137",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每条弧分别贡献一个入度和一个出度，两者总和均为弧数。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0138",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n 个顶点的树有 n−1 条边，任何连通无向图至少包含一棵生成树。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0139",
+    "answer": null,
+    "answerSource": "reviewed",
+    "questionType": "invalid",
+    "referenceAnswer": "题意不明确：若指弱连通最少 n−1 条（B），若指强连通且 n≥2 最少 n 条（C）。",
+    "explanation": "有向图的“连通”须说明弱连通或强连通；原题未限定，因此无法给出唯一选项。"
+  },
+  {
+    "id": "M0140",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "简单完全有向图的每对不同顶点之间有两个相反方向的弧，共 n(n−1) 条。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0141",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "至少一个顶点的连通图整体就是一个连通分量，最少为 1。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0142",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "没有边时每个顶点各自组成一个连通分量，共 n 个。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0153",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "由 k 条边依次相接的路径包含 k+1 个顶点位置。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0155",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "含 n 个顶点的无环无向图最多只有 n−1 条边，故 n 条边必含环。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0156",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "8 个顶点若不连通，最多只能有 C(7,2)=21 条边；9 个顶点可由 K8 加孤立点得到 28 条边。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0158",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "握手定理给出度数和 46，故其余度为 2 的顶点有 (46−5×4−4×3)/2=7 个，总计 16 个。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0170",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "边 (a,b)、(b,c)、(b,d)、(b,e) 均关联 b，故 b 的度为 4。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0923",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n 条边保证有环，但不保证连通；“连通且无环”“连通且有环”“一定不连通”均非必然，故选“都不正确”。",
+    "questionType": "single",
+    "stem": "一个具有 n 个顶点、n 条边的无向图，则下面正确的是（ ）。",
+    "options": [
+      "连通且无环",
+      "都不正确",
+      "连通且有环",
+      "一定不连通"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0950",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "无向图的每条边在邻接表中分别存于两个端点的边链表，故共有 2e 个边结点。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0957",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "强连通要求任意顶点都能沿有向路径到达其余任意顶点。",
+    "questionType": "single"
+  },
+  {
+    "id": "E070",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "连通无向图至少有 n−1 条边，邻接矩阵中每条边对应两个对称非零元素。",
+    "questionType": "single",
+    "stem": "n 个顶点的连通无向图用邻接矩阵表示时，该矩阵至少有（ ）个非零元素。",
+    "options": [
+      "n",
+      "2(n−1)",
+      "n/2",
+      "n²"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E111",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n 个顶点的邻接矩阵有 n 行 n 列，共 n² 个存储单元。",
+    "questionType": "single",
+    "stem": "对于一个具有 n 个顶点的无向图，若采用邻接矩阵存储，则该矩阵的大小是（ ）。",
+    "options": [
+      "n",
+      "(n−1)²",
+      "n−1",
+      "n²"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E116",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "邻接矩阵的阶数就是顶点数，图示为 3×3 矩阵，故有 3 个顶点。",
+    "questionType": "single",
+    "stem": "某无向图的邻接矩阵为：\n0 1 0\n1 0 1\n0 1 0\n则该图共有（ ）个顶点。",
+    "options": [
+      "3",
+      "6",
+      "9",
+      "以上答案均不正确"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E117",
+    "answer": [
+      2,
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "无向图的邻接关系双向对称；有向图的邻接矩阵一般没有对称性要求，第二空选“无规律”。",
+    "questionType": "ordered",
+    "stem": "无向图的邻接矩阵是一个（ ），有向图的邻接矩阵是一个（ ）。请按两个空出现的先后顺序作答。",
+    "options": [
+      "上三角矩阵",
+      "下三角矩阵",
+      "对称矩阵",
+      "无规律"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E149",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "邻接表用 n 个表头表示顶点，且无向图每条边产生两个表结点，共 2e 个。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0134",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "无向图中 i 与 j 相邻等价于 j 与 i 相邻，所以 Aij=Aji。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0135",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第 i 列表示所有指向 vi 的弧，非零元素个数就是入度。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0145",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "邻接表存储 n 个顶点表头及与边数成比例的边结点，空间为 Θ(n+e)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0149",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "通常的有向图邻接表存储各顶点发出的弧，链表长度等于该顶点出度。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0150",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "有向顶点的度等于入度加出度，逆邻接表长度为入度 k1−k2。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0151",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "无向边在两个端点的邻接链表中各出现一次，边结点总数为 2e。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0157",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每个顶点的度等于对应行和加列和，依次为 3、4、2、3。",
+    "questionType": "single",
+    "stem": "有向图采用邻接矩阵存储，矩阵如下，各个顶点的度是（ ）。\n0 1 0 1\n0 0 1 1\n0 1 0 0\n1 0 0 0",
+    "options": [
+      "4，4，2，2",
+      "2，2，1，1",
+      "1，2，1，2",
+      "3，4，2，3"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0159",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "任意两个不同顶点之间都有邻接关系，满足完全图的条件。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0160",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顶点次序固定则矩阵位置确定；邻接表的边结点次序仍可改变。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0161",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "无向图的邻接表边结点数必为 2e 的偶数，奇数个边结点只能对应有向图。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0162",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "既要删除 v 的出边，也需遍历各顶点链表删除指向 v 的入边，时间为 Θ(n+e)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0683",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "逆邻接表按弧头组织入边，适用于有向图；有向网是带权有向图的特例。",
+    "questionType": "single",
+    "stem": "图的逆邻接表存储结构只适用于（ ）。",
+    "options": [
+      "有向图",
+      "无向图",
+      "有向网图",
+      "无向网图"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0727",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "编号 2 对应第 3 行全零，出度为 0；第 3 列有两个 1，入度为 2。",
+    "questionType": "single",
+    "stem": "有向图的邻接矩阵如下，顶点 2（编号从 0 开始）的出度和入度分别为（ ）。\n0 1 0 1\n1 0 1 1\n0 0 0 0\n0 0 1 0",
+    "options": [
+      "1，3",
+      "3，1",
+      "0，2",
+      "2，0"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0956",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "有向图的邻接关系不必双向成立，所以其邻接矩阵不一定对称。",
+    "questionType": "single"
+  },
+  {
+    "id": "E072",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一次从任意顶点出发的 DFS 均能到达所有顶点，恰好说明无向图连通。",
+    "questionType": "single"
+  },
+  {
+    "id": "E074",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "广度优先遍历借助队列按发现顺序逐层访问顶点。",
+    "questionType": "single"
+  },
+  {
+    "id": "E075",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "深度优先遍历用递归调用栈或显式栈保存回溯路径。",
+    "questionType": "single"
+  },
+  {
+    "id": "E077",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "广度优先遍历按到起点的层次逐层访问，与二叉树层次遍历对应。",
+    "questionType": "single"
+  },
+  {
+    "id": "E078",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "固定同一起点时，BFS 树各顶点深度为最短边数，不大于 DFS 树中相应深度。",
+    "questionType": "single"
+  },
+  {
+    "id": "E152",
+    "answer": [
+      0,
+      2,
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "A、C、D 均可通过调整邻接点访问次序得到；B 中 f 后访问 e 不符合该图未访问邻点的 DFS 过程。",
+    "questionType": "multiple"
+  },
+  {
+    "id": "M0143",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "有向无环图的 DFS 结束次序为逆拓扑序，反转结束次序才得到拓扑序。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0144",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "深度优先遍历同样适用于有向图，需使用已访问标记防止重复访问。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0146",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "DFS 在递归访问邻点前先访问当前顶点，与二叉树先根遍历相似。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0148",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "BFS 用队列保持先发现的顶点先扩展。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0152",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每次从未访问顶点启动 DFS 恰好遍历其连通分量，共需启动 k 次。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0163",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "非连通无向图中的每个连通分量都需要单独启动一次 DFS。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0164",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "从 a 开始的第一层邻点为 b、e、h，必须先于下一层 c、d 访问，故 B 不可能。",
+    "questionType": "single",
+    "options": [
+      "dbcahefg",
+      "abcdhefg",
+      "hcabdegf",
+      "eafgbhcd"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0662",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "a→e→d→f→c 依次深入后回溯至 a 再访问 b，可得 a,e,d,f,c,b。",
+    "questionType": "single",
+    "options": [
+      "a,e,d,f,c,b",
+      "a,e,b,c,f,d",
+      "a,c,f,d,b,e",
+      "a,b,e,c,f,d"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0682",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "DFS 可沿 1→2→5→8→4 后回溯，再访问 3、6、7；BFS 分层为 1；2,3；4,5,6,7；8。",
+    "questionType": "single",
+    "options": [
+      "12485367；12345867",
+      "12458367；12345678",
+      "12584367；12345678",
+      "12458367；12345678"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0703",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按邻接表遍历需访问 N 个表头和与 E 条边成比例的边结点，总时间 Θ(N+E)。",
+    "questionType": "single",
+    "stem": "用邻接表表示有 N 个顶点、E 条边的图，则遍历图中所有边的时间复杂度为（ ）。",
+    "options": [
+      "O(N²)",
+      "O(N+E)",
+      "O(N)",
+      "O(E)"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0723",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先访问 a 的邻点 b、c、e，再由 c 发现 f、由 e 发现 d，得到 a,b,c,e,f,d。",
+    "questionType": "single",
+    "options": [
+      "a,b,c,e,f,d",
+      "a,e,b,c,f,d",
+      "a,b,c,e,d,f",
+      "a,c,f,d,e,b"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "E073",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "Prim 算法可用 Θ(n²) 的邻接矩阵实现，适合边数较多的稠密图。",
+    "questionType": "single"
+  },
+  {
+    "id": "E113",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最小生成树在所有覆盖全部顶点的生成树中，使边权总和最小。",
+    "questionType": "single"
+  },
+  {
+    "id": "E154",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "生成树是连通无环的 n 顶点图，边数固定为 n−1。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0154",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "依次接纳权值 1、2、3、4 的边后，权值为 5 的候选边中只有 (1,2) 能连接不同分量。",
+    "questionType": "single",
+    "options": [
+      "(1,2)",
+      "(0,3)",
+      "(4,5)",
+      "(2,3)"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0166",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "不同最小生成树的边集可能不同，但其最小权值总和相同。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0668",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "可选权值 1、2、4、6、7、10 的六条边连接七个顶点，总权重为 30。",
+    "questionType": "single",
+    "options": [
+      "35",
+      "30",
+      "34",
+      "21"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0679",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "连通图一定存在生成树；有相同权重时可能存在形状不同但总权重相同的最小生成树。",
+    "questionType": "single",
+    "stem": "任何一个无向连通图的最小生成树（ ）。",
+    "options": [
+      "形状唯一",
+      "形状可能不唯一",
+      "可能不存在",
+      "形状一定有多种"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0147",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "Dijkstra 选择的是尚未确定且到起点的暂定距离最小的顶点，不是到刚选顶点最近的顶点。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0167",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "从 1 出发到 5、2、3、6、4 的最短距离依次为 4、5、7、9、11。",
+    "questionType": "single",
+    "options": [
+      "5,2,3,4,6",
+      "5,2,6,3,4",
+      "5,2,3,6,4",
+      "5,2,4,3,6"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "E079",
+    "answer": [
+      0,
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "DFS 可由回边检测有向环；拓扑排序也可由无法输出全部顶点判环，A、B 均可。",
+    "questionType": "multiple",
+    "note": "原资料按单选形式排版，实际 A、B 两种方法都能判环，按多选题练习。"
+  },
+  {
+    "id": "E115",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "DFS 递归栈中出现指向灰色顶点的边，表示存在有向回路。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0132",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "活动最晚开始时间应为弧头事件最晚发生时间减活动持续时间，不是弧尾事件。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0136",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "若拓扑排序输出的顶点数小于总顶点数，则存在有向环。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0165",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "a 必须最先、d 必须最后，中间 b 必须先于 e，c 可插在三处，共 3 种。",
+    "questionType": "single",
+    "options": [
+      "1",
+      "4",
+      "3",
+      "2"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0168",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "三条关键路径分别经过 d、d、f；同时缩短 d 与 f 才能覆盖全部关键路径。",
+    "questionType": "single",
+    "options": [
+      "f 和 h",
+      "f 和 d",
+      "c 和 e",
+      "d 和 c"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0169",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "边 4→2 和 6→5 要求 4 在 2 前且 6 在 5 前，只有 D 满足所有偏序约束。",
+    "questionType": "single",
+    "options": [
+      "3,1,4,2,5,6",
+      "3,1,2,4,5,6",
+      "3,1,2,4,6,5",
+      "3,1,4,2,6,5"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0702",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按事件最早时间递推，最长关键路径长度为 23，故工程最早完工时间为 23。",
+    "questionType": "single",
+    "options": [
+      "20",
+      "19",
+      "23",
+      "17"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0951",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "拓扑排序能否处理全部顶点可用于判断有向图是否含环。",
+    "questionType": "single"
+  },
+  {
+    "id": "E083",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按下中位数取中点，先后比较下标 5、8、6、7 的元素，即 20、70、30、50。",
+    "questionType": "single"
+  },
+  {
+    "id": "E084",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "22 个元素的折半查找判定树，失败查找的最短外部路径需比较 floor(log₂23)=4 次。",
+    "questionType": "single"
+  },
+  {
+    "id": "E085",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "折半查找始终为对数级；二叉排序树若退化为单链，查找可降为线性级。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0171",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "等概率成功查找的比较次数分别为 1 到 n，平均为 (1+…+n)/n=(n+1)/2。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0192",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "折半查找依赖有序性排除一半区间，同时需要顺序存储以直接访问中间位置。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0196",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "等概率顺序查找平均比较约 n/2 次，时间数量级为 Θ(n)。",
+    "questionType": "single",
+    "stem": "在等概率情况下，线性表顺序查找的平均查找长度 ASL 的数量级为（ ）。",
+    "options": [
+      "O(n log₂n)",
+      "O(log₂n)",
+      "O((log₂n)²)",
+      "O(n)"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0197",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "折半查找平均为对数级，通常更快；但目标恰在顺序查找首位时并不更快。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0199",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "折半查找每次减半候选区间，平均比较次数为 Θ(log n)；D 是本题的近似量，不能理解为严格等式。",
+    "questionType": "single",
+    "stem": "假设有序、顺序存储的线性表长为 n，折半查找的平均比较次数近似为（ ）。",
+    "options": [
+      "(n+1)/2",
+      "n/2",
+      "n",
+      "log₂(n+1)"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0206",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "即使有序，等概率成功顺序查找仍分别访问 1 到 n 个结点，平均 (n+1)/2。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0207",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "分块查找要求块内可无序、块间有序，并用各块的最大值或最小值建立索引。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0208",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二分查找需要已排序的顺序表，才能按关键字比较排除半个区间。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0215",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序查找只需逐项比较，顺序表和链表均可使用，也不要求关键字预先有序。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0688",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "从前向后顺序查找位置 i 需 i 次；位置 1 的二分查找需 3 次，两者共 4 次最少。",
+    "questionType": "single",
+    "stem": "在下标 1～11 的数组中按从小到大顺序存放 11 个元素，分别用顺序查找和二分查找，哪个位置的元素在这两种方法查找中的总次数最少？",
+    "options": [
+      "6",
+      "2",
+      "1",
+      "3"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0726",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二分查找第一次访问中点 floor((1+11)/2)=6，该位置一次即可成功。",
+    "questionType": "single",
+    "stem": "在下标 1～11 的数组中按从小到大顺序存放 11 个元素，若进行二分查找，查找次数最少的元素位于什么位置？",
+    "options": [
+      "6",
+      "1",
+      "11",
+      "5"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E088",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "非根非叶结点才至少有 ceil(m/2) 棵子树；非叶根结点允许只有 2 棵，原 C 缺少非根限定。",
+    "questionType": "single"
+  },
+  {
+    "id": "E089",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "B+ 树的叶子按顺序链接，便于顺序检索；普通 B 树不具有同样有效的顺序检索支持。",
+    "questionType": "single"
+  },
+  {
+    "id": "E090",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "m 阶 B 树是每个结点最多 m 个孩子、所有叶子位于同一层的平衡多路查找树。",
+    "questionType": "single"
+  },
+  {
+    "id": "E130",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "m 阶 B 树每个结点至多有 m 棵子树、m−1 个关键字，而不是 m 个。",
+    "questionType": "single",
+    "stem": "下列关于 m 阶 B 树的叙述中，错误的是（ ）。",
+    "options": [
+      "每个结点至多有 m 棵子树",
+      "每个结点中至多有 m 个关键字",
+      "除根之外的所有非终端结点至少有 ceil(m/2) 棵子树",
+      "若根结点不是叶子结点，则至少有 2 棵子树"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0115",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "退化为单枝树时，从根向下查找等价于逐个比较，最坏为 Θ(n)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0128",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "依次插入后十个结点的成功比较次数总和为 33，故等概率平均为 33/10=3.3。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0177",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前三个序列均使 80 成为 100 的左孩子，D 则使 60 成为左孩子，树形不同。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0179",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "在无重复关键字的二叉排序树中，左子树所有关键字严格小于根关键字。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0181",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最低失衡结点的右子树增高且右孩子左重，对应右左型失衡，作 RL 双旋。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0189",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "C 生成以 38 为根、两侧各含 3 个结点的三层平衡树，达到 7 个结点的最小高度。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0217",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉排序树高度受插入次序影响，可接近 log₂n，也可退化为 n 层，不能仅由 n 确定。",
+    "questionType": "single",
+    "stem": "由 n 个元素构造的二叉排序树的高度为（ ）。",
+    "options": [
+      "不确定",
+      "floor(log₂n)+1",
+      "n",
+      "n−1"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0219",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最坏时二叉排序树退化为单链，等概率成功查找平均 (n+1)/2，数量级为 Θ(n)。",
+    "questionType": "single",
+    "stem": "对二叉排序树，在最坏情况下的平均查找长度数量级为（ ）。",
+    "options": [
+      "O(n log₂n)",
+      "O(n)",
+      "O(log₂n)",
+      "O((log₂n)²)"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0220",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉排序树的中序遍历按关键字递增输出，故为 12、27、31、39、43、54。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0665",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按中序序列 1…7 标号，根为 5，删除只有右孩子的 1 后，后序为 2,4,3,7,6,5。",
+    "questionType": "single",
+    "options": [
+      "243765",
+      "765432",
+      "234567",
+      "432765"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "M0706",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "顺序插入并作 AVL 调整后以 4 为根，左子树含 1、2、3，右子树含 5、6，共三层。",
+    "questionType": "single",
+    "stem": "将 1、2、3、4、5、6 顺序插入初始为空的 AVL 树，完成插入后该 AVL 树共有多少层？",
+    "options": [
+      "2",
+      "5",
+      "3",
+      "4"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0710",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "最小堆仅保证祖先不大于后代，兄弟和不同分支间未排序，层序遍历不一定递增。",
+    "questionType": "single",
+    "stem": "对由同样的 n 个整数构成的二叉搜索树和最小堆，下列说法不正确的是（ ）。",
+    "options": [
+      "二叉搜索树高度大于等于最小堆高度",
+      "从最小堆根结点到任何叶结点的路径上的结点值构成从小到大的序列",
+      "对最小堆作层序遍历可得从小到大的序列",
+      "对二叉搜索树作中序遍历可得从小到大的序列"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0712",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "以单根高度 0 计，AVL 最少结点数满足 N(h)=N(h−1)+N(h−2)+1；N(5)=20，N(6)=33，故 21 个结点最大高度为 5。",
+    "questionType": "single",
+    "stem": "若一棵 AVL 树的结点数为 21，该树的高度至多是多少？仅有根结点的树高度为 0。",
+    "options": [
+      "7",
+      "5",
+      "6",
+      "4"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0719",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "二叉排序树中序必须为 1…7；根的左子树有 4 个结点，所以根是第 5 个关键字 5。",
+    "questionType": "single",
+    "options": [
+      "1",
+      "5",
+      "不确定",
+      "4"
+    ],
+    "mode": "scan"
+  },
+  {
+    "id": "E091",
+    "answer": [
+      2,
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "哈希函数优劣取决于分布与应用场景；固定表长时，记录总数会改变装填因子，也能影响平均查找长度。",
+    "questionType": "multiple",
+    "note": "原题按单选形式排版，但 C、D 均成立，按多选题练习。"
+  },
+  {
+    "id": "E092",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "链地址法的查找时间随目标在链中的位置和冲突链长度而变，并非所有元素相同。",
+    "questionType": "single"
+  },
+  {
+    "id": "E094",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "线性探测可能遇到因聚集而占位的非同义词，探测序列中的关键字不必具有相同散列地址。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0172",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "k 个同义词依次插入同一初始地址，探测次数依次为 1、2、…、k，总计 k(k+1)/2。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0176",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "插入前六个元素后地址 8、9、10 已被占用，59 从 8 开始线性探测，最终放在 11。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0187",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "九次插入的探测次数总和为 12，成功查找平均长度为 12/9≈1.33。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0198",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "49 的散列地址为 5，平方探测依次试 6、4、9；前两者已占用，故放在 9。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0202",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "模 17 的散列地址范围是 0…16，需要下标为 0 到 16 的 17 个链首指针。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0209",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "14、1、27、79 对 13 取余均为 1，所以地址 1 的链有 4 个结点。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0211",
+    "answer": [
+      1,
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "冲突需有处理策略；按“散列地址相同即冲突”的标准定义，冲突的不同关键字正是同义词，B、C 均成立。",
+    "questionType": "multiple",
+    "note": "按通常“散列地址冲突”的定义，B、C 均成立，按多选题练习。若把探测时的占位碰撞也称为地址冲突，则 C 的适用范围须另加说明。"
+  },
+  {
+    "id": "M0216",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "良好的散列函数应使关键字尽量均匀映射到各个可用地址。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0693",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "14、38、61、86 分别占 3、5、6、9；49 从 5 依次探测 +1、−1，6 已占而 4 为空。",
+    "questionType": "single",
+    "stem": "散列表大小为 11，H(key)=key mod 11，采用平方探测 dᵢ=±i² 解决冲突。依次插入 14、38、61、86 后，再插入 49，应放在什么位置？",
+    "options": [
+      "9",
+      "6",
+      "10",
+      "4"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0700",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "49 的地址为 5，5、6 已分别被 38、61 占用，线性探测到 7 即可存放。",
+    "questionType": "single",
+    "stem": "散列表大小为 11，H(key)=key mod 11，采用线性探测。依次插入 14、38、61、86 后，再插入 49，应放在哪个下标？",
+    "options": [
+      "4",
+      "7",
+      "6",
+      "5"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "C006-010",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "两种插入方法移动相同的元素并完成相同趟数，折半定位主要减少关键字比较次数。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0186",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "直接插入排序逐个取出未排序元素，并插入已经有序的前缀中的合适位置。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0190",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "以增量 3 作一趟希尔插入排序，可分别得到子序列 (4,8,15)、(9,20)、(−1,7)，合并即题示序列。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0193",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每趟从剩余部分选出最小值与首项交换，先后把 15、21、25 放到前三个位置。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0194",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "将未排序部分首元素插入已排序前缀的合适位置，正是直接插入排序。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0201",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "两趟插入后只要求前三个元素有序；若为选择或冒泡，两端应已出现全局最小或最大元素，题示序列不符。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0203",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每次从未排序部分选择一个极值加入有序部分，属于选择排序。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0707",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按带哨兵的直接插入实现计数，逆序插入 10 个元素可产生 2+…+10=54 次比较和 3+…+11=63 次移动。",
+    "questionType": "single",
+    "stem": "对包含 10 个元素的非递减有序序列，用插入排序排成非递增序列，其可能的比较次数和移动次数分别为（ ）。",
+    "options": [
+      "100，100",
+      "54，63",
+      "100，54",
+      "45，44"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "C006-016",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "经典快速排序在数据随机、划分较均衡时最能发挥平均 Θ(n log n) 的优势。",
+    "questionType": "single",
+    "stem": "快速排序在下列（ ）情况下最易发挥其长处。",
+    "options": [
+      "数据中含有多个相同排序码",
+      "数据已基本有序",
+      "数据完全无序",
+      "数据中最大值和最小值相差悬殊"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "C006-017",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每次划分只确定一个极端元素时，递归规模依次为 n−1、n−2，工作总量为 Θ(n²)。",
+    "questionType": "single",
+    "stem": "对 n 个关键字作快速排序，在最坏情况下，算法的时间复杂度是（ ）。",
+    "options": [
+      "O(n)",
+      "O(n²)",
+      "O(n log₂n)",
+      "O(n³)"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0174",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "快速排序的一次划分把小于基准的元素放在左侧，大于基准的元素放在右侧。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0184",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "以 46 为首基准作双向扫描挖坑划分，得到 (40,38,46,56,79,84)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0204",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "快速划分后左段元素不得大于右段元素；只有 A 满足左段最大 69 小于右段最小 73。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0212",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "结果中 8 已处于最终位置，左侧元素均小于 8、右侧 9 大于 8，符合快速划分。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0214",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "前三项中的 4 和末尾的 20 可为已确定的基准；插入、选择、冒泡两趟的必要有序特征均不满足。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-019",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "从最后一个非叶结点向前筛选构造大根堆，结果为 (84,79,56,38,40,46)。",
+    "questionType": "single",
+    "stem": "记录的排序码为 (46,79,56,38,40,84)，利用堆排序方法自底向上建立的初始大根堆为（ ）。",
+    "options": [
+      "79，46，56，38，40，84",
+      "84，79，56，38，40，46",
+      "84，79，56，46，40，38",
+      "84，56，79，40，46，38"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "C006-022",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "先线性建最大堆，再取堆顶 10 次，只需 Θ(n+10 log n)，无需对全部元素完整排序。",
+    "questionType": "single",
+    "stem": "数据表中有 10000 个元素，仅要求求出其中最大的 10 个元素，采用（ ）算法最节省时间。",
+    "options": [
+      "冒泡排序",
+      "快速排序",
+      "简单选择排序",
+      "堆排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E103",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "堆排序每趟从堆中选取最大或最小元素，因此属于选择排序。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0676",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "建堆 Θ(n)，随后 n 次删除堆顶并调整，每次 O(log n)，最坏总时间 Θ(n log n)。",
+    "questionType": "single",
+    "stem": "对 N 个记录进行堆排序，最坏情况下的时间复杂度为（ ）。",
+    "options": [
+      "O(2N)",
+      "O(N²)",
+      "O(N)",
+      "O(N log N)"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0689",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按自底向上筛选建大根堆，得到 (85,77,55,38,41,46)。",
+    "questionType": "single",
+    "stem": "有记录 (46,77,55,38,41,85)，用堆排序自底向上建立的初始大根堆为（ ）。",
+    "options": [
+      "38，41，46，77，55，85",
+      "85，77，55，38，41，46",
+      "85，55，77，38，41，46",
+      "38，77，55，46，41，85"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "C006-011",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按从左向右、将最大值冒到末尾的一趟实现，依次发生 7 次相邻交换。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-012",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "原序列与目标降序相反，最坏需比较 5+4+3+2+1=15 次。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-014",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "第一趟只将相邻长度为 1 的有序段两两归并，得到 (26,59)、(31,77)、(11,51)、(19,42)。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-015",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "冒泡排序最坏每趟只确定一个末尾元素，共比较 (n−1)+…+1=n(n−1)/2 次。",
+    "questionType": "single",
+    "stem": "对 n 个不同的排序码进行冒泡排序，元素无序时比较次数最多为（ ）。",
+    "options": [
+      "n+1",
+      "n",
+      "n−1",
+      "n(n−1)/2"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "E014",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "若一个表的全部元素小于另一个表，比较 n 次便耗尽前一个表，余下部分直接接入。",
+    "questionType": "single"
+  },
+  {
+    "id": "E097",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "由大到小排列与目标升序相反，冒泡排序需要全部 n−1 趟、共 n(n−1)/2 次比较。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0672",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "7 个元素的最坏比较次数为 6+5+4+3+2+1=21。",
+    "questionType": "single",
+    "stem": "对 7 个数进行冒泡排序，最坏情况下需要进行的比较次数为（ ）。",
+    "options": [
+      "14",
+      "21",
+      "49",
+      "7"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0947",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "n 个元素最多进行 n−1 趟，每趟至少将一个极值送到最终位置。",
+    "questionType": "single"
+  },
+  {
+    "id": "C006-020",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "通常的数组归并排序需要长度为 n 的辅助数组，其余列举方法的平均辅助空间更小。",
+    "questionType": "single",
+    "stem": "下述排序方法中，通常要求辅助内存最大的是（ ）。",
+    "options": [
+      "希尔排序",
+      "快速排序",
+      "归并排序",
+      "堆排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "C006-021",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "归并时相等关键字优先取左段元素，可保持相等记录的原相对次序。",
+    "questionType": "single",
+    "stem": "下述排序方法中，（ ）是稳定的排序方法。",
+    "options": [
+      "希尔排序",
+      "快速排序",
+      "归并排序",
+      "堆排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "C006-023",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "希尔排序每趟仅保证按某个增量分组有序，不保证有元素已到达最终位置。",
+    "questionType": "single",
+    "stem": "下列排序算法中，（ ）不能保证每趟至少能将一个元素放到最终位置上。",
+    "options": [
+      "希尔排序",
+      "快速排序",
+      "冒泡排序",
+      "堆排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0173",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "建最小堆后连续取出前几个最小元素即可获得所需部分，避免对全部 1000 个元素排序。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0175",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "在经典比较式内排序的平均性能比较中，快速排序通常表现最好，平均 Θ(n log n)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0178",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "稳定性指相等关键字的记录在排序后仍保持原来的相对次序，前三项都未表达此含义。",
+    "questionType": "single",
+    "stem": "某内排序方法的稳定性是指（ ）。",
+    "options": [
+      "不允许有相同的元素",
+      "平均时间为 O(n log₂n) 的排序方法",
+      "允许有相同的元素",
+      "都不正确"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0180",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "采用首项或末项作基准的经典快速排序，对正序数据会产生极不平衡划分并退化为 Θ(n²)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0183",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "一趟归并只把各个小段归并成较长的有序段，不保证某个元素已到最终位置。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0185",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "例如最小元素尚在末尾时，直接插入排序可在最后一趟前没有任何元素位于最终位置。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0188",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "归并排序同时具有稳定性和最坏 Θ(n log n) 时间，其他选项不同时满足。",
+    "questionType": "single",
+    "stem": "若需在 O(n log₂n) 时间内完成数组排序，且要求排序稳定，可选择（ ）。",
+    "options": [
+      "归并排序",
+      "快速排序",
+      "堆排序",
+      "直接插入排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0191",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "简单选择排序不论初始次序如何，每趟都扫描全部剩余元素，比较次数恒为 n(n−1)/2。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0200",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "常见数组归并排序需要 O(n) 的临时数组以完成归并。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0205",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "每趟快速划分将基准放在最终位置，而递归划分是否均衡又受数据初始状态影响。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0213",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按通常平均情形计，堆排序辅助空间 O(1)，快速排序递归栈 O(log n)，归并排序 O(n)。",
+    "questionType": "single"
+  },
+  {
+    "id": "M0673",
+    "answer": [
+      2
+    ],
+    "answerSource": "reviewed",
+    "explanation": "稳定排序保持相等关键字记录的相对先后次序，而不是绝对下标不变。",
+    "questionType": "single",
+    "stem": "排序算法的稳定性是指（ ）。",
+    "options": [
+      "排序性能与被排序元素数量关系不大",
+      "相等关键字记录保持原顺序中的绝对位置不变",
+      "相等关键字记录保持原顺序中的相对位置不变",
+      "排序性能与被排序元素数量关系密切"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0686",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "4 和 20 可已处于快速排序的最终基准位置；插入、选择和冒泡两趟的必要特征均不成立。",
+    "questionType": "single",
+    "stem": "数据序列 (3,2,4,9,8,11,6,20) 只能是下列哪种排序算法的两趟排序结果？",
+    "options": [
+      "冒泡排序",
+      "快速排序",
+      "插入排序",
+      "选择排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0716",
+    "answer": [
+      0
+    ],
+    "answerSource": "reviewed",
+    "explanation": "按首项或末项取基准的经典实现，基本有序时快速划分容易严重失衡，效率退化。",
+    "questionType": "single",
+    "stem": "当待排序列已经基本有序时，下列哪种经典排序算法效率最差？",
+    "options": [
+      "快速排序",
+      "直接插入排序",
+      "选择排序",
+      "堆排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0725",
+    "answer": [
+      3
+    ],
+    "answerSource": "reviewed",
+    "explanation": "所列方法中，归并排序既稳定又保证 Θ(n log n)；堆、希尔和快速排序通常不稳定。",
+    "questionType": "single",
+    "stem": "下列四种排序算法中，最快且稳定的排序算法是（ ）。",
+    "options": [
+      "堆排序",
+      "希尔排序",
+      "快速排序",
+      "归并排序"
+    ],
+    "mode": "text"
+  },
+  {
+    "id": "M0952",
+    "answer": [
+      1
+    ],
+    "answerSource": "reviewed",
+    "explanation": "采用无交换便提前终止的冒泡排序，有序输入仅需一趟 n−1 次比较，时间 Θ(n)。",
+    "questionType": "single"
+  }
+]

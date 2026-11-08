@@ -1,0 +1,10 @@
+node_modules/
+test-results/
+*.log
+/data/
+.env
+tools/qa-data/
+tools/qa/
+tools/qa-invite/
+tools/qa-reference/
+tools/qa-focus/
