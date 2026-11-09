@@ -2,6 +2,7 @@ node_modules/
 test-results/
 *.log
 /data/
+/data-backup*/
 .env
 tools/qa-data/
 tools/qa/

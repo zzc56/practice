@@ -4,7 +4,21 @@
 
 注册时需要填写站点管理员设定的邀请密码；登录后可在多台设备间同步学习进度。后端使用 Node.js 24 内置 HTTP、加密和 SQLite 模块，不依赖外部数据库，也不需要 `npm install` 或前端构建。
 
-## 快速部署到服务器
+[本地运行](#本地运行) · [服务器部署](#服务器部署) · [管理后台](#管理后台) · [备份与更新](#备份与更新) · [题库与参考答案](#题库与参考答案) · [检查与测试](#检查与测试)
+
+## 本地运行
+
+安装 Node.js 24 或更高版本。在项目目录把 `.env.example` 复制为 `.env`，填写 `INVITE_CODE`，然后运行：
+
+```bash
+npm start
+```
+
+在浏览器打开 [http://127.0.0.1:3000](http://127.0.0.1:3000)。首次运行会创建 `data/practice.sqlite`。已有 `.env` 时直接使用；邀请码留空时，已有账号仍可登录，新账号暂不能注册。
+
+仅检查静态页面时可运行 `npm run preview:static`，默认地址为 `http://127.0.0.1:8713`。注册、登录和同步需要完整的 Node 服务。
+
+## 服务器部署
 
 服务器安装 Docker 与 Docker Compose 后，将本项目整个目录上传到服务器，进入包含 `compose.yaml` 的目录。使用 `.env` 配置服务器的注册邀请码。
 
@@ -44,8 +58,6 @@ curl http://127.0.0.1:8080/api/health
    TRUSTED_PROXY=true
    ```
 
-   也可以继续直接写在 `compose.yaml` 的 `environment` 里，两种方式等价。
-
 4. 将 `ports` 改成 `"127.0.0.1:8080:3000"`，使应用通过 Nginx 提供 HTTPS 访问。
 5. 应用修改后的配置：
 
@@ -63,11 +75,11 @@ curl http://127.0.0.1:8080/api/health
 
 ### 部署到子路径
 
-默认建议使用独立域名的根路径。若需使用 `https://你的域名/practice/`，在 `compose.yaml` 中补充：
+默认使用域名的根路径。若需使用 `https://你的域名/practice/`，在 `.env` 中补充：
 
-```yaml
-BASE_PATH: "/practice"
-APP_ORIGIN: "https://你的域名"
+```ini
+BASE_PATH=/practice
+APP_ORIGIN=https://你的域名
 ```
 
 Nginx 使用保留原路径的代理配置：
@@ -83,15 +95,7 @@ location /practice {
 
 这里 `proxy_pass` 的末尾不加 `/`。应用会将 `/practice` 重定向至 `/practice/`，Cookie 也限定在对应路径。
 
-## 本地预览或直接用 Node.js 运行
-
-安装 Node.js **24 或更高版本**。项目根目录已有配置好的 `.env` 时直接运行；没有时先复制 `.env.example` 为 `.env` 并填写 `INVITE_CODE`：
-
-```bash
-npm start
-```
-
-打开 `http://127.0.0.1:3000`。此方式提供完整的注册、登录和同步功能，首次运行会自动创建 `data/practice.sqlite`。`npm start` 会自动读取项目根目录的 `.env`；未找到配置文件或未设邀请密码时，网站仍可运行，已有账号仍可登录，新账号暂不能注册。
+### 直接用 Node.js 部署到服务器
 
 通过环境变量可指定监听地址和数据目录。例如 Linux 服务器：
 
@@ -109,8 +113,6 @@ $env:PORT = '3000'
 $env:DATA_DIR = "$PWD\data"
 node --env-file=.env server.mjs
 ```
-
-仅检查静态页面可运行 `npm run preview:static`，默认地址为 `http://127.0.0.1:8713`。该调试服务器不提供账号 API；正式使用应启动完整 Node 服务或 Docker 版本。不要直接双击 `index.html`，也不要仅将 `dist` 上传为静态站点后期待账号同步可用。
 
 ## 账号与学习数据
 
@@ -136,7 +138,7 @@ docker compose up -d
 
 Compose 会重建使用新配置的容器。只执行 `docker compose restart` 不会重新读取 `.env`。直接运行 Node 时，停止进程后用 `node --env-file=.env server.mjs` 重新启动。
 
-更换邀请密码只影响之后的新注册；已经注册的账号及学习数据仍保留，登录时使用各自的账号密码。若需要完全关闭新注册，可在 `compose.yaml` 的 `environment` 中设置 `ALLOW_REGISTRATION: "false"`，再运行 `docker compose up -d`。此设置优先于邀请密码。
+更换邀请密码只影响之后的新注册，已经注册的账号继续用各自的密码登录。若需要完全关闭新注册，可在 `.env` 中设置 `ALLOW_REGISTRATION=false`，再运行 `docker compose up -d`。此设置优先于邀请密码。
 
 ### 管理后台
 
@@ -176,7 +178,7 @@ ADMIN_PASSWORD=换成一串足够长的随机密码
 | `ADMIN_PASSWORD` | 空 | 管理后台 `/admin` 的登录密码；为空时后台无法登录 |
 | `ALLOW_REGISTRATION` | `true` | 设置 `false` 完全关闭新注册；为 `true` 时仍需要正确邀请密码 |
 
-## 数据持久化和更新
+## 备份与更新
 
 网站已经绑定 SQLite 数据库，存储账号、密码哈希、登录会话、答题记录、错题和收藏，无需另行安装 MySQL。直接运行时文件为 `data/practice.sqlite`；Docker 中为 `/app/data/practice.sqlite`。
 
@@ -192,16 +194,16 @@ docker compose start
 
 每次备份请使用新的目标目录名。恢复时将备份目录中的全部数据库文件放回应用数据卷，确保容器中的 `node` 用户拥有读写权限，再启动服务。更新应用前保留一份数据库目录备份和网站导出的 JSON 备份。
 
-更新网站文件后，在项目目录运行：
+从 GitHub 克隆部署的项目，在原项目目录执行：
 
 ```bash
-git pull
+git pull --ff-only
 docker compose up -d --build
 ```
 
-重新构建只会替换镜像和容器，`zhixu-data` 数据卷里的账号与进度不受影响。静态资源带 `ETag`，浏览器会走 `304` 复用缓存，升级后刷新一次页面即可拿到新版本。
+用部署压缩包安装的项目，需要先更新应用文件并保留服务器自己的 `.env`，再执行上面的 Docker Compose 命令。两种方式都应沿用原来的 Compose 项目，以继续使用同一数据卷。更新后可用 `/api/health` 检查服务，再刷新浏览器。
 
-服务器只装 Nginx 反向代理时，通常是 `git pull` 之后 `docker compose up -d --build`，再 `sudo systemctl reload nginx`（改了 `nginx.conf` 时）。
+如果更新涉及 Nginx 站点配置，执行 `sudo nginx -t` 检查通过后再重新加载 Nginx。
 
 ## 题库与参考答案
 
@@ -239,7 +241,7 @@ nginx.conf            HTTPS 反向代理示例
 tools/serve.mjs       仅用于静态页面调试
 tools/build-bank.py   从本次整理的题目数据生成网站题库
 tools/focus-browser-qa.mjs  专注布局与点选判分的浏览器检查
-tests/                自动化测试
+tests/                题库、练习、账号同步与管理后台的自动化测试
 data/                 本机运行时自动生成，部署包不包含用户数据
 ```
 
