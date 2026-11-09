@@ -109,6 +109,12 @@ function showApp() {
       </select>
       <button class="button ghost" id="export">导出 CSV</button>
     </div>
+    <form id="invite-form" class="toolbar">
+      <label for="invite-subject">注册邀请码</label>
+      <select id="invite-subject" required aria-label="邀请码科目"><option value="">选择科目</option></select>
+      <button class="button" type="submit" disabled>生成一次性邀请码</button>
+      <input id="invite-code" aria-label="新生成的邀请码" readonly hidden>
+    </form>
     <div class="card">
       <div class="table-wrap">
         <table>
@@ -156,6 +162,18 @@ function showApp() {
   $('#prev').addEventListener('click', () => { if (state.page > 1) { state.page--; load(); } });
   $('#next').addEventListener('click', () => { if (state.page < state.pages) { state.page++; load(); } });
   $('#export').addEventListener('click', exportCsv);
+  $('#invite-form').addEventListener('submit', async event => {
+    event.preventDefault();
+    const button=event.currentTarget.querySelector('button');
+    const output=$('#invite-code');
+    button.disabled=true;output.hidden=true;output.value='';
+    try{
+      const {code}=await request('/api/admin/invitations',{method:'POST',body:{subject:$('#invite-subject').value}});
+      output.value=code;output.hidden=false;output.focus();output.select();
+      toast('邀请码已生成，请复制保存');
+    }catch(error){toast(error.message,'error');}
+    finally{button.disabled=false;}
+  });
   $('#rows').addEventListener('click', onRowAction);
 }
 
@@ -167,7 +185,10 @@ function debounce(fn, wait) {
 async function start() {
   showApp();
   try {
-    await load();
+    const [, {subjects}]=await Promise.all([load(),request('/api/admin/subjects')]);
+    const select=$('#invite-subject');
+    for(const {id,title} of subjects)select.add(new Option(title,id));
+    $('#invite-form button').disabled=subjects.length===0;
   } catch (error) {
     showLogin(error.message);
   }

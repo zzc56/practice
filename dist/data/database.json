@@ -1,0 +1,21 @@
+{
+  "chapters": [{"id":"database-basics","title":"数据库基础","count":2}],
+  "questions": [
+    {
+      "id":"DB001","number":1,"chapter":"database-basics","topic":"关系模型",
+      "stem":"关系数据库中，主键的主要作用是什么？",
+      "options":["唯一标识表中的一行","记录表中的总行数","允许多行使用相同标识","将所有字段自动转换为文本"],
+      "answer":[0],"mode":"text","images":[],"source":"数据库测试题","questionType":"single",
+      "searchText":"关系模型 主键 唯一标识 数据库",
+      "explanation":"主键由一个或多个字段组成，用于唯一标识表中的一行。主键的值不能重复，也不能为 NULL。"
+    },
+    {
+      "id":"DB002","number":2,"chapter":"database-basics","topic":"SQL 查询",
+      "stem":"在 SQL 查询中，哪个子句用于筛选分组之前的行？",
+      "options":["ORDER BY","GROUP BY","WHERE","HAVING"],
+      "answer":[2],"mode":"text","images":[],"source":"数据库测试题","questionType":"single",
+      "searchText":"SQL 查询 WHERE HAVING 分组 行 筛选",
+      "explanation":"WHERE 在分组之前筛选行。HAVING 筛选分组后的结果。"
+    }
+  ]
+}

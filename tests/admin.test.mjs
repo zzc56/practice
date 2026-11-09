@@ -1,3 +1,4 @@
+import {issueTestInvite} from '../tools/test-invite.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
@@ -8,14 +9,14 @@ import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const INVITE = 'invite-admin-test';
+
 const ADMIN = 'admin-test-2026';
 
 async function startBackend(t, extra = {}) {
   const taskTemp = await mkdtemp(path.join(tmpdir(), 'zhixu-admin-'));
   const child = spawn(process.execPath, ['server.mjs'], {
     cwd: root,
-    env: { ...process.env, DATA_DIR: taskTemp, HOST: '127.0.0.1', PORT: '0', COOKIE_SECURE: 'false', INVITE_CODE: INVITE, ADMIN_PASSWORD: ADMIN, BASE_PATH: '', ...extra },
+    env: { ...process.env, DATA_DIR: taskTemp, HOST: '127.0.0.1', PORT: '0', COOKIE_SECURE: 'false', ADMIN_PASSWORD: ADMIN, BASE_PATH: '', ...extra },
     stdio: ['ignore', 'pipe', 'pipe'],
     windowsHide: true,
   });
@@ -77,7 +78,7 @@ test('管理密码错误被拒绝，普通用户 Cookie 不能进入后台', asy
   const wrong = await call('/api/admin/login', { method: 'POST', body: { password: 'nope' } });
   assert.equal(wrong.status, 401);
   assert.equal(wrong.cookie, '');
-  const user = await call('/api/auth/register', { method: 'POST', body: { username: 'plain_user', password: 'Plain-Test-123', inviteCode: INVITE } });
+  const user = await call('/api/auth/register', { method: 'POST', body: { username: 'plain_user', password: 'Plain-Test-123', inviteCode: await issueTestInvite(origin,ADMIN) } });
   assert.equal(user.status, 201);
   assert.equal((await call('/api/admin/me', { cookie: user.cookie })).status, 401, '学员会话不能当管理会话用');
   assert.equal((await call('/api/admin/users', { cookie: user.cookie })).status, 401);
@@ -88,7 +89,7 @@ test('管理后台：列表、统计、禁用启用、改密、下线、删除�
   const call = client(origin);
   const admin = await adminLogin(call);
 
-  const created = await call('/api/auth/register', { method: 'POST', body: { username: 'student_one', password: 'Student-123', inviteCode: INVITE } });
+  const created = await call('/api/auth/register', { method: 'POST', body: { username: 'student_one', password: 'Student-123', inviteCode: await issueTestInvite(origin,ADMIN) } });
   assert.equal(created.status, 201);
   const userCookie = created.cookie;
   const event = { id: 'admin-test-event-01', type: 'answer', questionId: 'E001', correct: true, graded: 'self', occurredAt: new Date().toISOString() };

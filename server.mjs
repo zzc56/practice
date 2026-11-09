@@ -7,6 +7,9 @@ import {gzipSync, createGzip} from 'node:zlib';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
+import {loadBanks} from './banks.mjs';
+import {availableProblems} from './judge/problems.mjs';
+import {judge} from './judge/index.mjs';
 import {createState, normalizeState, recordAnswer, importBackup, dismissWrongAnswers} from './dist/core.js';
 
 const ROOT=path.dirname(fileURLToPath(import.meta.url)), DIST=path.join(ROOT,'dist');
@@ -16,13 +19,11 @@ const BASE=(process.env.BASE_PATH || '').replace(/\/$/,'');
 if (BASE && !/^\/[a-zA-Z0-9_/-]+$/.test(BASE)) throw new Error('BASE_PATH 必须是以 / 开头的路径，例如 /practice');
 const SECURE=process.env.COOKIE_SECURE==='true';
 const TRUSTED_PROXY=process.env.TRUSTED_PROXY==='true';
-const INVITE_CODE=process.env.INVITE_CODE || '';
 const ADMIN_PASSWORD=process.env.ADMIN_PASSWORD || '';
 const HOST=process.env.HOST || '127.0.0.1', PORT=Number(process.env.PORT || 3000);
 const SESSION_AGE=30*86400*1000;
 const ADMIN_SESSION_AGE=12*3600*1000;
-const bank=JSON.parse(fs.readFileSync(path.join(DIST,'data/questions.json'),'utf8'));
-const ids=new Set(bank.questions.map(q=>q.id));
+const catalog=loadBanks(DIST);
 fs.mkdirSync(DATA,{recursive:true});
 const db=new DatabaseSync(path.join(DATA,'practice.sqlite'));
 db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;
@@ -30,14 +31,19 @@ CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, username TEXT UNIQUE NO
 CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at INTEGER NOT NULL);
 CREATE TABLE IF NOT EXISTS progress(user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, state_json TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS events(user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, event_id TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(user_id,event_id));
-CREATE TABLE IF NOT EXISTS admin_sessions(token_hash TEXT PRIMARY KEY, expires_at INTEGER NOT NULL);`);
+CREATE TABLE IF NOT EXISTS admin_sessions(token_hash TEXT PRIMARY KEY, expires_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS invitations(code_hash TEXT PRIMARY KEY, subject TEXT NOT NULL, created_at TEXT NOT NULL, used_at TEXT);`);
 const userColumns=new Set(db.prepare('PRAGMA table_info(users)').all().map(column=>column.name));
 if(!userColumns.has('disabled'))db.exec('ALTER TABLE users ADD COLUMN disabled INTEGER NOT NULL DEFAULT 0');
 if(!userColumns.has('last_login_at'))db.exec('ALTER TABLE users ADD COLUMN last_login_at TEXT');
+if(!userColumns.has('subject'))db.exec('ALTER TABLE users ADD COLUMN subject TEXT');
 const sql={
   user:db.prepare('SELECT * FROM users WHERE username=?'),
-  addUser:db.prepare('INSERT INTO users(username,display_name,salt,password_hash,created_at) VALUES(?,?,?,?,?)'),
-  session:db.prepare('SELECT users.id, users.display_name AS username FROM sessions JOIN users ON users.id=sessions.user_id WHERE token_hash=? AND expires_at>? AND users.disabled=0'),
+  addUser:db.prepare('INSERT INTO users(username,display_name,salt,password_hash,created_at,subject) VALUES(?,?,?,?,?,?)'),
+  session:db.prepare('SELECT users.id, users.display_name AS username,users.subject FROM sessions JOIN users ON users.id=sessions.user_id WHERE token_hash=? AND expires_at>? AND users.disabled=0'),
+  addInvite:db.prepare('INSERT INTO invitations(code_hash,subject,created_at) VALUES(?,?,?)'),
+  invite:db.prepare('SELECT subject FROM invitations WHERE code_hash=? AND used_at IS NULL'),
+  consumeInvite:db.prepare('UPDATE invitations SET used_at=? WHERE code_hash=? AND used_at IS NULL'),
   addSession:db.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)'),
   deleteSession:db.prepare('DELETE FROM sessions WHERE token_hash=?'),
   progress:db.prepare('SELECT state_json,revision FROM progress WHERE user_id=?'),
@@ -134,14 +140,14 @@ function credentials(input){
   return {display,username:display.toLocaleLowerCase(),password:input.password};
 }
 function requireInvite(value){
-  if(!INVITE_CODE.trim() || INVITE_CODE.length>256)fail(403,'站点尚未设置有效的邀请密码，暂时无法注册，请联系管理员');
-  if(typeof value!=='string' || !value || value.length>256)fail(403,'请填写正确的邀请密码');
-  const supplied=createHash('sha256').update(value).digest();
-  const expected=createHash('sha256').update(INVITE_CODE).digest();
-  if(!timingSafeEqual(supplied,expected))fail(403,'邀请密码不正确，请向管理员确认');
+  if(typeof value!=='string' || !/^[a-f0-9]{32}$/.test(value.trim()))fail(403,'邀请码无效或已使用，请联系管理员');
+  const hash=hashToken(value.trim());
+  const invite=sql.invite.get(hash);
+  if(!invite || !catalog.banks.has(invite.subject))fail(403,'邀请码无效或已使用，请联系管理员');
+  return {hash,subject:invite.subject};
 }
-function loadProgress(userId){const row=sql.progress.get(userId);return {state:row?normalizeState(JSON.parse(row.state_json),ids):createState(),revision:row?.revision || 0};}
-function applyEvent(state,event){
+function loadProgress(userId,ids){const row=sql.progress.get(userId);return {state:row?normalizeState(JSON.parse(row.state_json),ids):createState(),revision:row?.revision || 0};}
+function applyEvent(state,event,ids){
   if(!event || typeof event!=='object' || !/^[a-zA-Z0-9_-]{8,100}$/.test(event.id || '')) fail(400,'同步事件无效');
   if(event.type==='answer'){
     if(!ids.has(event.questionId) || typeof event.correct!=='boolean')fail(400,'答题记录无效');
@@ -245,6 +251,14 @@ async function adminApi(req,res,route){
   }
   if(!adminAuth(req))fail(401,'请先登录管理后台');
   if(method==='GET' && route==='/api/admin/me')return json(res,200,{ok:true,configured:adminConfigured()});
+  if(method==='GET' && route==='/api/admin/subjects')return json(res,200,{subjects:catalog.subjects});
+  if(method==='POST' && route==='/api/admin/invitations'){
+    const {subject}=await body(req);
+    if(!catalog.banks.has(subject))fail(400,'请选择有效科目');
+    const code=randomBytes(16).toString('hex');
+    sql.addInvite.run(hashToken(code),subject,new Date().toISOString());
+    return json(res,201,{code,subject});
+  }
   const params=new URL(req.url,'http://localhost').searchParams;
   if(method==='GET' && route==='/api/admin/users')return json(res,200,adminUserList(params));
   if(method==='GET' && route==='/api/admin/users.csv'){
@@ -288,7 +302,7 @@ async function adminApi(req,res,route){
   fail(404,'接口不存在');
 }
 async function api(req,res,route){
-  if(req.method==='GET' && route==='/api/health')return json(res,200,{ok:true,total:bank.total});
+  if(req.method==='GET' && route==='/api/health')return json(res,200,{ok:true,total:catalog.all.total});
   if(req.method==='GET' && route==='/api/auth/me')return json(res,200,{user:auth(req) || null});
   if(req.method!=='GET')checkOrigin(req);
   if(route.startsWith('/api/admin/'))return await adminApi(req,res,route);
@@ -298,21 +312,44 @@ async function api(req,res,route){
     const row=sql.user.get(input.username);
     if(route.endsWith('/register')){
       if(process.env.ALLOW_REGISTRATION==='false')fail(403,'本站已关闭新账号注册');
-      requireInvite(payload.inviteCode);
+      const invite=requireInvite(payload.inviteCode);
       if(row)fail(409,'该用户名已被注册');
       const salt=randomBytes(16).toString('hex'), passwordHash=(await derive(input.password,salt,64)).toString('hex');
-      let result;
-      try {result=sql.addUser.run(input.username,input.display,salt,passwordHash,new Date().toISOString());} catch(e){if(String(e.message).includes('UNIQUE'))fail(409,'该用户名已被注册');throw e;}
-      const id=Number(result.lastInsertRowid);sql.touchLogin.run(new Date().toISOString(),id);sessionFor(id,res);return json(res,201,{user:{id,username:input.display}});
+      db.exec('BEGIN IMMEDIATE');
+      let id;
+      try {
+        const now=new Date().toISOString();
+        if(!sql.consumeInvite.run(now,invite.hash).changes)fail(403,'邀请码无效或已使用，请联系管理员');
+        const result=sql.addUser.run(input.username,input.display,salt,passwordHash,now,invite.subject);
+        id=Number(result.lastInsertRowid);sql.touchLogin.run(now,id);
+        db.exec('COMMIT');
+      } catch(e){
+        db.exec('ROLLBACK');
+        if(String(e.message).includes('UNIQUE'))fail(409,'该用户名已被注册');
+        throw e;
+      }
+      sessionFor(id,res);return json(res,201,{user:{id,username:input.display,subject:invite.subject}});
     }
     const salt=row?.salt || '00000000000000000000000000000000';
     const candidate=await derive(input.password,salt,64);
     if(!row || !timingSafeEqual(candidate,Buffer.from(row.password_hash,'hex')))fail(401,'用户名或密码不正确');
     if(row.disabled)fail(403,'该账号已被管理员禁用，请联系管理员');
     sql.touchLogin.run(new Date().toISOString(),row.id);
-    sessionFor(row.id,res);return json(res,200,{user:{id:row.id,username:row.display_name}});
+    sessionFor(row.id,res);return json(res,200,{user:{id:row.id,username:row.display_name,subject:row.subject}});
   }
   const user=auth(req);if(!user)fail(401,'请先登录账号');
+  const {ids,images,...bank}=catalog.forUser(user);
+  if(req.method==='GET' && route==='/api/bank'){
+    const coding=availableProblems(user).map(([id,problem])=>({id,...problem}));
+    return json(res,200,{...bank,coding});
+  }
+  if(req.method==='POST' && route==='/api/coding/submit'){
+    const {id,source}=await body(req);
+    if(!availableProblems(user).some(([allowed])=>allowed===id))fail(404,'编程题不存在');
+    if(typeof source!=='string' || !source.trim() || Buffer.byteLength(source)>32768)fail(400,'请输入不超过 32 KB 的 C 代码');
+    throttle(req,'judge-'+user.id,20);
+    return json(res,200,{result:await judge(id,source,DATA)});
+  }
   if(req.method==='POST' && route==='/api/auth/logout'){
     sql.deleteSession.run(hashToken(getToken(req)));res.setHeader('Set-Cookie',cookie('',0));return json(res,200,{ok:true});
   }
@@ -328,15 +365,15 @@ async function api(req,res,route){
     try {db.prepare('UPDATE users SET salt=?,password_hash=? WHERE id=?').run(salt,passwordHash,user.id);db.prepare('DELETE FROM sessions WHERE user_id=?').run(user.id);sessionFor(user.id,res);db.exec('COMMIT');} catch(e){db.exec('ROLLBACK');throw e;}
     return json(res,200,{ok:true});
   }
-  if(req.method==='GET' && route==='/api/progress')return json(res,200,loadProgress(user.id));
+  if(req.method==='GET' && route==='/api/progress')return json(res,200,loadProgress(user.id,ids));
   if(req.method==='POST' && route==='/api/progress/events'){
     const input=await body(req);if(!Array.isArray(input.events) || input.events.length>100)fail(400,'一次最多同步 100 条记录');
     db.exec('BEGIN IMMEDIATE');
     let current;
     try {
-      current=loadProgress(user.id);
+      current=loadProgress(user.id,ids);
       for(const event of input.events){
-        const next=applyEvent(current.state,event);
+        const next=applyEvent(current.state,event,ids);
         const inserted=sql.event.run(user.id,event.id,new Date().toISOString());
         if(inserted.changes){current.state=next;current.revision++;}
       }
@@ -349,7 +386,7 @@ async function api(req,res,route){
     db.exec('BEGIN IMMEDIATE');
     let next;
     try {
-      const current=loadProgress(user.id);if(input.revision!==current.revision)fail(409,'其他设备刚更新了进度，请同步后再操作');
+      const current=loadProgress(user.id,ids);if(input.revision!==current.revision)fail(409,'其他设备刚更新了进度，请同步后再操作');
       let state;
       if(route.endsWith('/import')){try{state=importBackup(input.backup,ids);}catch(e){fail(400,e.message);}}
       else state=createState();
@@ -382,11 +419,17 @@ const server=http.createServer(async(req,res)=>{
       try{stat=fs.statSync(filename);}catch{fail(404,'文件不存在');}
     }
     if(!stat.isFile())fail(404,'文件不存在');
-    if(!fs.realpathSync(filename).startsWith(DIST_REAL+path.sep))fail(403,'文件访问被拒绝');
+    const real=fs.realpathSync(filename);
+    if(!real.startsWith(DIST_REAL+path.sep))fail(403,'文件访问被拒绝');
+    const assetPath='/'+path.relative(DIST_REAL,real).split(path.sep).join('/');
+    const protectedPath=assetPath.toLowerCase();
+    if(protectedPath.startsWith('/data/'))fail(404,'文件不存在');
+    const questionImage=protectedPath.startsWith('/assets/questions/');
+    if(questionImage && !catalog.forUser(auth(req)).images?.has(assetPath))fail(404,'文件不存在');
     const ext=path.extname(filename),type=MIME[ext] || 'application/octet-stream';
     const etag=`"${stat.size.toString(16)}-${Math.floor(stat.mtimeMs).toString(16)}"`;
     res.setHeader('Content-Type',type);
-    res.setHeader('Cache-Control',['.html','.json','.js','.css'].includes(ext)?'no-cache':'public, max-age=604800');
+    res.setHeader('Cache-Control',questionImage?'private, no-store':['.html','.json','.js','.css'].includes(ext)?'no-cache':'public, max-age=604800');
     res.setHeader('ETag',etag);
     res.setHeader('Last-Modified',new Date(Math.floor(stat.mtimeMs/1000)*1000).toUTCString());
     res.setHeader('Vary','Accept-Encoding');

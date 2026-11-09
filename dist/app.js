@@ -1,3 +1,4 @@
+import {codingPage,selectCodingProblem,saveCodingDraft,submitCoding} from './coding.js';
 import {evaluateAnswer,referenceLabel,getStats,selectQuestions,getQuestionStatus,shuffle,exportBackup,isWrongRecord} from './core.js';
 import {LearningAccount} from './account.js';
 
@@ -7,8 +8,13 @@ const paths={home:'M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z',p
 const icon=(name,cls='')=>`<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[name] || paths.book}"/></svg>`;
 const chapterMeta={basics:['code','理解结构，掌握算法的基本语言'],lists:['list','从顺序存储到链式存储'],stacks:['layers','后进先出与先进先出的应用'],strings:['grid','串匹配、矩阵与广义表'],trees:['tree','遍历、哈夫曼编码与树的转换'],graphs:['graph','从遍历到最短路径与关键路径'],search:['search','折半查找、平衡树与散列表'],sort:['sort','比较经典排序的过程与性能']};
 const modeNames={all:'顺序练习',random:'随机练习',wrong:'错题重练',favorites:'收藏练习',unanswered:'未做题目',auto:'可自动判分题'};
-const navItems=[['home','home','学习概览'],['practice','play','开始练习'],['wrong','wrong','错题本'],['favorites','star','我的收藏'],['library','book','全部题库']];
+const navItems=[['home','home','学习概览'],['practice','play','开始练习'],['wrong','wrong','错题本'],['favorites','star','我的收藏'],['library','book','全部题库'],['coding','code','编程练习']];
 let bank,questions,byId,account,state,view='home',menuOpen=false;
+function setBank(next){
+  bank=next || {title:'题库',total:0,chapters:[],questions:[]};
+  questions=bank.questions;
+  byId=new Map(questions.map(question=>[question.id,question]));
+}
 let filter={mode:'all',chapter:'all',topic:'all',query:''};
 let libraryFilter={mode:'all',chapter:'all',topic:'all',query:''},libraryPage=1;
 let round=new Map(),sessionAnswered=new Set(),sessionCorrect=0,toastTimer,authMode='login',afterLogin=null,modalReturn=null;
@@ -53,20 +59,20 @@ function render(){
   const oldReader=$('.focus-reader'),readerId=oldReader?.dataset.questionId,readerScroll=oldReader?.scrollTop || 0;
   if(view==='practice')$('#toast').hidden=true;
   const focus=document.activeElement,focusId=focus?.id,selection=focus?.selectionStart;
-  const titles={home:'学习概览',practice:'开始练习',wrong:'错题本',favorites:'我的收藏',library:'全部题库',settings:'学习设置'};
+  const titles={home:'学习概览',practice:'开始练习',wrong:'错题本',favorites:'我的收藏',library:'全部题库',coding:'编程练习',settings:'学习设置'};
   const s=stats();
   document.documentElement.dataset.font=state.settings.fontSize;
   $('#app').innerHTML=`<div class="app-shell">
     ${menuOpen?'<button class="sidebar-backdrop" aria-label="关闭导航菜单" data-action="close-menu"></button>':''}
     <aside class="sidebar ${menuOpen?'mobile-open':''}" aria-label="主导航">
-      <a class="brand" href="#home"><span class="brand-icon">${icon('book')}</span><span class="brand-copy"><strong>知序</strong><span>数据结构刷题</span></span></a>
+      <a class="brand" href="#home"><span class="brand-icon">${icon('book')}</span><span class="brand-copy"><strong>知序</strong><span>${escape(bank.title)}</span></span></a>
       <nav class="nav-list">${navItems.map(([id,i,t])=>`<a href="#${id}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i,'nav-icon')}<span class="nav-label">${t}</span>${id==='wrong'&&s.wrong?`<span class="nav-count">${s.wrong}</span>`:''}${id==='favorites'&&s.favorite?`<span class="nav-count">${s.favorite}</span>`:''}</a>`).join('')}</nav>
-      <div class="sidebar-section"><p class="sidebar-label">知识地图 <span>08</span></p>${bank.chapters.map((c,i)=>`<button class="chapter-link ${view==='practice'&&state.session?.chapter===c.id?'active':''}" data-action="chapter" data-id="${c.id}"><span class="chapter-order">${String(i+1).padStart(2,'0')}</span><span>${escape(c.title)}</span><small>${c.count}</small></button>`).join('')}</div>
+      <div class="sidebar-section"><p class="sidebar-label">知识地图 <span>${bank.chapters.length}</span></p>${bank.chapters.map((c,i)=>`<button class="chapter-link ${view==='practice'&&state.session?.chapter===c.id?'active':''}" data-action="chapter" data-id="${c.id}"><span class="chapter-order">${String(i+1).padStart(2,'0')}</span><span>${escape(c.title)}</span><small>${c.count}</small></button>`).join('')}</div>
       <div class="sidebar-footer"><div class="sidebar-progress"><span>整体学习进度</span><strong>${s.completion}%</strong></div><div class="progress-track"><div class="progress-fill" style="width:${s.completion}%"></div></div><p>已练习 ${s.answered} / ${s.total} 道题</p><a href="#settings" class="nav-item ${view==='settings'?'active':''}">${icon('settings')}<span>学习设置</span></a></div>
     </aside>
-    <div class="main-area"><header class="topbar">${view==='practice'?`<a class="focus-topbar-brand" href="#home" aria-label="退出练习，返回学习概览"><span class="brand-icon">${icon('book')}</span><strong>知序</strong><span>专注练习</span></a>`:`<button class="mobile-menu icon-button" data-action="menu" aria-label="打开导航菜单" aria-expanded="${menuOpen}">${icon('menu')}</button><div class="breadcrumb">数据结构 <span>/</span> <strong>${titles[view] || '学习概览'}</strong></div>`}<div class="topbar-actions">${syncBadge()}<button class="icon-button" data-action="settings" title="学习设置" aria-label="学习设置">${icon('settings')}</button></div></header>
-    <main id="content" class="page-content" tabindex="-1">${view==='practice'?practice():view==='wrong'?collection('wrong'):view==='favorites'?collection('favorites'):view==='library'?library():view==='settings'?settings():home()}</main>
-    <footer class="site-footer">知序 · 把知识连成体系 <span>${bank.total} 道题 · 8 个知识模块</span></footer></div>
+    <div class="main-area"><header class="topbar">${view==='practice'?`<a class="focus-topbar-brand" href="#home" aria-label="退出练习，返回学习概览"><span class="brand-icon">${icon('book')}</span><strong>知序</strong><span>专注练习</span></a>`:`<button class="mobile-menu icon-button" data-action="menu" aria-label="打开导航菜单" aria-expanded="${menuOpen}">${icon('menu')}</button><div class="breadcrumb">${escape(bank.title)} <span>/</span> <strong>${titles[view] || '学习概览'}</strong></div>`}<div class="topbar-actions">${syncBadge()}${account.user?'<button class="button secondary small" data-action="logout">退出登录</button>':''}<button class="icon-button" data-action="settings" title="学习设置" aria-label="学习设置">${icon('settings')}</button></div></header>
+    <main id="content" class="page-content" tabindex="-1">${view==='practice'?practice():view==='wrong'?collection('wrong'):view==='favorites'?collection('favorites'):view==='library'?library():view==='settings'?settings():view==='coding'?codingPage(account,bank.coding || [],escape):home()}</main>
+    <footer class="site-footer">知序 · 把知识连成体系 <span>${bank.total} 道题 · ${bank.chapters.length} 个知识模块</span></footer></div>
     <nav class="bottom-nav" aria-label="移动端快捷导航">${navItems.slice(0,4).map(([id,i,t])=>`<a href="#${id}" class="bottom-nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${id==='home'?'概览':id==='practice'?'练习':id==='favorites'?'收藏':'错题'}</span></a>`).join('')}</nav></div>`;
   const newReader=$('.focus-reader');if(newReader&&newReader.dataset.questionId===readerId)newReader.scrollTop=readerScroll;
   if(focusId){const next=document.getElementById(focusId);if(next){next.focus({preventScroll:true});if(typeof next.setSelectionRange==='function'&&Number.isInteger(selection))try{next.setSelectionRange(selection,selection);}catch{}}}
@@ -74,12 +80,13 @@ function render(){
 function heading(eyebrow,title,description,extra=''){return `<div class="page-heading"><div><p class="eyebrow">${eyebrow}</p><h1 class="page-title">${title}</h1><p class="page-description">${description}</p></div>${extra}</div>`;}
 function home(){
   const s=stats(),session=state.session;
-  return `${heading('LEARN WITH STRUCTURE','每一道题，都让知识更清晰。','从一个知识点开始，循序渐进，建立你的数据结构知识体系。')}
-  <section class="hero-card"><div class="hero-copy"><span class="hero-kicker"><span class="status-dot"></span> 你的数据结构练习空间</span><h2 class="hero-title">把零散的知识，<br>连成清晰的思路。</h2><p class="hero-description">533 道精选选择题，覆盖 8 大知识模块。<br>按章节巩固，在错题中找到下一步。</p><div class="hero-actions"><button class="button hero-primary" data-action="daily">开始今日练习 ${icon('arrow')}</button><button class="button hero-secondary" data-action="browse">浏览全部题库 ${icon('chevron')}</button></div><div class="hero-note">${icon('check')}账号同步进度 <span>·</span> 电脑手机随时接着练</div></div><div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-node node-main">${icon('tree')}</div><div class="art-node node-one">${icon('code')}</div><div class="art-node node-two">${icon('graph')}</div><div class="art-node node-three">${icon('layers')}</div><div class="art-chip"><span class="status-dot"></span> 少一点死记，多一点理解</div></div></section>
-  <section class="stats-grid" aria-label="学习数据">${[[s.total,'题库总量','book','覆盖完整知识体系'],[s.answered,'已练习题目','check',`${s.completion}% 的题目已练习`],[s.wrong,'待复习错题','wrong','及时回顾，巩固薄弱点'],[s.streak,'连续学习天数','clock',s.today?`今天已练习 ${s.today} 次`:'今天也来进步一点']].map(([value,text,i,sub])=>`<div class="stat-card"><div class="stat-top"><span class="stat-label">${text}</span><span class="stat-icon ${i}">${icon(i)}</span></div><div class="stat-value">${value}<small>${i==='clock'?'天':'题'}</small></div><p class="stat-caption">${sub}</p></div>`).join('')}</section>
+  return `${heading('LEARN WITH STRUCTURE','每一道题，都让知识更清晰。','从一个知识点开始，循序渐进，建立你的知识体系。')}
+  <section class="hero-card"><div class="hero-copy"><span class="hero-kicker"><span class="status-dot"></span> ${escape(bank.title)}练习空间</span><h2 class="hero-title">把零散的知识，<br>连成清晰的思路。</h2><p class="hero-description">${bank.total} 道题，覆盖 ${bank.chapters.length} 个知识模块。<br>按章节巩固，在错题中找到下一步。</p><div class="hero-actions"><button class="button hero-primary" data-action="daily">开始今日练习 ${icon('arrow')}</button><button class="button hero-secondary" data-action="browse">浏览全部题库 ${icon('chevron')}</button></div><div class="hero-note">${icon('check')}账号同步进度 <span>·</span> 电脑手机随时接着练</div></div><div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-node node-main">${icon('tree')}</div><div class="art-node node-one">${icon('code')}</div><div class="art-node node-two">${icon('graph')}</div><div class="art-node node-three">${icon('layers')}</div><div class="art-chip"><span class="status-dot"></span> 少一点死记，多一点理解</div></div></section>
+  ${bank.coding?.length?'<p><a class="button secondary" href="#coding">进入编程练习</a></p>':''}<section class="stats-grid" aria-label="学习数据">${[[s.total,'题库总量','book','覆盖完整知识体系'],[s.answered,'已练习题目','check',`${s.completion}% 的题目已练习`],[s.wrong,'待复习错题','wrong','及时回顾，巩固薄弱点'],[s.streak,'连续学习天数','clock',s.today?`今天已练习 ${s.today} 次`:'今天也来进步一点']].map(([value,text,i,sub])=>`<div class="stat-card"><div class="stat-top"><span class="stat-label">${text}</span><span class="stat-icon ${i}">${icon(i)}</span></div><div class="stat-value">${value}<small>${i==='clock'?'天':'题'}</small></div><p class="stat-caption">${sub}</p></div>`).join('')}</section>
   ${session?`<div class="session-banner"><span>${icon('play')}<span>继续上次练习 <strong>${escape(chapterName(session.chapter))}</strong> · 第 ${session.index+1} / ${session.ids.length} 题</span></span><button class="text-link" data-action="continue">继续练习 ${icon('arrow')}</button></div>`:''}
   <section><div class="section-heading"><div><p class="eyebrow">KNOWLEDGE MAP</p><h2 class="section-title">按知识点，稳步进阶</h2></div><button class="text-link" data-action="random">随机挑战 ${icon('shuffle')}</button></div><div class="chapter-grid">${bank.chapters.map((c,index)=>{
-    const group=questions.filter(q=>q.chapter===c.id),cs=getStats(group,state),[i,desc]=chapterMeta[c.id];
+    const group=questions.filter(q=>q.chapter===c.id),cs=getStats(group,state);
+    const [i,desc]=Object.hasOwn(chapterMeta,c.id)?chapterMeta[c.id]:['book','按章节练习，巩固相关知识点'];
     return `<button class="chapter-card" data-action="chapter" data-id="${c.id}"><div class="chapter-card-top"><span class="chapter-icon color-${index%4}">${icon(i)}</span><span class="chapter-index">CHAPTER ${String(index+1).padStart(2,'0')}</span>${icon('arrow','chapter-arrow')}</div><div class="chapter-meta"><h3 class="chapter-title">${escape(c.title)}</h3><p class="chapter-description">${desc}</p></div><div class="progress-track"><div class="progress-fill" style="width:${cs.completion}%"></div></div><div class="chapter-footer"><span>${c.count} 道题 <span class="divider">/</span> ${new Set(group.map(q=>q.topic)).size} 个知识点</span><span>已练习 ${cs.answered} 题</span></div></button>`;
   }).join('')}</div></section>
   <div class="notice home-notice">${icon('info')}<p>全部 ${questions.length} 道题提供参考结论与解析。正常题目点选后自动判分；原题有歧义或选项错误的题目会具体说明原因。</p></div>`;
@@ -136,7 +143,7 @@ function settings(){
   <section class="settings-card"><h2>${icon('user')}账号与同步</h2>${account.user?`<div class="account-profile"><span class="account-avatar">${escape(account.user.username.slice(0,1).toUpperCase())}</span><div><strong>${escape(account.user.username)}</strong><p>${account.status==='online'?'已连接服务器，进度自动同步':'当前记录已保存在此设备，联网后自动补传'}${account.queue.length?' · 待同步 '+account.queue.length+' 条':''}</p></div><button class="button secondary small" data-action="logout">退出登录</button></div><div class="settings-account-actions"><button class="button secondary" data-action="sync">${icon('cloud')}立即同步</button><button class="button ghost" data-action="password">修改密码</button></div>`:`<p>登录同一个账号，就能在电脑与手机之间继续练习。</p><button class="button primary" data-action="auth">登录 / 注册</button>`}</section>
   <section class="settings-card"><h2>${icon('settings')}练习与阅读</h2><div class="settings-grid"><div class="settings-field"><span><strong class="settings-label">点选即作答</strong><span class="settings-hint">解析在选项下方显示，通过上一题、下一题手动切换。</span></span></div><label class="settings-field"><span><strong class="settings-label">显示题目来源</strong><span class="settings-hint">便于回到原资料查阅。</span></span><input class="switch" id="setting-source" type="checkbox" ${state.settings.showSource?'checked':''} ${!account.user?'disabled':''}></label><label class="settings-field"><span><strong class="settings-label">题目字号</strong><span class="settings-hint">放大题干与选项，阅读更轻松。</span></span><select class="select" id="setting-font" aria-label="题目字号" ${!account.user?'disabled':''}><option value="normal" ${state.settings.fontSize==='normal'?'selected':''}>标准 22 px</option><option value="large" ${state.settings.fontSize==='large'?'selected':''}>大字 26 px</option></select></label></div></section>
   <section class="settings-card"><h2>${icon('download')}学习记录备份</h2><p>备份包含答题记录、错题、收藏和设置。导入会替换当前账号记录，并同步到其他设备。</p><div class="settings-account-actions"><button class="button primary" data-action="export" ${!account.user?'disabled':''}>${icon('download')}导出备份</button><button class="button secondary" data-action="import" ${!account.user?'disabled':''}>${icon('upload')}导入备份</button></div></section>
-  <section class="settings-card"><h2>${icon('book')}关于题库</h2><p>共 533 道选择题，编号与整理后的 Word 题库一致。题干条件、数值或选项有明显区别的题目分别保留。</p><div class="about-grid"><div><strong>${questions.filter(q=>q.answer?.length&&q.questionType!=='invalid').length} 道</strong><span>参考答案与自动判分</span></div><div><strong>${questions.filter(q=>q.questionType==='invalid').length} 道</strong><span>原题问题与参考结论</span></div></div><p class="settings-hint">全部题目均提供参考解析。原资料错误或有歧义的地方会单独说明。原图保留的作答痕迹不作为正确性依据。</p></section>
+  <section class="settings-card"><h2>${icon('book')}关于题库</h2><p>${escape(bank.title)}共 ${bank.total} 道题。</p><div class="about-grid"><div><strong>${questions.filter(q=>q.answer?.length&&q.questionType!=='invalid').length} 道</strong><span>参考答案与自动判分</span></div><div><strong>${questions.filter(q=>q.questionType==='invalid').length} 道</strong><span>原题问题与参考结论</span></div></div><p class="settings-hint">全部题目均提供参考解析。原资料错误或有歧义的地方会单独说明。原图保留的作答痕迹不作为正确性依据。</p></section>
   <section class="settings-card danger-zone"><h2>清空学习记录</h2><p>会清空当前账号在所有设备上的答题记录、收藏与练习设置。建议先导出备份。</p><button class="button danger" data-action="reset" ${!account.user?'disabled':''}>清空当前账号记录</button></section>`;
 }
 function startSession(config={},limit=null,custom=null){
@@ -187,7 +194,7 @@ function showAuth(){
     <form id="auth-form" class="auth-form">
       <label class="form-field">用户名<input class="input" name="username" autocomplete="username" required minlength="3" maxlength="32" placeholder="3–32 个字符，可使用汉字"></label>
       <label class="form-field">密码<div class="password-input"><input class="input" id="auth-password" type="password" name="password" autocomplete="${registering?'new-password':'current-password'}" required minlength="8" maxlength="128" placeholder="至少 8 个字符"><button class="password-toggle" type="button" data-action="toggle-password" aria-label="显示密码">显示</button></div></label>
-      ${registering?`<label class="form-field">邀请密码<input class="input" id="registration-invite" name="inviteCode" type="password" autocomplete="off" required maxlength="256" placeholder="请输入管理员提供的邀请密码" aria-describedby="invite-hint"></label><p class="settings-hint" id="invite-hint">邀请密码由网站管理员提供。请妥善保存自己的账号密码，当前版本不提供邮件找回。</p>`:''}
+      ${registering?`<label class="form-field">邀请码<input class="input" id="registration-invite" name="inviteCode" type="password" autocomplete="off" required maxlength="256" placeholder="请输入管理员提供的邀请码" aria-describedby="invite-hint"></label><p class="settings-hint" id="invite-hint">邀请码由网站管理员提供。请妥善保存自己的账号密码，当前版本不提供邮件找回。</p>`:''}
       <p class="form-error" id="auth-error" role="alert" hidden></p>
       <button class="button primary auth-submit" type="submit">${registering?'验证邀请并注册':'登录并同步进度'} ${icon('arrow')}</button>
     </form></div>`,'',registering?'邀请注册':'账号登录');
@@ -285,8 +292,10 @@ document.addEventListener('change',async event=>{
     try{const raw=await file.text();const {importBackup}=await import('./core.js');const next=importBackup(raw,questions.map(q=>q.id));window.pendingBackup=raw;confirmAction('导入备份',`此备份包含 ${Object.keys(next.records).length} 道题的记录和 ${next.favorites.length} 道收藏题，将替换当前账号记录并同步到其他设备。`,'confirm-import');}catch(e){toast(e.message);}
   }
 });
-document.addEventListener('input',event=>{if(event.target.id==='library-search'){libraryFilter.query=event.target.value;libraryPage=1;render();}});
+document.addEventListener('change',event=>{if(event.target.id==='coding-problem'){selectCodingProblem(event.target.value);render();}});
+document.addEventListener('input',event=>{if(event.target.id==='coding-source')saveCodingDraft(event.target.value);if(event.target.id==='library-search'){libraryFilter.query=event.target.value;libraryPage=1;render();}});
 document.addEventListener('submit',async event=>{
+  if(event.target.id==='coding-form'){event.preventDefault();await submitCoding(account,new FormData(event.target).get('source'),render,toast);return;}
   if(!['auth-form','password-form'].includes(event.target.id))return;
   event.preventDefault();const form=event.target,button=form.querySelector('[type="submit"]'),data=new FormData(form),error=form.querySelector('.form-error');button.disabled=true;error.hidden=true;
   try{
@@ -303,14 +312,14 @@ document.addEventListener('keydown',event=>{
   if(event.key==='ArrowRight'){event.preventDefault();if(state.session.index<state.session.ids.length-1)changeQuestion(state.session.index+1);else{commitCurrentDraft();finish();}}
   if(event.key==='ArrowLeft'){event.preventDefault();changeQuestion(state.session.index-1);}
 });
-window.addEventListener('hashchange',()=>{if(view==='practice')commitCurrentDraft();const name=location.hash.slice(1).split('/')[0];view=['home','practice','wrong','favorites','library','settings'].includes(name)?name:'home';menuOpen=false;render();window.scrollTo({top:0,behavior:'instant'});});
+window.addEventListener('hashchange',()=>{if(view==='practice')commitCurrentDraft();const name=location.hash.slice(1).split('/')[0];view=['home','practice','wrong','favorites','library','settings','coding'].includes(name)?name:'home';menuOpen=false;render();window.scrollTo({top:0,behavior:'instant'});});
 window.addEventListener('online',()=>{if(initialized)void account.sync();});
 document.addEventListener('visibilitychange',()=>{if(initialized&&!document.hidden)void account.sync();});
 
 async function boot(){
   try{
-    const response=await fetch('./data/questions.json',{cache:'no-cache'});if(!response.ok)throw new Error('无法载入题库');bank=await response.json();questions=bank.questions;byId=new Map(questions.map(q=>[q.id,q]));
-    account=new LearningAccount(questions.map(q=>q.id),next=>{state=next;if(initialized)render();},message=>{if(message)toast(message);if(initialized)render();});
+    setBank(null);
+    account=new LearningAccount([],next=>{state=next;if(initialized)render();},message=>{if(message)toast(message);if(initialized)render();},setBank);
     state=account.state;view=location.hash.slice(1).split('/')[0] || 'home';
     await account.initialize();state=account.state;initialized=true;
     if(state.session)filter={mode:state.session.mode,chapter:state.session.chapter,topic:state.session.topic,query:''};

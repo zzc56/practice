@@ -1,7 +1,9 @@
 FROM node:24-alpine
 WORKDIR /app
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=3000 DATA_DIR=/app/data
-COPY package.json server.mjs ./
+RUN apk add --no-cache clang lld
+COPY package.json server.mjs banks.mjs ./
+COPY judge/ ./judge/
 COPY dist/ ./dist/
 RUN mkdir -p /app/data && chown -R node:node /app
 USER node

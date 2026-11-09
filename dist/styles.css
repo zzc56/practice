@@ -812,3 +812,10 @@ input, select, textarea { min-width: 0; }
   .option-button { break-inside: avoid; }
   body { background: #fff; }
 }
+.coding-card{max-width:900px;margin-inline:auto}
+.coding-card select{display:block;max-width:100%;margin:8px 0 20px}
+.coding-card pre{overflow:auto;padding:12px;border-radius:8px;background:#f3f5fa;font-family:Consolas,monospace}
+.coding-card details{margin:12px 0}
+.coding-card form{display:grid;gap:10px;margin-top:18px}
+.coding-card textarea{width:100%;box-sizing:border-box;resize:vertical;border:1px solid #c4c9da;border-radius:8px;padding:12px;font:14px/1.6 Consolas,monospace}
+.coding-card form button{justify-self:start}

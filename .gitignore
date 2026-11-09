@@ -9,3 +9,4 @@ tools/qa/
 tools/qa-invite/
 tools/qa-reference/
 tools/qa-focus/
+/judge/cases.mjs

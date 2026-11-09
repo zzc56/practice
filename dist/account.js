@@ -10,8 +10,9 @@ function apply(state,e) {
 }
 
 export class LearningAccount {
-  constructor(ids,onChange,onStatus) {
+  constructor(ids,onChange,onStatus,onBank) {
     this.ids=ids;this.onChange=onChange;this.onStatus=onStatus;this.user=null;this.state=createState();
+    this.onBank=onBank;
     this.queue=[];this.revision=0;this.busy=null;this.lastSync=null;this.status='loading';
     this.key=STORAGE_KEY+':account:'+new URL('.',document.baseURI).pathname;
     try{this.cached=JSON.parse(localStorage.getItem(this.key) || 'null');}catch{this.cached=null;}
@@ -47,15 +48,22 @@ export class LearningAccount {
   async initialize() {
     try{
       const {user}=await this.api('/auth/me');
-      if(user){this.restore(user);await this.sync();}else this.setStatus('guest');
+      if(user){await this.loadBank();this.restore(user);await this.sync();}else this.setStatus('guest');
     }catch(e){
-      if(this.cached?.user){this.restore(this.cached.user);this.setStatus('offline');this.changed();}
+      if(this.cached?.user && !this.onBank){this.restore(this.cached.user);this.setStatus('offline');this.changed();}
       else this.setStatus('unavailable');
     }
     this.onChange(this.state);
   }
+  async loadBank() {
+    if(!this.onBank)return;
+    const bank=await this.api('/bank');
+    this.ids=bank.questions.map(question=>question.id);
+    this.onBank(bank);
+  }
   async login(username,password,register=false,inviteCode='') {
     const {user}=await this.api(register?'/auth/register':'/auth/login','POST',{username,password,...(register?{inviteCode}:{})});
+    await this.loadBank();
     this.restore(user);this.cached=null;this.changed();await this.sync();
   }
   update(event) {
@@ -90,6 +98,7 @@ export class LearningAccount {
   async logout() {
     await this.sync();if(this.queue.length)throw new Error('还有未同步的记录，请联网同步后再退出。');
     await this.api('/auth/logout','POST',{});
+    if(this.onBank){this.ids=[];this.onBank(null);}
     localStorage.removeItem(this.key);localStorage.removeItem(this.key+':'+this.user.id);this.cached=null;this.user=null;this.queue=[];this.state=createState();this.revision=0;this.setStatus('guest');this.onChange(this.state);
   }
   async replace(backup=null) {

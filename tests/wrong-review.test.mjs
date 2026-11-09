@@ -1,3 +1,4 @@
+import {issueTestInvite} from '../tools/test-invite.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
@@ -42,8 +43,8 @@ test('清理状态在旧数据兼容、备份导入和重载后保留；过期�
 test('错题清理跨会话同步、账号隔离、重试幂等及旧离线作答保护',async()=>{
   const root=fileURLToPath(new URL('../',import.meta.url));
   const directory=await mkdtemp(path.join(tmpdir(),'zhixu-wrong-review-'));
-  const invite='wrong-review-test-invite';
-  const child=spawn(process.execPath,['server.mjs'],{cwd:root,windowsHide:true,env:{...process.env,HOST:'127.0.0.1',PORT:'0',DATA_DIR:directory,BASE_PATH:'',INVITE_CODE:invite,ALLOW_REGISTRATION:'true',COOKIE_SECURE:'false'},stdio:['ignore','pipe','pipe']});
+  const adminPassword='wrong-review-test-admin';
+  const child=spawn(process.execPath,['server.mjs'],{cwd:root,windowsHide:true,env:{...process.env,HOST:'127.0.0.1',PORT:'0',DATA_DIR:directory,BASE_PATH:'',ADMIN_PASSWORD:adminPassword,ALLOW_REGISTRATION:'true',COOKIE_SECURE:'false'},stdio:['ignore','pipe','pipe']});
   try{
     const origin=await new Promise((resolve,reject)=>{
       let log='';const timeout=setTimeout(()=>reject(new Error('测试服务启动超时')),10000);
@@ -54,11 +55,11 @@ test('错题清理跨会话同步、账号隔离、重试幂等及旧离线作�
       const response=await fetch(origin+route,{method:input===undefined?'GET':'POST',headers:{'Content-Type':'application/json','X-Requested-With':'zhixu',...(cookie?{Cookie:cookie}:{})},...(input===undefined?{}:{body:JSON.stringify(input)})});
       return {status:response.status,data:await response.json(),cookie:response.headers.get('set-cookie')?.split(';')[0] || ''};
     };
-    const credentials={username:'wrong_review_user',password:'Wrong-Review-Password',inviteCode:invite};
+    const credentials={username:'wrong_review_user',password:'Wrong-Review-Password',inviteCode:await issueTestInvite(origin,adminPassword)};
     const first=await call('/api/auth/register','',credentials),second=await call('/api/auth/login','',credentials);
     assert.equal(first.status,201);assert.equal(second.status,200);
-    const isolated=await call('/api/auth/register','',{...credentials,username:'other_review_user'});
-    const bank=(await (await fetch(origin+'/data/questions.json')).json()).questions;
+    const isolated=await call('/api/auth/register','',{...credentials,username:'other_review_user',inviteCode:await issueTestInvite(origin,adminPassword)});
+    const bank=(await call('/api/bank',first.cookie)).data.questions;
     const [a,b]=bank;
     const t0=new Date(Date.now()-60000).toISOString(),t1=new Date(Date.now()-50000).toISOString(),t2=new Date(Date.now()-10000).toISOString();
     const write=(cookie,events)=>call('/api/progress/events',cookie,{events});

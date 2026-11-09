@@ -11,13 +11,14 @@ parser.add_argument("--include-env", action="store_true", help="Include explicit
 args = parser.parse_args()
 output = root.parent / "数据结构刷题网站_服务器部署包.zip"
 files = []
-for name in ["README.md", "package.json", "server.mjs", "Dockerfile", "compose.yaml", "nginx.conf", ".dockerignore", ".gitignore", ".env.example"]:
+for name in ["README.md", "package.json", "server.mjs", "banks.mjs", "Dockerfile", "compose.yaml", "nginx.conf", ".dockerignore", ".gitignore", ".env.example"]:
     files.append(root / name)
 if args.include_env:
     if not (root / ".env").is_file():
         parser.error("Server configuration .env is missing")
     files.append(root / ".env")
 files.extend(p for p in (root / "dist").rglob("*") if p.is_file())
+files.extend(p for p in (root / "judge").rglob("*") if p.is_file() and p.name != "cases.mjs")
 files.extend((root / "tests").glob("*.mjs"))
 files.extend(root / name for name in ["tools/serve.mjs", "tools/build-bank.py", "tools/apply-answer-reviews.py", "tools/package-release.py", "tools/focus-browser-qa.mjs"])
 files.extend((root / 'tools/answer-reviews').glob('part-*.json'))

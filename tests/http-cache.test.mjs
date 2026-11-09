@@ -13,7 +13,7 @@ async function startBackend(t, extra = {}) {
   const taskTemp = await mkdtemp(path.join(tmpdir(), 'zhixu-cache-'));
   const child = spawn(process.execPath, ['server.mjs'], {
     cwd: root,
-    env: { ...process.env, DATA_DIR: taskTemp, HOST: '127.0.0.1', PORT: '0', COOKIE_SECURE: 'false', INVITE_CODE: 'cache-test', BASE_PATH: '', ...extra },
+    env: { ...process.env, DATA_DIR: taskTemp, HOST: '127.0.0.1', PORT: '0', COOKIE_SECURE: 'false', BASE_PATH: '', ...extra },
     stdio: ['ignore', 'pipe', 'pipe'],
     windowsHide: true,
   });
@@ -64,12 +64,12 @@ test('静态资源返回 ETag 与 Last-Modified，命中后返回 304', async t 
 
 test('文本资源按 Accept-Encoding 压缩，图片与已压缩内容不重复压缩', async t => {
   const origin = await startBackend(t);
-  const gzipped = await fetch(origin + '/data/questions.json', { headers: { 'Accept-Encoding': 'gzip' } });
+  const gzipped = await fetch(origin + '/app.js', { headers: { 'Accept-Encoding': 'gzip' } });
   assert.equal(gzipped.status, 200);
   assert.equal(gzipped.headers.get('content-encoding'), 'gzip');
   assert.equal(gzipped.headers.get('vary'), 'Accept-Encoding');
 
-  const plain = await fetch(origin + '/data/questions.json', { headers: { 'Accept-Encoding': 'identity' } });
+  const plain = await fetch(origin + '/app.js', { headers: { 'Accept-Encoding': 'identity' } });
   assert.equal(plain.status, 200);
   assert.equal(plain.headers.get('content-encoding'), null, 'identity 请求不得压缩');
 
@@ -77,7 +77,7 @@ test('文本资源按 Accept-Encoding 压缩，图片与已压缩内容不重复
   assert.equal(png.status, 200);
   await png.arrayBuffer();
 
-  const head = await fetch(origin + '/data/questions.json', { method: 'HEAD', headers: { 'Accept-Encoding': 'gzip' } });
+  const head = await fetch(origin + '/app.js', { method: 'HEAD', headers: { 'Accept-Encoding': 'gzip' } });
   assert.equal(head.status, 200);
   assert.equal(head.headers.get('content-encoding'), 'gzip');
 });

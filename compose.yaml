@@ -11,7 +11,6 @@ services:
       COOKIE_SECURE: "${COOKIE_SECURE:-false}"
       APP_ORIGIN: "${APP_ORIGIN:-}"
       BASE_PATH: "${BASE_PATH:-}"
-      INVITE_CODE: "${INVITE_CODE:-}"
       ALLOW_REGISTRATION: "${ALLOW_REGISTRATION:-true}"
       # 管理后台密码；留空则 /admin 无法登录
       ADMIN_PASSWORD: "${ADMIN_PASSWORD:-}"

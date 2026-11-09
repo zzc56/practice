@@ -1,3 +1,4 @@
+import {issueTestInvite} from './test-invite.mjs';
 import {spawn} from 'node:child_process';
 import {mkdtemp,mkdir,rm,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -12,10 +13,10 @@ const out=path.join(root,'tools/qa-focus');
 await mkdir(out,{recursive:true});
 const temp=await mkdtemp(path.join(tmpdir(),'zhixu-focus-ui-'));
 const bank=JSON.parse(await readFile(path.join(root,'dist/data/questions.json'),'utf8'));
-const invite=randomBytes(16).toString('hex'),password=randomBytes(16).toString('hex');
+const adminPassword=randomBytes(16).toString('hex'),password=randomBytes(16).toString('hex');
 const username='focus_'+Date.now().toString(36);
 const child=spawn(process.execPath,['server.mjs'],{
-  cwd:root,env:{...process.env,HOST:'127.0.0.1',PORT:'0',DATA_DIR:temp,BASE_PATH:'',INVITE_CODE:invite,ALLOW_REGISTRATION:'true',COOKIE_SECURE:'false'},
+  cwd:root,env:{...process.env,HOST:'127.0.0.1',PORT:'0',DATA_DIR:temp,BASE_PATH:'',ADMIN_PASSWORD:adminPassword,ALLOW_REGISTRATION:'true',COOKIE_SECURE:'false'},
   stdio:['ignore','pipe','pipe'],windowsHide:true,
 });
 let browser,pcPage,phonePage;
@@ -49,7 +50,7 @@ try{
     if(register)await page.locator('[data-action="auth-mode"][data-mode="register"]').click();
     await page.locator('#auth-form [name="username"]').fill(username);
     await page.locator('#auth-form [name="password"]').fill(password);
-    if(register)await page.locator('#auth-form [name="inviteCode"]').fill(invite);
+    if(register)await page.locator('#auth-form [name="inviteCode"]').fill(await issueTestInvite(origin,adminPassword));
     await page.locator('#auth-form [type="submit"]').click();await sync(page);
   }
   async function startAll(page){

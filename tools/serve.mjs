@@ -70,6 +70,11 @@ export function createStaticServer({ root = DEFAULT_ROOT } = {}) {
         finish(403, 'Forbidden');
         return;
       }
+      const resource = path.relative(rootReal, fileReal).split(path.sep).join('/').toLowerCase();
+      if(resource.startsWith('data/') || resource.startsWith('assets/questions/')){
+        finish(404, 'Not found');
+        return;
+      }
       const fileStat = await stat(fileReal);
       if (!fileStat.isFile()) {
         finish(404, 'Not found');
