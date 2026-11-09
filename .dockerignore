@@ -2,5 +2,8 @@
 !Dockerfile
 !package.json
 !server.mjs
+!banks.mjs
+!judge
+!judge/**
 !dist/
 !dist/**
