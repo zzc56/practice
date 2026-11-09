@@ -11,6 +11,8 @@ services:
       COOKIE_SECURE: "${COOKIE_SECURE:-false}"
       BASE_PATH: "${BASE_PATH:-}"
       INVITE_CODE: "${INVITE_CODE:-}"
+      # 管理后台密码；留空则 /admin 无法登录
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:-}"
       # 前面挂了 Nginx/Cloudflare 等反向代理时设为 "true"，才能拿到访客真实 IP 用于限流与日志
       TRUSTED_PROXY: "${TRUSTED_PROXY:-false}"
     volumes:

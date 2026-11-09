@@ -17,8 +17,10 @@ if (BASE && !/^\/[a-zA-Z0-9_/-]+$/.test(BASE)) throw new Error('BASE_PATH 必须
 const SECURE=process.env.COOKIE_SECURE==='true';
 const TRUSTED_PROXY=process.env.TRUSTED_PROXY==='true';
 const INVITE_CODE=process.env.INVITE_CODE || '';
+const ADMIN_PASSWORD=process.env.ADMIN_PASSWORD || '';
 const HOST=process.env.HOST || '127.0.0.1', PORT=Number(process.env.PORT || 3000);
 const SESSION_AGE=30*86400*1000;
+const ADMIN_SESSION_AGE=12*3600*1000;
 const bank=JSON.parse(fs.readFileSync(path.join(DIST,'data/questions.json'),'utf8'));
 const ids=new Set(bank.questions.map(q=>q.id));
 fs.mkdirSync(DATA,{recursive:true});
@@ -27,16 +29,29 @@ db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=50
 CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, display_name TEXT NOT NULL, salt TEXT NOT NULL, password_hash TEXT NOT NULL, created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at INTEGER NOT NULL);
 CREATE TABLE IF NOT EXISTS progress(user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, state_json TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 0);
-CREATE TABLE IF NOT EXISTS events(user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, event_id TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(user_id,event_id));`);
+CREATE TABLE IF NOT EXISTS events(user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, event_id TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(user_id,event_id));
+CREATE TABLE IF NOT EXISTS admin_sessions(token_hash TEXT PRIMARY KEY, expires_at INTEGER NOT NULL);`);
+const userColumns=new Set(db.prepare('PRAGMA table_info(users)').all().map(column=>column.name));
+if(!userColumns.has('disabled'))db.exec('ALTER TABLE users ADD COLUMN disabled INTEGER NOT NULL DEFAULT 0');
+if(!userColumns.has('last_login_at'))db.exec('ALTER TABLE users ADD COLUMN last_login_at TEXT');
 const sql={
   user:db.prepare('SELECT * FROM users WHERE username=?'),
   addUser:db.prepare('INSERT INTO users(username,display_name,salt,password_hash,created_at) VALUES(?,?,?,?,?)'),
-  session:db.prepare('SELECT users.id, users.display_name AS username FROM sessions JOIN users ON users.id=sessions.user_id WHERE token_hash=? AND expires_at>?'),
+  session:db.prepare('SELECT users.id, users.display_name AS username FROM sessions JOIN users ON users.id=sessions.user_id WHERE token_hash=? AND expires_at>? AND users.disabled=0'),
   addSession:db.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)'),
   deleteSession:db.prepare('DELETE FROM sessions WHERE token_hash=?'),
   progress:db.prepare('SELECT state_json,revision FROM progress WHERE user_id=?'),
   save:db.prepare('INSERT INTO progress(user_id,state_json,revision) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET state_json=excluded.state_json, revision=excluded.revision'),
   event:db.prepare('INSERT OR IGNORE INTO events(user_id,event_id,created_at) VALUES(?,?,?)'),
+  adminSession:db.prepare('SELECT token_hash FROM admin_sessions WHERE token_hash=? AND expires_at>?'),
+  addAdminSession:db.prepare('INSERT INTO admin_sessions(token_hash,expires_at) VALUES(?,?)'),
+  deleteAdminSession:db.prepare('DELETE FROM admin_sessions WHERE token_hash=?'),
+  userById:db.prepare('SELECT id,username,display_name,created_at,last_login_at,disabled FROM users WHERE id=?'),
+  deleteUser:db.prepare('DELETE FROM users WHERE id=?'),
+  setDisabled:db.prepare('UPDATE users SET disabled=? WHERE id=?'),
+  setPassword:db.prepare('UPDATE users SET salt=?,password_hash=? WHERE id=?'),
+  deleteUserSessions:db.prepare('DELETE FROM sessions WHERE user_id=?'),
+  touchLogin:db.prepare('UPDATE users SET last_login_at=? WHERE id=?'),
 };
 const hashToken=token=>createHash('sha256').update(token).digest('hex');
 const derive=promisify(scrypt);
@@ -44,6 +59,11 @@ const rate=new Map();
 const cookieName='zhixu_session';
 function cookie(token,age=SESSION_AGE/1000){return `${cookieName}=${token}; Path=${BASE || '/'}; Max-Age=${age}; HttpOnly; SameSite=Lax${SECURE?'; Secure':''}`;}
 function getToken(req){return (req.headers.cookie || '').split(';').map(s=>s.trim()).find(s=>s.startsWith(cookieName+'='))?.slice(cookieName.length+1) || '';}
+const adminCookieName='zhixu_admin';
+function adminCookie(token,age=ADMIN_SESSION_AGE/1000){return `${adminCookieName}=${token}; Path=${BASE || '/'}; Max-Age=${age}; HttpOnly; SameSite=Lax${SECURE?'; Secure':''}`;}
+function getAdminToken(req){return (req.headers.cookie || '').split(';').map(s=>s.trim()).find(s=>s.startsWith(adminCookieName+'='))?.slice(adminCookieName.length+1) || '';}
+function adminConfigured(){return Boolean(ADMIN_PASSWORD.trim()) && ADMIN_PASSWORD.length<=256;}
+function adminAuth(req){const token=getAdminToken(req);return Boolean(token && token.length<200 && sql.adminSession.get(hashToken(token),Date.now()));}
 function clientIp(req){
   if(TRUSTED_PROXY){
     const real=req.headers['x-real-ip'];
@@ -100,10 +120,10 @@ async function body(req){
   for await (const chunk of req) {size+=chunk.length;if(size>2*1024*1024) fail(413,'提交内容过大');chunks.push(chunk);}
   try {const value=JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');if(!value || typeof value!=='object' || Array.isArray(value)) fail(400,'提交格式无效');return value;} catch(e){if(e.status)throw e;fail(400,'JSON 格式无效');}
 }
-function throttle(req,username=''){
+function throttle(req,username='',limit=NaN){
   const key=`${clientIp(req)}|${username}`;const now=Date.now();const r=rate.get(key);
-  const limit=username?20:1000;
-  if(r && now<r.until && r.count>=limit) fail(429,'尝试次数较多，请 15 分钟后重试');
+  const max=Number.isFinite(limit)?limit:(username?20:1000);
+  if(r && now<r.until && r.count>=max) fail(429,'尝试次数较多，请 15 分钟后重试');
   if(!r || now>=r.until)rate.set(key,{count:1,until:now+15*60*1000});else r.count++;
   if(rate.size>10000) for(const [k,v] of rate) if(v.until<now)rate.delete(k);
 }
@@ -146,10 +166,132 @@ function applyEvent(state,event){
   if(event.type==='session') return {...state,session:normalizeState({...state,session:event.session},ids).session};
   fail(400,'未知同步事件');
 }
+function escapeLike(value){return value.replace(/[\\%_]/g,character=>'\\'+character);}
+function userSummary(userId){
+  const empty={answered:0,attempts:0,correct:0,accuracy:0,wrong:0,favorites:0,lastActive:null};
+  const row=sql.progress.get(userId);
+  if(!row)return empty;
+  let state;
+  try{state=JSON.parse(row.state_json);}catch{return empty;}
+  if(!state || typeof state!=='object')return empty;
+  const records=state.records && typeof state.records==='object'?state.records:{};
+  let attempts=0,correct=0,wrong=0,lastActive=null;
+  for(const record of Object.values(records)){
+    if(!record || typeof record!=='object')continue;
+    attempts+=Number(record.attempts)||0;
+    correct+=Number(record.correctCount)||0;
+    if(record.lastCorrect===false)wrong++;
+    if(typeof record.lastAt==='string' && (!lastActive || record.lastAt>lastActive))lastActive=record.lastAt;
+  }
+  return {answered:Object.keys(records).length,attempts,correct,wrong,
+    accuracy:attempts?Math.round(correct/attempts*100):0,
+    favorites:Array.isArray(state.favorites)?state.favorites.length:0,lastActive};
+}
+function adminWhere(params){
+  const q=(params.get('q') || '').trim().slice(0,64);
+  const status=params.get('status') || 'all';
+  const where=[],args=[];
+  if(q){where.push("(username LIKE ? ESCAPE '\\' OR display_name LIKE ? ESCAPE '\\')");args.push(`%${escapeLike(q)}%`,`%${escapeLike(q)}%`);}
+  if(status==='active')where.push('disabled=0');
+  if(status==='disabled')where.push('disabled=1');
+  return {clause:where.length?` WHERE ${where.join(' AND ')}`:'',args};
+}
+function adminUserList(params){
+  const {clause,args}=adminWhere(params);
+  const page=Math.max(1,Number(params.get('page')) || 1);
+  const size=Math.max(1,Math.min(100,Number(params.get('size')) || 20));
+  const total=db.prepare(`SELECT COUNT(*) AS total FROM users${clause}`).get(...args).total;
+  const rows=db.prepare(`SELECT id,username,display_name,created_at,last_login_at,disabled FROM users${clause} ORDER BY id DESC LIMIT ? OFFSET ?`).all(...args,size,(page-1)*size);
+  return {total,page,size,pages:Math.max(1,Math.ceil(total/size)),
+    users:rows.map(row=>({...row,disabled:row.disabled===1,stats:userSummary(row.id)}))};
+}
+function csvCell(value){
+  const text=value===null || value===undefined?'':String(value);
+  return /[",\r\n]/.test(text)?`"${text.replace(/"/g,'""')}"`:text;
+}
+function adminCsv(params){
+  const {clause,args}=adminWhere(params);
+  const rows=db.prepare(`SELECT id,username,display_name,created_at,last_login_at,disabled FROM users${clause} ORDER BY id ASC`).all(...args);
+  const head=['id','用户名','注册时间','最近登录','状态','作答题目','作答次数','答对次数','正确率(%)','错题数','收藏数','最近学习'];
+  const lines=[head.join(',')];
+  for(const row of rows){
+    const stats=userSummary(row.id);
+    lines.push([row.id,row.display_name,row.created_at,row.last_login_at || '',
+      row.disabled===1?'已禁用':'正常',stats.answered,stats.attempts,stats.correct,
+      stats.accuracy,stats.wrong,stats.favorites,stats.lastActive || ''].map(csvCell).join(','));
+  }
+  return '\ufeff'+lines.join('\r\n')+'\r\n';
+}
+async function adminApi(req,res,route){
+  const method=req.method;
+  if(method==='POST' && route==='/api/admin/login'){
+    const payload=await body(req);
+    if(!adminConfigured())fail(403,'站点尚未设置管理密码（ADMIN_PASSWORD），请在 .env 中配置后重启服务');
+    throttle(req,'admin-login',5);
+    const supplied=typeof payload.password==='string'?payload.password:'';
+    if(!supplied || supplied.length>256)fail(400,'请输入管理密码');
+    const given=createHash('sha256').update(supplied).digest();
+    const expected=createHash('sha256').update(ADMIN_PASSWORD).digest();
+    if(!timingSafeEqual(given,expected))fail(401,'管理密码不正确');
+    const token=randomBytes(32).toString('hex');
+    sql.addAdminSession.run(hashToken(token),Date.now()+ADMIN_SESSION_AGE);
+    res.setHeader('Set-Cookie',adminCookie(token));
+    return json(res,200,{ok:true});
+  }
+  if(method==='POST' && route==='/api/admin/logout'){
+    sql.deleteAdminSession.run(hashToken(getAdminToken(req)));
+    res.setHeader('Set-Cookie',adminCookie('',0));
+    return json(res,200,{ok:true});
+  }
+  if(!adminAuth(req))fail(401,'请先登录管理后台');
+  if(method==='GET' && route==='/api/admin/me')return json(res,200,{ok:true,configured:adminConfigured()});
+  const params=new URL(req.url,'http://localhost').searchParams;
+  if(method==='GET' && route==='/api/admin/users')return json(res,200,adminUserList(params));
+  if(method==='GET' && route==='/api/admin/users.csv'){
+    const csv=adminCsv(params);
+    res.writeHead(200,{'Content-Type':'text/csv; charset=utf-8',
+      'Content-Disposition':`attachment; filename="zhixu-users-${new Date().toISOString().slice(0,10)}.csv"`,
+      'Cache-Control':'no-store'});
+    return res.end(csv);
+  }
+  const matched=route.match(/^\/api\/admin\/users\/(\d+)(?:\/(disable|enable|password|logout-all))?$/);
+  if(matched){
+    const id=Number(matched[1]),action=matched[2];
+    const target=sql.userById.get(id);
+    if(!target)fail(404,'账号不存在');
+    if(method==='GET' && !action)return json(res,200,{user:{...target,disabled:target.disabled===1},stats:userSummary(id)});
+    if(method==='POST' && action==='disable'){
+      sql.setDisabled.run(1,id);sql.deleteUserSessions.run(id);
+      return json(res,200,{ok:true,user:{...target,disabled:true}});
+    }
+    if(method==='POST' && action==='enable'){
+      sql.setDisabled.run(0,id);
+      return json(res,200,{ok:true,user:{...target,disabled:false}});
+    }
+    if(method==='POST' && action==='logout-all'){
+      const removed=sql.deleteUserSessions.run(id).changes;
+      return json(res,200,{ok:true,removed});
+    }
+    if(method==='POST' && action==='password'){
+      const payload=await body(req);
+      const password=typeof payload.newPassword==='string'?payload.newPassword:'';
+      if(password.length<8 || password.length>128)fail(400,'新密码需为 8–128 个字符');
+      const salt=randomBytes(16).toString('hex'),passwordHash=(await derive(password,salt,64)).toString('hex');
+      sql.setPassword.run(salt,passwordHash,id);sql.deleteUserSessions.run(id);
+      return json(res,200,{ok:true});
+    }
+    if(method==='DELETE' && !action){
+      sql.deleteUser.run(id);
+      return json(res,200,{ok:true});
+    }
+  }
+  fail(404,'接口不存在');
+}
 async function api(req,res,route){
   if(req.method==='GET' && route==='/api/health')return json(res,200,{ok:true,total:bank.total});
   if(req.method==='GET' && route==='/api/auth/me')return json(res,200,{user:auth(req) || null});
   if(req.method!=='GET')checkOrigin(req);
+  if(route.startsWith('/api/admin/'))return await adminApi(req,res,route);
   if(req.method==='POST' && ['/api/auth/register','/api/auth/login'].includes(route)){
     const payload=await body(req);
     const input=credentials(payload);throttle(req);throttle(req,input.username);
@@ -161,11 +303,13 @@ async function api(req,res,route){
       const salt=randomBytes(16).toString('hex'), passwordHash=(await derive(input.password,salt,64)).toString('hex');
       let result;
       try {result=sql.addUser.run(input.username,input.display,salt,passwordHash,new Date().toISOString());} catch(e){if(String(e.message).includes('UNIQUE'))fail(409,'该用户名已被注册');throw e;}
-      const id=Number(result.lastInsertRowid);sessionFor(id,res);return json(res,201,{user:{id,username:input.display}});
+      const id=Number(result.lastInsertRowid);sql.touchLogin.run(new Date().toISOString(),id);sessionFor(id,res);return json(res,201,{user:{id,username:input.display}});
     }
     const salt=row?.salt || '00000000000000000000000000000000';
     const candidate=await derive(input.password,salt,64);
     if(!row || !timingSafeEqual(candidate,Buffer.from(row.password_hash,'hex')))fail(401,'用户名或密码不正确');
+    if(row.disabled)fail(403,'该账号已被管理员禁用，请联系管理员');
+    sql.touchLogin.run(new Date().toISOString(),row.id);
     sessionFor(row.id,res);return json(res,200,{user:{id:row.id,username:row.display_name}});
   }
   const user=auth(req);if(!user)fail(401,'请先登录账号');
@@ -229,9 +373,14 @@ const server=http.createServer(async(req,res)=>{
     if(!['GET','HEAD'].includes(req.method))fail(405,'不支持的请求方式');
     if(route.includes('\0') || route.includes('\\'))fail(400,'地址格式不正确');
     if(route.split('/').some(part=>part.startsWith('.')))fail(404,'文件不存在');
-    const filename=path.resolve(DIST,'.'+(route==='/'?'/index.html':route));
+    let filename=path.resolve(DIST,'.'+(route==='/'?'/index.html':route));
     if(!filename.startsWith(DIST+path.sep))fail(404,'文件不存在');
     let stat;try{stat=fs.statSync(filename);}catch{fail(404,'文件不存在');}
+    if(stat.isDirectory()){
+      if(!route.endsWith('/')){res.writeHead(308,{Location:(BASE || '')+route+'/'});return res.end();}
+      filename=path.join(filename,'index.html');
+      try{stat=fs.statSync(filename);}catch{fail(404,'文件不存在');}
+    }
     if(!stat.isFile())fail(404,'文件不存在');
     if(!fs.realpathSync(filename).startsWith(DIST_REAL+path.sep))fail(403,'文件访问被拒绝');
     const ext=path.extname(filename),type=MIME[ext] || 'application/octet-stream';
@@ -241,6 +390,7 @@ const server=http.createServer(async(req,res)=>{
     res.setHeader('ETag',etag);
     res.setHeader('Last-Modified',new Date(Math.floor(stat.mtimeMs/1000)*1000).toUTCString());
     res.setHeader('Vary','Accept-Encoding');
+    if(route.startsWith('/admin'))res.setHeader('X-Robots-Tag','noindex, nofollow');
     if(matchesEtag(req,etag,stat.mtimeMs)){res.writeHead(304);return res.end();}
     const compressible=/^(?:text\/|application\/(?:json|javascript)|image\/svg\+xml)/.test(type) && acceptsGzip(req);
     if(compressible)res.setHeader('Content-Encoding','gzip');
@@ -259,6 +409,6 @@ server.on('error',error=>{
   process.exit(1);
 });
 server.listen(PORT,HOST,()=>console.log(`知序已启动 http://${HOST}:${server.address().port}${BASE}/`));
-const cleanup=setInterval(()=>{db.prepare('DELETE FROM sessions WHERE expires_at<?').run(Date.now());},3600000);cleanup.unref();
+const cleanup=setInterval(()=>{const now=Date.now();db.prepare('DELETE FROM sessions WHERE expires_at<?').run(now);db.prepare('DELETE FROM admin_sessions WHERE expires_at<?').run(now);},3600000);cleanup.unref();
 function shutdown(){clearInterval(cleanup);server.close(()=>{db.close();process.exit(0);});setTimeout(()=>process.exit(0),5000).unref();}
 process.on('SIGTERM',shutdown);process.on('SIGINT',shutdown);
