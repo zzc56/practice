@@ -1,0 +1,113 @@
+{
+  "chapters": [
+    {"id": "probability-2024", "title": "2024–2025 第一学期期末", "count": 5},
+    {"id": "probability-2022", "title": "2022–2023 第二学期期末", "count": 5}
+  ],
+  "questions": [
+    {
+      "id": "PR001", "number": 1, "chapter": "probability-2024", "topic": "事件的独立性与概率运算",
+      "stem": "设 P(A)=0.4，P(B)=0.3，且 A 与 B 相互独立，则 P(A−B)=（　）。",
+      "options": ["0.28", "0.12", "0.18", "0.52"],
+      "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 选择题第 1 题",
+      "questionType": "single",
+      "searchText": "独立性 P(A-B) 概率运算 0.4 0.3 相互独立",
+      "explanation": "由独立性 P(AB)=P(A)P(B)=0.4×0.3=0.12，而 A−B 表示 A 发生且 B 不发生，故 P(A−B)=P(A)−P(AB)=0.4−0.12=0.28。"
+    },
+    {
+      "id": "PR002", "number": 2, "chapter": "probability-2024", "topic": "均匀分布与二项分布",
+      "stem": "设随机变量 X 服从区间 (0,4) 上的均匀分布，对 X 进行 3 次独立观测，事件「观测值大于 1」出现的次数 Y 服从以下哪个分布（　）。",
+      "options": ["B(3,0.75)", "B(3,0.25)", "N(3,0.75)", "N(3,0.25)"],
+      "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 选择题第 2 题",
+      "questionType": "single",
+      "searchText": "均匀分布 二项分布 观测值大于1 三次独立观测 B(3,0.75)",
+      "explanation": "X~U(0,4)，故 P(X>1)=(4−1)/4=0.75。3 次观测相互独立、每次「大于 1」的概率恒为 0.75，因此出现次数 Y~B(3,0.75)。"
+    },
+    {
+      "id": "PR003", "number": 3, "chapter": "probability-2024", "topic": "二维正态分布与协方差",
+      "stem": "设二维随机变量 (X,Y) 服从二维正态分布 N(1,1;1,9;0.5)，则协方差 Cov(X+Y, X−Y)=（　）。",
+      "options": ["−8", "13", "10", "−5"],
+      "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 选择题第 3 题",
+      "questionType": "single",
+      "searchText": "二维正态分布 协方差 Cov(X+Y,X-Y) 方差 相关系数",
+      "explanation": "Cov(X+Y,X−Y)=Cov(X,X)−Cov(X,Y)+Cov(Y,X)−Cov(Y,Y)=DX−DY。由 N(1,1;1,9;0.5) 得 DX=1，DY=9，所以结果为 1−9=−8。"
+    },
+    {
+      "id": "PR004", "number": 4, "chapter": "probability-2024", "topic": "事件的关系与运算",
+      "stem": "下述命题正确的是（　）。",
+      "options": [
+        "若随机事件 A 满足 P(A)=1，则 A 为必然事件",
+        "若随机事件 A,B 相互独立，则 A,B 必互不相容",
+        "若随机事件 A,B 互不相容，则 P(Ā∪B̄)=1",
+        "若随机事件 A,B 相互独立，则 P(AB)=P(Ā)P(B̄)"
+      ],
+      "answer": [2], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 选择题第 4 题",
+      "questionType": "single",
+      "searchText": "事件关系 互不相容 相互独立 必然事件 对偶律 概率为1",
+      "explanation": "A 与 B 互不相容即 AB=∅，由对偶律 Ā∪B̄ 是 AB 的补集，故 P(Ā∪B̄)=1−P(AB)=1，C 正确。(A) 错：概率为 1 的事件未必是必然事件；(B) 错：独立且互不相容只有零概率的平凡情形；(D) 错：独立时 P(AB)=P(A)P(B)，一般不等于 P(Ā)P(B̄)。"
+    },
+    {
+      "id": "PR005", "number": 5, "chapter": "probability-2024", "topic": "抽样分布",
+      "stem": "设 X₁,X₂,X₃,X₄ 是来自于总体 N(0,1) 的简单随机样本，则 Y=3·(X₁/(X₂+X₃+X₄))² 服从的分布是（　）。",
+      "options": ["χ²(1)", "F(1,1)", "F(1,3)", "F(3,1)"],
+      "answer": [1], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 选择题第 5 题",
+      "questionType": "single",
+      "searchText": "抽样分布 F分布 卡方分布 正态总体 独立同分布",
+      "explanation": "记 S=X₂+X₃+X₄，则 S~N(0,3)，S/√3~N(0,1)。X₁²~χ²(1)，(S/√3)²~χ²(1)，两者独立，故 Y=3X₁²/S²=X₁²/(S²/3)~F(1,1)。"
+    },
+    {
+      "id": "PR006", "number": 6, "chapter": "probability-2022", "topic": "协方差与不相关",
+      "stem": "设随机变量 X~N(−1,2)，Y~N(1,2)，而且 X 与 Y 不相关，令 U=aX+Y，V=X+bY，且 U 与 V 也不相关，则有（　）。",
+      "options": ["a=b=0", "a=b≠0", "a+b=0", "ab=0"],
+      "answer": [2], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 选择题第 6 题",
+      "questionType": "single",
+      "searchText": "协方差 不相关 正态分布 线性组合 a+b=0",
+      "explanation": "X 与 Y 不相关知 Cov(X,Y)=0，且 DX=DY=2。Cov(U,V)=Cov(aX+Y, X+bY)=aDX+bDY=2a+2b，令其为 0 得 a+b=0。"
+    },
+    {
+      "id": "PR007", "number": 7, "chapter": "probability-2022", "topic": "离散型随机变量的数学期望",
+      "stem": "对两台仪器进行独立测试，已知第一台仪器发生故障的概率为 p₁，第二台仪器发生故障的概率为 p₂。令 X 表示测试中发生故障的仪器数，则 E(X)=（　）。",
+      "options": ["p₁+p₂", "p₁(1−p₂)+p₂(1−p₁)", "p₁+(1−p₂)", "p₁p₂"],
+      "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 选择题第 7 题",
+      "questionType": "single",
+      "searchText": "数学期望 故障仪器数 独立 两个仪器 p1+p2",
+      "explanation": "X 为两台仪器中故障台数，等于两个独立的 0-1 指示变量之和，故 E(X)=p₁+p₂；也可由分布列算得 E(X)=[p₁(1−p₂)+p₂(1−p₁)]+2p₁p₂=p₁+p₂。"
+    },
+    {
+      "id": "PR008", "number": 8, "chapter": "probability-2022", "topic": "概率密度的归一化",
+      "stem": "设随机变量 X 的概率密度为 f(x)=c·e^(−|x|)，则 c=（　）。",
+      "options": ["−1/2", "0", "1/2", "1"],
+      "answer": [2], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 选择题第 8 题",
+      "questionType": "single",
+      "searchText": "概率密度 归一化 常数c 指数分布 e的负绝对值",
+      "explanation": "由 ∫c·e^(−|x|)dx=1，而 ∫e^(−|x|)dx=2∫₀^∞e^(−x)dx=2，所以 c=1/2（即拉普拉斯分布）。"
+    },
+    {
+      "id": "PR009", "number": 9, "chapter": "probability-2022", "topic": "二项分布的期望",
+      "stem": "掷一颗骰子 600 次，求「一点」出现次数的均值为（　）。",
+      "options": ["50", "100", "120", "150"],
+      "answer": [1], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 选择题第 9 题",
+      "questionType": "single",
+      "searchText": "二项分布 期望 掷骰子 600次 一点出现次数",
+      "explanation": "每次出现「一点」的概率为 1/6，600 次独立试验中出现次数 X~B(600,1/6)，E(X)=np=600×1/6=100。"
+    },
+    {
+      "id": "PR010", "number": 10, "chapter": "probability-2022", "topic": "样本均值的方差",
+      "stem": "设总体 X 服从参数 λ=10 的泊松分布，现从该总体中随机选出容量为 20 的样本，则该样本的样本均值的方差为（　）。",
+      "options": ["1", "0.5", "5", "50"],
+      "answer": [1], "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 选择题第 10 题",
+      "questionType": "single",
+      "searchText": "样本均值 方差 泊松分布 λ=10 容量20",
+      "explanation": "泊松分布 DX=λ=10，样本容量 n=20，故样本均值的方差 D(X̄)=DX/n=10/20=0.5。"
+    }
+  ]
+}

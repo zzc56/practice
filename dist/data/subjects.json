@@ -1,4 +1,5 @@
 [
   {"id":"data-structures","title":"数据结构","file":"questions.json"},
-  {"id":"database","title":"数据库","file":"database.json"}
+  {"id":"database","title":"数据库","file":"database.json"},
+  {"id":"probability","title":"概率论与数理统计","file":"probability.json"}
 ]
