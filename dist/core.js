@@ -13,6 +13,22 @@ export function evaluateAnswer(question, selected) {
   return JSON.stringify(actual)===JSON.stringify(expected);
 }
 
+const normalizeText = value => String(value ?? '')
+  .replace(/[\uFF01-\uFF5E]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+  .replace(/[\s\u00a0]+/g, '').toLowerCase()
+  .replace(/[×✕✖]/g, '*').replace(/[÷]/g, '/')
+  .replace(/[−–—]/g, '-').replace(/[（]/g, '(').replace(/[）]/g, ')')
+  .replace(/[，]/g, ',').replace(/[。]/g, '.').replace(/[＝]/g, '=');
+
+export function evaluateFill(question, text) {
+  if (question.questionType !== 'fill') return null;
+  const value = normalizeText(text);
+  if (!value) return null;
+  const accepted = [...(question.accept || []), ...(question.referenceAnswer ? [question.referenceAnswer] : [])]
+    .map(normalizeText).filter(Boolean);
+  return accepted.includes(value);
+}
+
 export function referenceLabel(question) {
   if(question.referenceAnswer)return question.referenceAnswer;
   const answer=question.answer || [];

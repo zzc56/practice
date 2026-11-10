@@ -1,11 +1,15 @@
 {
   "chapters": [
-    {"id": "probability-2024", "title": "2024–2025 第一学期期末", "count": 5},
-    {"id": "probability-2022", "title": "2022–2023 第二学期期末", "count": 5}
+    {"id": "probability-2024-choice", "title": "2024–2025 · 选择题", "count": 5},
+    {"id": "probability-2024-fill", "title": "2024–2025 · 填空题", "count": 5},
+    {"id": "probability-2024-solve", "title": "2024–2025 · 计算与证明", "count": 8},
+    {"id": "probability-2022-choice", "title": "2022–2023 · 选择题", "count": 5},
+    {"id": "probability-2022-fill", "title": "2022–2023 · 填空题", "count": 5},
+    {"id": "probability-2022-solve", "title": "2022–2023 · 计算与证明", "count": 4}
   ],
   "questions": [
     {
-      "id": "PR001", "number": 1, "chapter": "probability-2024", "topic": "事件的独立性与概率运算",
+      "id": "PR001", "number": 1, "chapter": "probability-2024-choice", "topic": "事件的独立性与概率运算",
       "stem": "设 P(A)=0.4，P(B)=0.3，且 A 与 B 相互独立，则 P(A−B)=（　）。",
       "options": ["0.28", "0.12", "0.18", "0.52"],
       "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -15,7 +19,7 @@
       "explanation": "由独立性 P(AB)=P(A)P(B)=0.4×0.3=0.12，而 A−B 表示 A 发生且 B 不发生，故 P(A−B)=P(A)−P(AB)=0.4−0.12=0.28。"
     },
     {
-      "id": "PR002", "number": 2, "chapter": "probability-2024", "topic": "均匀分布与二项分布",
+      "id": "PR002", "number": 2, "chapter": "probability-2024-choice", "topic": "均匀分布与二项分布",
       "stem": "设随机变量 X 服从区间 (0,4) 上的均匀分布，对 X 进行 3 次独立观测，事件「观测值大于 1」出现的次数 Y 服从以下哪个分布（　）。",
       "options": ["B(3,0.75)", "B(3,0.25)", "N(3,0.75)", "N(3,0.25)"],
       "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -25,7 +29,7 @@
       "explanation": "X~U(0,4)，故 P(X>1)=(4−1)/4=0.75。3 次观测相互独立、每次「大于 1」的概率恒为 0.75，因此出现次数 Y~B(3,0.75)。"
     },
     {
-      "id": "PR003", "number": 3, "chapter": "probability-2024", "topic": "二维正态分布与协方差",
+      "id": "PR003", "number": 3, "chapter": "probability-2024-choice", "topic": "二维正态分布与协方差",
       "stem": "设二维随机变量 (X,Y) 服从二维正态分布 N(1,1;1,9;0.5)，则协方差 Cov(X+Y, X−Y)=（　）。",
       "options": ["−8", "13", "10", "−5"],
       "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -35,7 +39,7 @@
       "explanation": "Cov(X+Y,X−Y)=Cov(X,X)−Cov(X,Y)+Cov(Y,X)−Cov(Y,Y)=DX−DY。由 N(1,1;1,9;0.5) 得 DX=1，DY=9，所以结果为 1−9=−8。"
     },
     {
-      "id": "PR004", "number": 4, "chapter": "probability-2024", "topic": "事件的关系与运算",
+      "id": "PR004", "number": 4, "chapter": "probability-2024-choice", "topic": "事件的关系与运算",
       "stem": "下述命题正确的是（　）。",
       "options": [
         "若随机事件 A 满足 P(A)=1，则 A 为必然事件",
@@ -50,7 +54,7 @@
       "explanation": "A 与 B 互不相容即 AB=∅，由对偶律 Ā∪B̄ 是 AB 的补集，故 P(Ā∪B̄)=1−P(AB)=1，C 正确。(A) 错：概率为 1 的事件未必是必然事件；(B) 错：独立且互不相容只有零概率的平凡情形；(D) 错：独立时 P(AB)=P(A)P(B)，一般不等于 P(Ā)P(B̄)。"
     },
     {
-      "id": "PR005", "number": 5, "chapter": "probability-2024", "topic": "抽样分布",
+      "id": "PR005", "number": 5, "chapter": "probability-2024-choice", "topic": "抽样分布",
       "stem": "设 X₁,X₂,X₃,X₄ 是来自于总体 N(0,1) 的简单随机样本，则 Y=3·(X₁/(X₂+X₃+X₄))² 服从的分布是（　）。",
       "options": ["χ²(1)", "F(1,1)", "F(1,3)", "F(3,1)"],
       "answer": [1], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -60,7 +64,137 @@
       "explanation": "记 S=X₂+X₃+X₄，则 S~N(0,3)，S/√3~N(0,1)。X₁²~χ²(1)，(S/√3)²~χ²(1)，两者独立，故 Y=3X₁²/S²=X₁²/(S²/3)~F(1,1)。"
     },
     {
-      "id": "PR006", "number": 6, "chapter": "probability-2022", "topic": "协方差与不相关",
+      "id": "PF001", "number": 6, "chapter": "probability-2024-fill", "topic": "古典概型",
+      "stem": "在 1,2,…,100 中任取一数，则它能被 2 或 7 整除的概率为 ______。",
+      "options": [], "answer": [], "accept": ["57/100", "0.57", "57%"], "referenceAnswer": "57/100（即 0.57）",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 填空题第 1 题",
+      "questionType": "fill",
+      "searchText": "古典概型 2或7整除 1到100 57/100 0.57",
+      "explanation": "1–100 中被 2 整除的有 50 个，被 7 整除的有 14 个，同时被 14 整除的有 7 个，由容斥得 50+14−7=57，概率为 57/100=0.57。"
+    },
+    {
+      "id": "PF002", "number": 7, "chapter": "probability-2024-fill", "topic": "泊松分布",
+      "stem": "设随机变量 X 服从泊松分布 P(λ)（λ>0），且 3EX=EX²，则 P{X=1}=______。",
+      "options": [], "answer": [], "accept": ["2e^-2", "2e^(-2)", "2e^{-2}", "2/e^2", "2/e²", "2e-2"], "referenceAnswer": "2e⁻²（即 2/e²）",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 填空题第 2 题",
+      "questionType": "fill",
+      "searchText": "泊松分布 EX EX2 3EX=EX2 P(X=1) 2e^-2",
+      "explanation": "泊松分布 EX=λ，EX²=DX+(EX)²=λ+λ²；由 3λ=λ+λ² 得 λ(λ−2)=0，λ>0 故 λ=2，于是 P{X=1}=2e⁻²。"
+    },
+    {
+      "id": "PF003", "number": 8, "chapter": "probability-2024-fill", "topic": "几何概型",
+      "stem": "在区间 (0,1) 内任取两个数，则两数之和小于 1/2 的概率为 ______。",
+      "options": [], "answer": [], "accept": ["1/8", "0.125"], "referenceAnswer": "1/8",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 填空题第 3 题",
+      "questionType": "fill",
+      "searchText": "几何概型 两数之和 小于1/2 面积 1/8",
+      "explanation": "设两数为 x,y，样本空间是单位正方形，有利区域是三角形 x+y<1/2，面积为 (1/2)·(1/2)²=1/8，故概率为 1/8。"
+    },
+    {
+      "id": "PF004", "number": 9, "chapter": "probability-2024-fill", "topic": "切比雪夫不等式",
+      "stem": "设随机变量 X 和 Y 的数学期望都是 0，方差分别是 1 和 9，相关系数为 1/6，则根据切比雪夫不等式 P{|X−Y|<6} ≥ ______。",
+      "options": [], "answer": [], "accept": ["3/4", "0.75"], "referenceAnswer": "3/4",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 填空题第 4 题",
+      "questionType": "fill",
+      "searchText": "切比雪夫不等式 相关系数 方差 D(X-Y) 3/4",
+      "explanation": "Cov(X,Y)=ρ·√(DX·DY)=(1/6)·√(1·9)=1/2，D(X−Y)=DX+DY−2Cov=1+9−1=9。由切比雪夫不等式 P{|X−Y|<6}≥1−9/36=3/4。"
+    },
+    {
+      "id": "PF005", "number": 10, "chapter": "probability-2024-fill", "topic": "正态总体均值的置信区间",
+      "stem": "设一批灯泡的寿命 X~N(μ,100²)（单位：小时），取容量为 16 的简单随机样本，测得样本均值 x̄=1500（小时），则 μ 的置信度为 0.95 的置信区间为 ______。",
+      "options": [], "answer": [], "accept": ["(1451,1549)", "(1451, 1549)", "[1451,1549]", "(1451；1549)"], "referenceAnswer": "(1451, 1549)",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 填空题第 5 题",
+      "questionType": "fill",
+      "searchText": "置信区间 正态总体 均值 0.95 1500 16 1451 1549",
+      "explanation": "σ=100 已知，置信区间为 x̄±u₀.₀₂₅·σ/√n=1500±1.96×100/4=1500±49，即 (1451, 1549)。"
+    },
+    {
+      "id": "PS001", "number": 11, "chapter": "probability-2024-solve", "topic": "全概率公式与贝叶斯公式",
+      "stem": "有甲、乙、丙三个盒子，甲盒中装有 3 个红球、4 个白球，乙盒中装有 4 个红球、3 个白球，丙盒中装有 2 个红球、5 个白球。任取一个盒子，再在取中的盒子里任取一球。求：（1）它是红球的概率；（2）若已知取到的是红球，则它是从甲盒中取出的概率。",
+      "options": [], "answer": [], "referenceAnswer": "（1）P(红)=1/3·(3/7+4/7+2/7)=3/7；（2）P(甲|红)=(1/3·3/7)/(3/7)=1/3。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 1 题",
+      "questionType": "essay",
+      "searchText": "全概率公式 贝叶斯公式 三个盒子 红球 白球 先验 后验",
+      "explanation": "设 A₁,A₂,A₃ 表示取到甲、乙、丙盒，P(Aᵢ)=1/3；B 表示取到红球。P(B|A₁)=3/7，P(B|A₂)=4/7，P(B|A₃)=2/7。全概率公式得 P(B)=1/3(3/7+4/7+2/7)=3/7；贝叶斯公式得 P(A₁|B)=(3/21)/(3/7)=1/3。"
+    },
+    {
+      "id": "PS002", "number": 12, "chapter": "probability-2024-solve", "topic": "连续型随机变量的密度、分布函数与期望",
+      "stem": "设随机变量 X 的概率密度为 f(x)=Aeˣ（0<x<1），其他情形为 0。求：（1）待定常数 A；（2）随机变量 X 的分布函数 F(x)；（3）E|X|。",
+      "options": [], "answer": [], "referenceAnswer": "（1）A=1/(e−1)；（2）F(x)=0（x≤0），(eˣ−1)/(e−1)（0<x<1），1（x≥1）；（3）E|X|=1/(e−1)。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 2 题",
+      "questionType": "essay",
+      "searchText": "概率密度 归一化 分布函数 E|X| 指数型密度 A",
+      "explanation": "由 ∫₀¹Aeˣdx=A(e−1)=1 得 A=1/(e−1)。F(x)=∫₋∞ˣf(t)dt 分段积分即得。E|X|=∫₀¹x·eˣ/(e−1)dx=[(x−1)eˣ]₀¹/(e−1)=1/(e−1)。"
+    },
+    {
+      "id": "PS003", "number": 13, "chapter": "probability-2024-solve", "topic": "单样本 t 检验",
+      "stem": "正常人的脉搏平均为 72（单位：次/分），某医生测量 16 例某类慢性病患者的脉搏，得样本均值 x̄=69，样本方差 S²=6²。已知脉搏服从正态分布，问在显著性水平 α=0.05 下，此类慢性病患者和正常人的脉搏有无显著差异？",
+      "options": [], "answer": [], "referenceAnswer": "t=(69−72)/(6/4)=−2，|t|=2< t₀.₀₂₅(15)=2.131，故不拒绝 H₀，认为无显著差异。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 3 题",
+      "questionType": "essay",
+      "searchText": "假设检验 t检验 脉搏 显著性水平 0.05 双尾 2.131",
+      "explanation": "H₀:μ=72，H₁:μ≠72；σ 未知、n=16 小样本，用 t 检验：t=(x̄−μ₀)/(S/√n)=−3/(6/4)=−2。自由度 15，α=0.05 双侧临界值 t₀.₀₂₅(15)=2.131，|t|=2<2.131，落在接受域内，故无显著差异。"
+    },
+    {
+      "id": "PS004", "number": 14, "chapter": "probability-2024-solve", "topic": "二维离散型的边缘分布与数字特征",
+      "stem": "二维随机向量 (X,Y) 的联合分布律为：P(X=0,Y=0)=1/9，P(X=1,Y=0)=2/9，P(X=0,Y=1)=4/9，P(X=1,Y=1)=2/9，其余为 0。求：（1）关于 X、Y 的边缘分布律；（2）EX,EY,DX,DY,Cov(X,Y),ρXY。",
+      "options": [], "answer": [], "referenceAnswer": "（1）P(X=0)=5/9，P(X=1)=4/9；P(Y=0)=1/3，P(Y=1)=2/3。（2）EX=4/9，EY=2/3，DX=20/81，DY=2/9，Cov=−2/27，ρ=−√10/10。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 4 题",
+      "questionType": "essay",
+      "searchText": "联合分布律 边缘分布 期望 方差 协方差 相关系数",
+      "explanation": "按行求和得 X 的边缘：5/9 与 4/9；按列求和得 Y 的边缘：3/9 与 6/9。EX=0·5/9+1·4/9=4/9，EY=2/3；EX²=4/9，EY²=2/3，故 DX=4/9−16/81=20/81，DY=2/3−4/9=2/9。E(XY)=1·1·2/9=2/9，Cov=2/9−8/27=−2/27，ρ=Cov/√(DX·DY)=−√10/10。"
+    },
+    {
+      "id": "PS005", "number": 15, "chapter": "probability-2024-solve", "topic": "二维连续型：边缘密度、独立性与概率计算",
+      "stem": "设随机向量 (X,Y) 的联合概率密度为 f(x,y)=4x（x≥0，x²≤y≤1），其他情形为 0。求：（1）随机变量 X,Y 的边缘概率密度 fX(x),fY(y)；（2）判断 X,Y 是否相互独立；（3）P(X²+Y≤1)。",
+      "options": [], "answer": [], "referenceAnswer": "（1）fX(x)=4x(1−x²)（0≤x≤1），fY(y)=2y（0≤y≤1）；（2）fX·fY≠f，不独立；（3）P(X²+Y≤1)=1/2。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 5 题",
+      "questionType": "essay",
+      "searchText": "联合密度 边缘密度 独立性 二重积分 区域",
+      "explanation": "fX(x)=∫_{x²}^{1}4xdy=4x(1−x²)；fY(y)=∫₀^{√y}4xdx=2y。二者乘积与联合密度不等，故不独立。P(X²+Y≤1)=∫₀^{1/√2}∫_{x²}^{1−x²}4x dy dx=∫₀^{1/√2}4x(1−2x²)dx=1/2。"
+    },
+    {
+      "id": "PS006", "number": 16, "chapter": "probability-2024-solve", "topic": "独立随机变量之和的分布",
+      "stem": "设随机变量 X 与 Y 相互独立，且均服从区间 [0,1] 上的均匀分布。求：（1）X,Y 的联合概率密度 f(x,y)；（2）Z=X+Y 的概率密度 fZ(z)。",
+      "options": [], "answer": [], "referenceAnswer": "（1）f(x,y)=1（0≤x≤1，0≤y≤1），其他为 0；（2）fZ(z)=z（0<z<1），2−z（1≤z<2），其他为 0。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 6 题",
+      "questionType": "essay",
+      "searchText": "均匀分布 独立性 和的分布 卷积 三角形密度",
+      "explanation": "独立均匀分布的联合密度为单位正方形上的 1。用卷积公式 fZ(z)=∫fX(x)fY(z−x)dx，分 0<z<1 与 1≤z<2 两段积分，得到三角形密度。"
+    },
+    {
+      "id": "PS007", "number": 17, "chapter": "probability-2024-solve", "topic": "极大似然估计",
+      "stem": "设总体 X 的概率密度为 f(x)=1/(2σ)·e^(−|x|/σ)，−∞<x<+∞，其中 σ>0 为未知参数，求参数 σ 的极大似然估计量。",
+      "options": [], "answer": [], "referenceAnswer": "σ̂=(1/n)Σ|Xᵢ|。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 7 题",
+      "questionType": "essay",
+      "searchText": "极大似然估计 拉普拉斯分布 似然函数 对数似然 σ",
+      "explanation": "L(σ)=∏(1/(2σ))e^(−|xᵢ|/σ)=(2σ)⁻ⁿe^(−Σ|xᵢ|/σ)，lnL=−nln(2σ)−Σ|xᵢ|/σ。求导 dlnL/dσ=−n/σ+Σ|xᵢ|/σ²=0，得 σ̂=Σ|Xᵢ|/n。"
+    },
+    {
+      "id": "PS008", "number": 18, "chapter": "probability-2024-solve", "topic": "无偏估计与柯西-施瓦茨不等式",
+      "stem": "（选做）设总体 X~N(μ,σ²)，X₁,…,Xₙ 是来自该总体的简单随机样本（n>1）。（1）试确定常数 c，使 c·Σᵢ₌₁ⁿ⁻¹(Xᵢ₊₁−Xᵢ)² 为 σ² 的无偏估计；（2）对于两个随机变量 X,Y，若 EX²、EY² 与 EXY 都存在，试证明 [E(XY)]²≤EX²·EY²。",
+      "options": [], "answer": [], "referenceAnswer": "（1）c=1/(2(n−1))；（2）由 E[(X+tY)²]≥0 对任意实数 t 成立（或柯西-施瓦茨不等式）即得。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2024", "originalNumber": "2024–2025 计算题第 8 题（选做）",
+      "questionType": "essay",
+      "searchText": "无偏估计 常数c 柯西施瓦茨不等式 期望 平方",
+      "explanation": "（1）Xᵢ₊₁−Xᵢ 相互独立且均服从 N(0,2σ²)，故 E(Xᵢ₊₁−Xᵢ)²=2σ²，于是 E[cΣ]=c·2(n−1)σ²，令其等于 σ² 得 c=1/(2(n−1))。（2）对任意 t，E[(X+tY)²]=EX²+2tE(XY)+t²EY²≥0，这是关于 t 的二次式恒非负，判别式 4[E(XY)]²−4EX²EY²≤0，即得结论。"
+    },
+    {
+      "id": "PR006", "number": 19, "chapter": "probability-2022-choice", "topic": "协方差与不相关",
       "stem": "设随机变量 X~N(−1,2)，Y~N(1,2)，而且 X 与 Y 不相关，令 U=aX+Y，V=X+bY，且 U 与 V 也不相关，则有（　）。",
       "options": ["a=b=0", "a=b≠0", "a+b=0", "ab=0"],
       "answer": [2], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -70,7 +204,7 @@
       "explanation": "X 与 Y 不相关知 Cov(X,Y)=0，且 DX=DY=2。Cov(U,V)=Cov(aX+Y, X+bY)=aDX+bDY=2a+2b，令其为 0 得 a+b=0。"
     },
     {
-      "id": "PR007", "number": 7, "chapter": "probability-2022", "topic": "离散型随机变量的数学期望",
+      "id": "PR007", "number": 20, "chapter": "probability-2022-choice", "topic": "离散型随机变量的数学期望",
       "stem": "对两台仪器进行独立测试，已知第一台仪器发生故障的概率为 p₁，第二台仪器发生故障的概率为 p₂。令 X 表示测试中发生故障的仪器数，则 E(X)=（　）。",
       "options": ["p₁+p₂", "p₁(1−p₂)+p₂(1−p₁)", "p₁+(1−p₂)", "p₁p₂"],
       "answer": [0], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -80,7 +214,7 @@
       "explanation": "X 为两台仪器中故障台数，等于两个独立的 0-1 指示变量之和，故 E(X)=p₁+p₂；也可由分布列算得 E(X)=[p₁(1−p₂)+p₂(1−p₁)]+2p₁p₂=p₁+p₂。"
     },
     {
-      "id": "PR008", "number": 8, "chapter": "probability-2022", "topic": "概率密度的归一化",
+      "id": "PR008", "number": 21, "chapter": "probability-2022-choice", "topic": "概率密度的归一化",
       "stem": "设随机变量 X 的概率密度为 f(x)=c·e^(−|x|)，则 c=（　）。",
       "options": ["−1/2", "0", "1/2", "1"],
       "answer": [2], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -90,7 +224,7 @@
       "explanation": "由 ∫c·e^(−|x|)dx=1，而 ∫e^(−|x|)dx=2∫₀^∞e^(−x)dx=2，所以 c=1/2（即拉普拉斯分布）。"
     },
     {
-      "id": "PR009", "number": 9, "chapter": "probability-2022", "topic": "二项分布的期望",
+      "id": "PR009", "number": 22, "chapter": "probability-2022-choice", "topic": "二项分布的期望",
       "stem": "掷一颗骰子 600 次，求「一点」出现次数的均值为（　）。",
       "options": ["50", "100", "120", "150"],
       "answer": [1], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -100,7 +234,7 @@
       "explanation": "每次出现「一点」的概率为 1/6，600 次独立试验中出现次数 X~B(600,1/6)，E(X)=np=600×1/6=100。"
     },
     {
-      "id": "PR010", "number": 10, "chapter": "probability-2022", "topic": "样本均值的方差",
+      "id": "PR010", "number": 23, "chapter": "probability-2022-choice", "topic": "样本均值的方差",
       "stem": "设总体 X 服从参数 λ=10 的泊松分布，现从该总体中随机选出容量为 20 的样本，则该样本的样本均值的方差为（　）。",
       "options": ["1", "0.5", "5", "50"],
       "answer": [1], "answerSource": "reviewed", "mode": "text", "images": [],
@@ -108,6 +242,96 @@
       "questionType": "single",
       "searchText": "样本均值 方差 泊松分布 λ=10 容量20",
       "explanation": "泊松分布 DX=λ=10，样本容量 n=20，故样本均值的方差 D(X̄)=DX/n=10/20=0.5。"
+    },
+    {
+      "id": "PF006", "number": 24, "chapter": "probability-2022-fill", "topic": "均匀分布的方差",
+      "stem": "设随机变量 X~U(−1,3)，则 D(2X−3)=______。",
+      "options": [], "answer": [], "accept": ["16/3", "5.33"], "referenceAnswer": "16/3",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 填空题第 1 题",
+      "questionType": "fill",
+      "searchText": "均匀分布 方差 D(2X-3) 16/3",
+      "explanation": "X~U(−1,3)，DX=(3−(−1))²/12=16/12=4/3；由 D(aX+b)=a²DX 得 D(2X−3)=4×4/3=16/3。"
+    },
+    {
+      "id": "PF007", "number": 25, "chapter": "probability-2022-fill", "topic": "二项分布（原题缺参数）",
+      "stem": "设随机变量 X 服从参数为二项分布，且 P{X=0}=1/2，则 p=______。",
+      "options": [], "answer": null, "referenceAnswer": "原题未给出试验次数 n，无法确定唯一的 p。若按常见的 X~B(1,p) 理解，则 p=1/2；若 X~B(2,p)，则 p=1−√2/2。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 填空题第 2 题",
+      "questionType": "invalid",
+      "searchText": "二项分布 P(X=0)=1/2 参数 n 缺失",
+      "explanation": "P{X=0}=(1−p)ⁿ=1/2，缺少 n 时 p 不唯一确定，故本题按原题条件无唯一答案。"
+    },
+    {
+      "id": "PF008", "number": 26, "chapter": "probability-2022-fill", "topic": "古典概型（球入盒）",
+      "stem": "将三个不同的球随机地放入三个不同的盒中，则出现两个空盒的概率为 ______。",
+      "options": [], "answer": [], "accept": ["1/9", "3/27"], "referenceAnswer": "1/9",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 填空题第 3 题",
+      "questionType": "fill",
+      "searchText": "球入盒 两个空盒 古典概型 1/9 3的3次方",
+      "explanation": "每个球有 3 种放法，共 3³=27 种等可能结果。出现两个空盒意味着三个球全在同一盒，有 3 种，故概率 3/27=1/9。"
+    },
+    {
+      "id": "PF009", "number": 27, "chapter": "probability-2022-fill", "topic": "概率的加法与补集",
+      "stem": "已知事件 A、B 满足 P(AB)=P(ĀB̄)，且 P(A)=p，则 P(B)=______。",
+      "options": [], "answer": [], "accept": ["1-p", "1−p"], "referenceAnswer": "1−p",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 填空题第 4 题",
+      "questionType": "fill",
+      "searchText": "概率加法公式 补集 P(AB)=P(非A非B) 1-p",
+      "explanation": "P(ĀB̄)=1−P(A∪B)=1−P(A)−P(B)+P(AB)。由 P(AB)=P(ĀB̄) 两边消去 P(AB)，得 0=1−P(A)−P(B)，即 P(B)=1−p。"
+    },
+    {
+      "id": "PF010", "number": 28, "chapter": "probability-2022-fill", "topic": "正态分布的标准化",
+      "stem": "设连续型随机变量 X~N(1,4)，则 (X−1)/2 ~ ______。",
+      "options": [], "answer": [], "accept": ["N(0,1)", "n(0,1)"], "referenceAnswer": "N(0,1)",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 填空题第 5 题",
+      "questionType": "fill",
+      "searchText": "正态分布 标准化 N(0,1) 期望 方差",
+      "explanation": "X~N(1,4)，则 E[(X−1)/2]=0，D[(X−1)/2]=DX/4=1，故 (X−1)/2~N(0,1)。"
+    },
+    {
+      "id": "PS009", "number": 29, "chapter": "probability-2022-solve", "topic": "二维离散型的边缘分布与独立性",
+      "stem": "离散型随机向量 (ξ,η) 的联合分布律如下表（行 ξ=0,1,2,3，列 η=0…6）：ξ=0 行为 0.202,0.174,0.113,0.062,0.049,0.023,0.004；ξ=1 行为 0,0.099,0.064,0.040,0.031,0.020,0.006；ξ=2 行为 0,0,0.031,0.025,0.018,0.013,0.008；ξ=3 行为 0,0,0,0.001,0.002,0.004,0.011。求 (ξ,η) 的边缘分布，并考察 ξ 与 η 是否相互独立。",
+      "options": [], "answer": [], "referenceAnswer": "ξ 的边缘：P(ξ=0)=0.627，P(ξ=1)=0.260，P(ξ=2)=0.095，P(ξ=3)=0.018；η 的边缘：0.202, 0.273, 0.208, 0.128, 0.100, 0.060, 0.029。因 P(ξ=0,η=0)=0.202≠0.627×0.202≈0.127，故 ξ 与 η 不独立。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 计算题第 11 题",
+      "questionType": "essay",
+      "searchText": "联合分布表 边缘分布 独立性判定 行和 列和",
+      "explanation": "边缘分布按行、按列求和，两个边缘之和均为 1，可验证计算无误。独立性要求所有格子都满足 pᵢⱼ=pᵢ·pⱼ；取 (0,0) 一格即可发现不成立，故不独立。"
+    },
+    {
+      "id": "PS010", "number": 30, "chapter": "probability-2022-solve", "topic": "连续性随机变量的数字特征",
+      "stem": "设随机变量 ξ 的分布密度为 p(x)=3x²/8（0≤x≤2），其他情形为 0，且 η=3ξ+2。求 Eη 和 Dξ。",
+      "options": [], "answer": [], "referenceAnswer": "Eξ=3/2，Eξ²=12/5，Dξ=3/20，Eη=13/2。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 计算题第 12 题",
+      "questionType": "essay",
+      "searchText": "密度函数 期望 方差 线性变换 Eη Dξ",
+      "explanation": "Eξ=∫₀²x·3x²/8dx=3/8·4=3/2；Eξ²=∫₀²x²·3x²/8dx=3/8·32/5=12/5；Dξ=12/5−9/4=3/20；Eη=3Eξ+2=13/2。"
+    },
+    {
+      "id": "PS011", "number": 31, "chapter": "probability-2022-solve", "topic": "随机变量函数的期望（原题参数存疑）",
+      "stem": "射击比赛，每人射四次（每次一发），约定全部不中得 0 分，只中一弹得 15 分，中二弹得 30 分，中三弹得 55 分，中四弹得 100 分。甲每次射击命中率为 0.1, 0.2, 0.2, 0.3, 0.2，问他期望能得多少分？",
+      "options": [], "answer": null, "referenceAnswer": "原题给出 5 个命中率但只有 4 次射击，参数与次数不一致，无法唯一确定答案。若按前 4 个数 0.1,0.2,0.2,0.3 计算，可由分布列求得期望。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 计算题第 13 题",
+      "questionType": "invalid",
+      "searchText": "射击 期望 分布列 命中率 四发 参数不一致",
+      "explanation": "4 次射击应给出 4 个命中率，原题给了 5 个，说明题目或排版有误。方法是用互不相容情形（各弹命中与否的组合）列出得分分布，再求期望，但具体数值取决于取哪 4 个概率。"
+    },
+    {
+      "id": "PS012", "number": 32, "chapter": "probability-2022-solve", "topic": "不相关与不独立的证明",
+      "stem": "设二维离散型随机变量 (X,Y) 的联合分布律为：P(−1,−1)=P(−1,0)=P(−1,1)=P(0,−1)=P(0,1)=P(1,−1)=P(1,0)=P(1,1)=1/8，P(0,0)=0。证明：随机变量 X 与 Y 不相关，但是 X 与 Y 不独立。",
+      "options": [], "answer": [], "referenceAnswer": "边缘分布 P(X=−1)=P(X=1)=3/8，P(X=0)=1/4；Y 同分布。E(XY)=0=EX·EY，故不相关；但 P(X=0,Y=0)=0≠P(X=0)P(Y=0)=1/16，故不独立。",
+      "answerSource": "reviewed", "mode": "text", "images": [],
+      "source": "概率论历年期末卷", "sourceCode": "PL2022", "originalNumber": "2022–2023 证明题第 14 题",
+      "questionType": "essay",
+      "searchText": "不相关 不独立 反例 联合分布 协方差为零",
+      "explanation": "先按行、列求和得边缘分布（由对称性 X、Y 同分布）。再算 E(XY)=Σxy·pᵢⱼ=0，且 EX=EY=0，所以 Cov(X,Y)=0，即不相关。最后检查 P(X=0,Y=0)=0 与 P(X=0)P(Y=0)=1/4×1/4=1/16 不相等，故不独立。"
     }
   ]
 }

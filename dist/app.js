@@ -1,5 +1,5 @@
 import {codingPage,selectCodingProblem,saveCodingDraft,submitCoding} from './coding.js';
-import {evaluateAnswer,referenceLabel,getStats,selectQuestions,getQuestionStatus,shuffle,exportBackup,isWrongRecord} from './core.js';
+import {evaluateAnswer,evaluateFill,referenceLabel,getStats,selectQuestions,getQuestionStatus,shuffle,exportBackup,isWrongRecord} from './core.js';
 import {LearningAccount} from './account.js';
 
 const $=s=>document.querySelector(s);
@@ -32,13 +32,17 @@ function draftKey(){return 'zhixu-focus-draft:'+new URL('.',document.baseURI).pa
 function draftSession(){return state.session?.startedAt || (state.session?.ids[0]+':'+state.session?.ids.length);}
 function saveDraft(q,a){if(!account.user)return;try{localStorage.setItem(draftKey(),JSON.stringify({session:draftSession(),id:q.id,selected:a.selected}));}catch{}}
 function removeDraft(id){try{const saved=JSON.parse(localStorage.getItem(draftKey()) || 'null');if(saved?.id===id)localStorage.removeItem(draftKey());}catch{}}
-function isComplete(q,a){return q.questionType!=='invalid'&&a.selected.length>0&&(q.questionType!=='ordered'||(a.selected.length===q.answer.length&&a.selected.every(x=>Number.isInteger(x)&&x>=0)));}
+function isComplete(q,a){
+  if(q.questionType==='fill')return typeof a.text==='string'&&a.text.trim()!=='';
+  if(q.questionType==='essay')return a.self===true||a.self===false;
+  return q.questionType!=='invalid'&&a.selected.length>0&&(q.questionType!=='ordered'||(a.selected.length===q.answer.length&&a.selected.every(x=>Number.isInteger(x)&&x>=0)));
+}
 function qState(id){
   if(!round.has(id)){
-    const q=byId.get(id),a={selected:[],revealed:q.questionType==='invalid',graded:false,correct:null,dirty:false};
+    const q=byId.get(id),a={selected:[],text:'',self:null,revealed:q.questionType==='invalid',graded:false,correct:null,dirty:false};
     const record=state.records[id];
-    if(q.questionType!=='invalid'&&record?.grading==='auto'&&state.session?.startedAt&&Date.parse(record.lastAt)>=Date.parse(state.session.startedAt)){
-      a.selected=[...record.lastAnswer];a.revealed=true;a.graded=true;a.correct=record.lastCorrect;
+    if(q.questionType!=='invalid'&&record&&state.session?.startedAt&&Date.parse(record.lastAt)>=Date.parse(state.session.startedAt)){
+      a.selected=[...record.lastAnswer];a.revealed=true;a.graded=true;a.correct=record.lastCorrect;if(q.questionType==='essay')a.self=record.lastCorrect;
     }
     if(!a.graded){try{const saved=JSON.parse(localStorage.getItem(draftKey()) || 'null');if(saved?.session===draftSession()&&saved.id===id&&Array.isArray(saved.selected)){a.selected=saved.selected.filter(x=>Number.isInteger(x)&&x>=-1&&x<q.options.length);a.revealed=isComplete(q,a);a.correct=a.revealed?evaluateAnswer(q,a.selected):null;a.dirty=true;}}catch{}}
     round.set(id,a);
@@ -102,6 +106,8 @@ function practice(){
   const stem=q.mode==='text'?`<div class="question-stem">${escape(q.stem)}</div>`:`<p class="focus-scan-hint">${icon('info')}按原图顺序选择 A、B、C、D。题图可点击放大。</p>${q.stem&&q.stem!=='原题图示'?`<div class="question-stem">${escape(q.stem)}</div>`:''}<div class="scan-images">${q.images.map((src,i)=>`<button class="scan-image-button" data-action="image" data-src="${escape(src)}" aria-label="放大第 ${i+1} 张题图"><img class="scan-image" src="${escape(src)}" alt="第 ${q.number} 题原始题图 ${i+1}" loading="lazy"><span>${icon('zoom')}放大题图</span></button>`).join('')}</div>`;
   let options='';
   if(ordered){options=`<div class="ordered-answer-fields">${q.answer.map((_,slot)=>`<label class="form-field">第 ${slot+1} 空<select id="answer-slot-${slot}" class="select" data-answer-slot="${slot}" aria-label="第 ${slot+1} 空答案" ${a.graded?'disabled':''}><option value="">请选择</option>${q.options.map((text,i)=>`<option value="${i}" ${selected[slot]===i?'selected':''}>${String.fromCharCode(65+i)} · ${escape(text)}</option>`).join('')}</select></label>`).join('')}</div>`;}
+  else if(q.questionType==='fill'){options=`<div class="fill-answer"><label class="form-field" for="fill-input-${q.id}"><span>请填写答案</span><input id="fill-input-${q.id}" class="input fill-input" type="text" autocomplete="off" placeholder="输入答案后点击提交" value="${escape(a.text || '')}" ${a.graded?'disabled':''}></label><button class="button primary" data-action="submit-fill" ${a.graded?'disabled':''}>提交答案</button></div>`;}
+  else if(q.questionType==='essay'){options=`<div class="essay-answer"><button class="button secondary" data-action="reveal-essay" ${a.revealed?'disabled':''}>${a.revealed?'参考答案已展开':'查看参考答案'}</button><p class="settings-hint">解答题请先在纸上作答，再对照参考答案自评。</p></div>`;}
   else{options=`<div class="options-list" ${multi?'role="group"':'role="radiogroup"'} aria-label="${multi?'多选题选项':'单选题选项'}">${q.options.map((o,index)=>{
     const chosen=selected.includes(index),correct=a.revealed&&hasAnswer&&q.answer.includes(index),incorrect=a.revealed&&chosen&&hasAnswer&&!q.answer.includes(index);
     const text=q.mode==='scan'&&o===String.fromCharCode(65+index)?`图片中的第 ${index+1} 个选项`:o;
@@ -113,7 +119,8 @@ function practice(){
     const title=invalid?'原题问题与参考结论':a.correct?'回答正确':a.graded?'回答错误':'参考答案与解析';
     answer=`<section class="answer-panel ${tone}" role="status" aria-label="本题解析"><h2 class="answer-title">${icon(invalid?'info':a.correct?'check':'book')}${title}</h2><p class="answer-description">参考答案：<strong>${escape(referenceLabel(q))}</strong>${selected.length?`<span>你的选择：${ordered?selected.map((x,i)=>`第${i+1}空 ${x<0?'未选':String.fromCharCode(65+x)}`).join('；'):selected.map(x=>String.fromCharCode(65+x)).join('、')}</span>`:''}</p><div class="answer-explanation"><strong>解析</strong><p>${escape(q.explanation)}</p></div>${q.reviewNote?`<p class="answer-footnote">${escape(q.reviewNote)}</p>`:''}${invalid?'<p class="answer-footnote">原题存在歧义或选项问题，本题不计入正误统计。</p>':multi||ordered?`<p class="answer-footnote">${a.graded?'本题结果已保存。':'可继续调整所选答案，切题时保存本次最终结果。'}</p>`:''}</section>`;
   }
-  const typeLabel=invalid?'原题问题说明':ordered?'按序填空':multi?'多选题':q.mode==='scan'?'原图选择题':'单选题';
+  if(q.questionType==='essay'&&a.revealed&&a.self===null){answer+=`<div class="self-grade"><button class="button primary small" data-action="self-grade" data-value="1">自评：做对了</button><button class="button secondary small" data-action="self-grade" data-value="0">自评：没做对</button></div>`;}
+  const typeLabel=invalid?'原题问题说明':q.questionType==='fill'?'填空题':q.questionType==='essay'?'解答题':ordered?'按序填空':multi?'多选题':q.mode==='scan'?'原图选择题':'单选题';
   const reference=q.mode==='text'&&q.images.length?`<details class="reference-details"><summary>${icon('book')}原始题图</summary><p>原图作答痕迹不作为正确性依据，以参考答案与解析为准。</p>${q.images.map((src,i)=>`<button class="scan-image-button" data-action="image" data-src="${escape(src)}" aria-label="放大原题图"><img class="scan-image" src="${escape(src)}" alt="原题参考图 ${i+1}" loading="lazy"></button>`).join('')}</details>`:'';
   const source=state.settings.showSource?`<p class="question-source">来源 ${escape(q.sourceCode || '')} · ${escape(q.source)} · 原题 ${escape(q.originalNumber)}</p>`:'';
   return `<section class="focus-workspace"><div class="focus-toolbar"><div class="focus-session-info"><strong>${escape(modeNames[session.mode] || '顺序练习')}</strong><span>${escape(chapterName(session.chapter))}</span><span class="focus-position">${session.index+1} / ${session.ids.length}</span><span class="focus-live-status" role="status" aria-live="polite"></span></div><div class="focus-tools"><label class="focus-font-select">字号<select id="practice-font" class="select" aria-label="题目字号"><option value="normal" ${state.settings.fontSize==='normal'?'selected':''}>22 px</option><option value="large" ${state.settings.fontSize==='large'?'selected':''}>26 px</option></select></label><button id="focus-map-button" class="focus-tool-button" data-action="question-map" title="答题卡" aria-label="打开答题卡">${icon('grid')}<span>答题卡</span></button><button class="focus-tool-button" data-action="practice-options" title="更换练习" aria-label="更换练习">${icon('settings')}<span>更换练习</span></button><button class="focus-tool-button" data-action="exit-practice" title="退出练习" aria-label="退出练习">${icon('close')}<span>退出</span></button></div></div>
@@ -160,9 +167,10 @@ function startSession(config={},limit=null,custom=null){
 function commitCurrentDraft(){
   const q=currentQuestion(),a=q&&round.get(q.id);
   if(!q||!a||a.graded||!a.dirty||!isComplete(q,a)||!account.user)return;
-  const correct=evaluateAnswer(q,a.selected);if(correct===null)return;
+  const correct=q.questionType==='fill'?evaluateFill(q,a.text):q.questionType==='essay'?a.self:evaluateAnswer(q,a.selected);
+  if(correct===null||correct===undefined)return;
   a.revealed=true;a.graded=true;a.correct=correct;a.dirty=false;
-  removeDraft(q.id);account.update({type:'answer',questionId:q.id,correct,answer:a.selected,graded:'auto'});
+  removeDraft(q.id);account.update({type:'answer',questionId:q.id,correct,answer:a.selected,graded:q.questionType==='essay'?'self':'auto'});
   if(!sessionAnswered.has(q.id)){sessionAnswered.add(q.id);if(correct)sessionCorrect++;}
 }
 function changeQuestion(index){
@@ -175,6 +183,15 @@ function chooseOption(index){
   const a=qState(q.id);if(a.graded)return;
   if(q.questionType==='multiple'||q.answer?.length>1){a.selected=a.selected.includes(index)?a.selected.filter(i=>i!==index):[...a.selected,index].sort((a,b)=>a-b);a.revealed=a.selected.length>0;a.correct=a.revealed?evaluateAnswer(q,a.selected):null;a.dirty=true;saveDraft(q,a);render();}
   else{a.selected=[index];a.revealed=true;a.correct=evaluateAnswer(q,a.selected);a.dirty=true;commitCurrentDraft();render();}
+}
+function submitFill(id){
+  const q=byId.get(id),a=qState(id);
+  if(!q||q.questionType!=='fill'||a.graded)return;
+  const input=$('#fill-input-'+id);
+  a.text=(input?.value || '').trim();
+  if(!a.text){toast('请先填写答案');return;}
+  a.dirty=true;a.revealed=true;
+  commitCurrentDraft();render();
 }
 function finish(){
   const n=sessionAnswered.size,correct=sessionCorrect;
@@ -240,6 +257,13 @@ document.addEventListener('click',async event=>{
       case 'exit-practice':navigate('home');break;
       case 'new-session':startSession({mode:'random'},20);break;
       case 'option':chooseOption(Number(index));break;
+      case 'submit-fill':{
+        const q=currentQuestion();if(!q||q.questionType!=='fill')break;
+        if(!logged(()=>submitFill(q.id)))break;
+        submitFill(q.id);break;
+      }
+      case 'reveal-essay':{const q=currentQuestion();if(!q)break;const a=qState(q.id);a.revealed=true;a.dirty=true;render();break;}
+      case 'self-grade':{const q=currentQuestion();if(!q||q.questionType!=='essay')break;const a=qState(q.id);if(a.graded)break;a.self=target.dataset.value==='1';a.dirty=true;commitCurrentDraft();render();break;}
       case 'previous':changeQuestion(state.session.index-1);break;
       case 'next':commitCurrentDraft();if(state.session.index===state.session.ids.length-1)finish();else changeQuestion(state.session.index+1);break;
       case 'jump':changeQuestion(Number(index));break;

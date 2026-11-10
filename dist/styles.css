@@ -819,3 +819,12 @@ input, select, textarea { min-width: 0; }
 .coding-card form{display:grid;gap:10px;margin-top:18px}
 .coding-card textarea{width:100%;box-sizing:border-box;resize:vertical;border:1px solid #c4c9da;border-radius:8px;padding:12px;font:14px/1.6 Consolas,monospace}
 .coding-card form button{justify-self:start}
+
+/* 填空题与解答题 */
+.fill-answer{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.fill-answer .form-field{display:flex;flex-direction:column;gap:8px;font-weight:600}
+.fill-input{width:100%;max-width:440px;font-size:1.02em}
+.fill-answer .button{align-self:flex-start}
+.essay-answer{display:flex;flex-direction:column;gap:10px;margin:18px 0;align-items:flex-start}
+.essay-answer .button{align-self:flex-start}
+.self-grade{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
