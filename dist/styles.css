@@ -342,6 +342,7 @@ input, select, textarea { min-width: 0; }
 .auth-tab { display: inline-flex; justify-content: center; align-items: center; flex: 1; min-height: 37px; padding: 8px 12px; border: 0; border-radius: 7px; color: #9aa1b0; background: transparent; font-size: 12px; }
 .auth-tab.active { color: var(--accent); background: white; box-shadow: 0 2px 7px #27315e07; font-weight: 600; }
 .auth-form { display: flex; flex-direction: column; gap: 17px; }
+.auth-email-fields { display: grid; gap: 12px; min-width: 0; margin: 0; padding: 0; border: 0; }
 .auth-form .button.primary { width: 100%; min-height: 44px; margin-top: 3px; }
 .form-field { display: flex; flex-direction: column; align-items: stretch; gap: 7px; min-width: 0; }
 .form-field label, .form-field > span:first-child { color: #627089; font-size: 11px; font-weight: 500; }

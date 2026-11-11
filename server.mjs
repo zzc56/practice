@@ -1,7 +1,7 @@
 import http from 'node:http';
 import net from 'node:net';
 import {DatabaseSync} from 'node:sqlite';
-import {randomBytes, createHash, scrypt, timingSafeEqual} from 'node:crypto';
+import {randomBytes, randomInt, createHash, createHmac, scrypt, timingSafeEqual} from 'node:crypto';
 import {promisify} from 'node:util';
 import {gzipSync, createGzip} from 'node:zlib';
 import {fileURLToPath} from 'node:url';
@@ -20,6 +20,11 @@ if (BASE && !/^\/[a-zA-Z0-9_/-]+$/.test(BASE)) throw new Error('BASE_PATH 必须
 const SECURE=process.env.COOKIE_SECURE==='true';
 const TRUSTED_PROXY=process.env.TRUSTED_PROXY==='true';
 const ADMIN_PASSWORD=process.env.ADMIN_PASSWORD || '';
+const MAIL_KEY=process.env.RESEND_API_KEY?.trim();
+const MAIL_FROM=process.env.MAIL_FROM?.trim();
+const registrationOpen=process.env.ALLOW_REGISTRATION!=='false';
+const emailRegistrationEnabled=Boolean(registrationOpen && MAIL_KEY && MAIL_FROM);
+const EMAIL_CODE_AGE=10*60*1000, EMAIL_CODE_COOLDOWN=60*1000;
 const HOST=process.env.HOST || '127.0.0.1', PORT=Number(process.env.PORT || 3000);
 const SESSION_AGE=30*86400*1000;
 const ADMIN_SESSION_AGE=12*3600*1000;
@@ -32,18 +37,31 @@ CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY, user_id INTEGER
 CREATE TABLE IF NOT EXISTS progress(user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, state_json TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS events(user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, event_id TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(user_id,event_id));
 CREATE TABLE IF NOT EXISTS admin_sessions(token_hash TEXT PRIMARY KEY, expires_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS registration_codes(invite_hash TEXT PRIMARY KEY, email TEXT NOT NULL, nonce TEXT NOT NULL, digest TEXT NOT NULL, sent INTEGER NOT NULL DEFAULT 0, attempts INTEGER NOT NULL DEFAULT 0, created_at INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS registration_codes_email ON registration_codes(email, created_at);
 CREATE TABLE IF NOT EXISTS invitations(code_hash TEXT PRIMARY KEY, subject TEXT NOT NULL, created_at TEXT NOT NULL, used_at TEXT);`);
 const userColumns=new Set(db.prepare('PRAGMA table_info(users)').all().map(column=>column.name));
 if(!userColumns.has('disabled'))db.exec('ALTER TABLE users ADD COLUMN disabled INTEGER NOT NULL DEFAULT 0');
 if(!userColumns.has('last_login_at'))db.exec('ALTER TABLE users ADD COLUMN last_login_at TEXT');
 if(!userColumns.has('subject'))db.exec('ALTER TABLE users ADD COLUMN subject TEXT');
+if(!userColumns.has('email'))db.exec('ALTER TABLE users ADD COLUMN email TEXT');
+db.exec('CREATE UNIQUE INDEX IF NOT EXISTS users_email ON users(email)');
 const sql={
   user:db.prepare('SELECT * FROM users WHERE username=?'),
-  addUser:db.prepare('INSERT INTO users(username,display_name,salt,password_hash,created_at,subject) VALUES(?,?,?,?,?,?)'),
+  userCredentials:db.prepare('SELECT salt,password_hash FROM users WHERE id=? AND disabled=0'),
+  userByEmail:db.prepare('SELECT id FROM users WHERE email=?'),
+  addUser:db.prepare('INSERT INTO users(username,display_name,salt,password_hash,created_at,subject,email) VALUES(?,?,?,?,?,?,?)'),
+  renameUser:db.prepare('UPDATE users SET username=?,display_name=? WHERE id=? AND disabled=0 AND password_hash=?'),
   session:db.prepare('SELECT users.id, users.display_name AS username,users.subject FROM sessions JOIN users ON users.id=sessions.user_id WHERE token_hash=? AND expires_at>? AND users.disabled=0'),
   addInvite:db.prepare('INSERT INTO invitations(code_hash,subject,created_at) VALUES(?,?,?)'),
   invite:db.prepare('SELECT subject FROM invitations WHERE code_hash=? AND used_at IS NULL'),
   consumeInvite:db.prepare('UPDATE invitations SET used_at=? WHERE code_hash=? AND used_at IS NULL'),
+  registrationCode:db.prepare('SELECT * FROM registration_codes WHERE invite_hash=?'),
+  recentEmailCode:db.prepare('SELECT 1 FROM registration_codes WHERE email=? AND created_at>?'),
+  putCode:db.prepare('INSERT OR REPLACE INTO registration_codes(invite_hash,email,nonce,digest,created_at) VALUES(?,?,?,?,?)'),
+  markCodeSent:db.prepare('UPDATE registration_codes SET sent=1 WHERE invite_hash=? AND nonce=?'),
+  failCode:db.prepare('UPDATE registration_codes SET attempts=attempts+1 WHERE invite_hash=?'),
+  deleteCode:db.prepare('DELETE FROM registration_codes WHERE invite_hash=?'),
   addSession:db.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)'),
   deleteSession:db.prepare('DELETE FROM sessions WHERE token_hash=?'),
   progress:db.prepare('SELECT state_json,revision FROM progress WHERE user_id=?'),
@@ -133,11 +151,59 @@ function throttle(req,username='',limit=NaN){
   if(!r || now>=r.until)rate.set(key,{count:1,until:now+15*60*1000});else r.count++;
   if(rate.size>10000) for(const [k,v] of rate) if(v.until<now)rate.delete(k);
 }
-function credentials(input){
-  const display=typeof input.username==='string'?input.username.trim():'';
+function accountName(value){
+  const display=typeof value==='string'?value.trim():'';
   if(!/^[\p{L}\p{N}_-]{3,32}$/u.test(display))fail(400,'用户名需为 3–32 个字母、数字、汉字、下划线或短横线');
+  return {display,username:display.toLocaleLowerCase()};
+}
+function credentials(input){
+  const name=accountName(input.username);
   if(typeof input.password!=='string' || input.password.length<8 || input.password.length>128)fail(400,'密码需为 8–128 个字符');
-  return {display,username:display.toLocaleLowerCase(),password:input.password};
+  return {...name,password:input.password};
+}
+function registrationEmail(value){
+  if(!emailRegistrationEnabled)fail(503,'邮箱注册暂未开通');
+  const email=typeof value==='string'?value.trim().toLowerCase():'';
+  if(email.length>254 || !/^[a-z0-9.!#$%&'*+/=?^_{|}~-]{1,64}@[a-z0-9-]+(?:\.[a-z0-9-]+)+$/.test(email))fail(400,'请输入有效邮箱地址');
+  return email;
+}
+function codeDigest(invite,email,nonce,code){
+  return createHmac('sha256',MAIL_KEY).update(JSON.stringify([invite,email,nonce,code])).digest();
+}
+async function sendRegistrationCode(req,payload){
+  throttle(req,'email-code',10);
+  const email=registrationEmail(payload.email);
+  const invite=requireInvite(payload.inviteCode);
+  const now=Date.now();
+  const nonce=randomBytes(16).toString('hex');
+  const code=String(randomInt(1000000)).padStart(6,'0');
+  db.exec('BEGIN IMMEDIATE');
+  try{
+    if(!sql.invite.get(invite.hash))fail(403,'邀请码无效或已使用，请联系管理员');
+    if(sql.userByEmail.get(email))fail(409,'该邮箱已被注册');
+    if(sql.registrationCode.get(invite.hash)?.created_at>now-EMAIL_CODE_COOLDOWN || sql.recentEmailCode.get(email,now-EMAIL_CODE_COOLDOWN))fail(429,'请等待 60 秒后再发送验证码');
+    sql.putCode.run(invite.hash,email,nonce,codeDigest(invite.hash,email,nonce,code).toString('hex'),now);
+    db.exec('COMMIT');
+  }catch(e){db.exec('ROLLBACK');throw e;}
+  try{
+    const response=await fetch('https://api.resend.com/emails',{
+      method:'POST',headers:{Authorization:'Bearer '+MAIL_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({from:MAIL_FROM,to:[email],subject:'知序注册验证码',text:'你的知序注册验证码为 '+code+'，10 分钟内有效。'}),
+      signal:AbortSignal.timeout(8000)
+    });
+    await response.body?.cancel();
+    if(!response.ok)throw new Error('mail delivery rejected');
+  }catch{fail(502,'验证码暂时发送失败，请稍后重试');}
+  if(!sql.markCodeSent.run(invite.hash,nonce).changes)fail(409,'验证码已更新，请重新获取');
+}
+function checkRegistrationCode(invite,email,value){
+  const challenge=sql.registrationCode.get(invite);
+  if(!challenge?.sent || challenge.email!==email || challenge.created_at<=Date.now()-EMAIL_CODE_AGE || challenge.attempts>=5)fail(400,'验证码无效或已过期，请重新获取');
+  if(typeof value!=='string' || !/^\d{6}$/.test(value) || !timingSafeEqual(codeDigest(invite,email,challenge.nonce,value),Buffer.from(challenge.digest,'hex'))){
+    sql.failCode.run(invite);
+    return false;
+  }
+  return true;
 }
 function requireInvite(value){
   if(typeof value!=='string' || !/^[a-f0-9]{32}$/.test(value.trim()))fail(403,'邀请码无效或已使用，请联系管理员');
@@ -303,24 +369,35 @@ async function adminApi(req,res,route){
 }
 async function api(req,res,route){
   if(req.method==='GET' && route==='/api/health')return json(res,200,{ok:true,total:catalog.all.total});
-  if(req.method==='GET' && route==='/api/auth/me')return json(res,200,{user:auth(req) || null});
+  if(req.method==='GET' && route==='/api/auth/me')return json(res,200,{user:auth(req) || null,emailRegistrationEnabled});
   if(req.method!=='GET')checkOrigin(req);
   if(route.startsWith('/api/admin/'))return await adminApi(req,res,route);
+  if(req.method==='POST' && route==='/api/auth/email-code'){
+    await sendRegistrationCode(req,await body(req));
+    return json(res,200,{ok:true});
+  }
   if(req.method==='POST' && ['/api/auth/register','/api/auth/login'].includes(route)){
     const payload=await body(req);
     const input=credentials(payload);throttle(req);throttle(req,input.username);
     const row=sql.user.get(input.username);
     if(route.endsWith('/register')){
-      if(process.env.ALLOW_REGISTRATION==='false')fail(403,'本站已关闭新账号注册');
+      if(!registrationOpen)fail(403,'本站已关闭新账号注册');
       const invite=requireInvite(payload.inviteCode);
+      const email=payload.email===undefined?null:registrationEmail(payload.email);
       if(row)fail(409,'该用户名已被注册');
       const salt=randomBytes(16).toString('hex'), passwordHash=(await derive(input.password,salt,64)).toString('hex');
       db.exec('BEGIN IMMEDIATE');
       let id;
       try {
         const now=new Date().toISOString();
+        if(email && sql.userByEmail.get(email))fail(409,'该邮箱已被注册');
+        if(email && !checkRegistrationCode(invite.hash,email,payload.emailCode)){
+          db.exec('COMMIT');
+          return json(res,400,{error:'验证码不正确'});
+        }
         if(!sql.consumeInvite.run(now,invite.hash).changes)fail(403,'邀请码无效或已使用，请联系管理员');
-        const result=sql.addUser.run(input.username,input.display,salt,passwordHash,now,invite.subject);
+        sql.deleteCode.run(invite.hash);
+        const result=sql.addUser.run(input.username,input.display,salt,passwordHash,now,invite.subject,email);
         id=Number(result.lastInsertRowid);sql.touchLogin.run(now,id);
         db.exec('COMMIT');
       } catch(e){
@@ -352,6 +429,22 @@ async function api(req,res,route){
   }
   if(req.method==='POST' && route==='/api/auth/logout'){
     sql.deleteSession.run(hashToken(getToken(req)));res.setHeader('Set-Cookie',cookie('',0));return json(res,200,{ok:true});
+  }
+  if(req.method==='POST' && route==='/api/auth/username'){
+    throttle(req,'rename-'+user.id);
+    const input=await body(req), name=accountName(input.username);
+    if(typeof input.currentPassword!=='string' || input.currentPassword.length>128)fail(400,'请输入当前密码');
+    const current=sql.userCredentials.get(user.id);
+    if(!current)fail(409,'账号信息已更新，请刷新后重试');
+    const candidate=await derive(input.currentPassword,current.salt,64);
+    if(!timingSafeEqual(candidate,Buffer.from(current.password_hash,'hex')))fail(400,'当前密码不正确');
+    try{
+      if(!auth(req) || !sql.renameUser.run(name.username,name.display,user.id,current.password_hash).changes)fail(409,'账号信息已更新，请重新登录后重试');
+    }catch(e){
+      if(e.errcode===2067)fail(409,'该用户名已被注册');
+      throw e;
+    }
+    return json(res,200,{user:{...user,username:name.display}});
   }
   if(req.method==='POST' && route==='/api/auth/password'){
     const input=await body(req);const current=db.prepare('SELECT * FROM users WHERE id=?').get(user.id);
@@ -452,6 +545,6 @@ server.on('error',error=>{
   process.exit(1);
 });
 server.listen(PORT,HOST,()=>console.log(`知序已启动 http://${HOST}:${server.address().port}${BASE}/`));
-const cleanup=setInterval(()=>{const now=Date.now();db.prepare('DELETE FROM sessions WHERE expires_at<?').run(now);db.prepare('DELETE FROM admin_sessions WHERE expires_at<?').run(now);},3600000);cleanup.unref();
+const cleanup=setInterval(()=>{const now=Date.now();db.prepare('DELETE FROM sessions WHERE expires_at<?').run(now);db.prepare('DELETE FROM admin_sessions WHERE expires_at<?').run(now);db.prepare('DELETE FROM registration_codes WHERE created_at<?').run(now-EMAIL_CODE_AGE);},3600000);cleanup.unref();
 function shutdown(){clearInterval(cleanup);server.close(()=>{db.close();process.exit(0);});setTimeout(()=>process.exit(0),5000).unref();}
 process.on('SIGTERM',shutdown);process.on('SIGINT',shutdown);

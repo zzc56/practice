@@ -13,6 +13,7 @@ export class LearningAccount {
   constructor(ids,onChange,onStatus,onBank) {
     this.ids=ids;this.onChange=onChange;this.onStatus=onStatus;this.user=null;this.state=createState();
     this.onBank=onBank;
+    this.emailRegistrationEnabled=false;
     this.queue=[];this.revision=0;this.busy=null;this.lastSync=null;this.status='loading';
     this.key=STORAGE_KEY+':account:'+new URL('.',document.baseURI).pathname;
     try{this.cached=JSON.parse(localStorage.getItem(this.key) || 'null');}catch{this.cached=null;}
@@ -47,7 +48,8 @@ export class LearningAccount {
   }
   async initialize() {
     try{
-      const {user}=await this.api('/auth/me');
+      const {user,emailRegistrationEnabled}=await this.api('/auth/me');
+      this.emailRegistrationEnabled=Boolean(emailRegistrationEnabled);
       if(user){await this.loadBank();this.restore(user);await this.sync();}else this.setStatus('guest');
     }catch(e){
       if(this.cached?.user && !this.onBank){this.restore(this.cached.user);this.setStatus('offline');this.changed();}
@@ -61,10 +63,15 @@ export class LearningAccount {
     this.ids=bank.questions.map(question=>question.id);
     this.onBank(bank);
   }
-  async login(username,password,register=false,inviteCode='') {
-    const {user}=await this.api(register?'/auth/register':'/auth/login','POST',{username,password,...(register?{inviteCode}:{})});
+  async login(username,password,registration=null) {
+    const {user}=await this.api(registration?'/auth/register':'/auth/login','POST',{username,password,...registration});
     await this.loadBank();
     this.restore(user);this.cached=null;this.changed();await this.sync();
+  }
+  async sendEmailCode(email,inviteCode){await this.api('/auth/email-code','POST',{email,inviteCode});}
+  async rename(username,currentPassword){
+    const {user}=await this.api('/auth/username','POST',{username,currentPassword});
+    if(this.user?.id===user.id){this.user=user;this.changed();}
   }
   update(event) {
     if(!this.user)throw new Error('请先登录账号');

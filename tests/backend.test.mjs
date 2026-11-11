@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -68,7 +68,7 @@ test('账号隔离、跨设备同步、事件重试、冲突与密码变更', as
   const call = api(origin);
   const health = await call('/api/health');
   assert.equal(health.status, 200);
-  assert.equal(health.data.total, 535);
+  assert.equal(health.data.total, 2887);
   assert.equal((await call('/api/progress')).status, 401);
 
   const password = 'Practice-Test-123';
@@ -173,6 +173,54 @@ test('邀请密码由后端验证，错误注册不创建账号，已有账号�
   }
 });
 
+test('邮箱验证绑定邀请码，改名保留会话与科目', async t => {
+  const mockMail = `
+    import {writeFileSync} from 'node:fs';
+    import path from 'node:path';
+    globalThis.fetch = async (url, options) => {
+      if (url !== 'https://api.resend.com/emails') throw new Error('Unexpected external request');
+      const {text} = JSON.parse(options.body);
+      writeFileSync(path.join(process.env.DATA_DIR, 'test-mail'), text.match(/\\d{6}/)[0]);
+      return new Response(null, {status: 200});
+    };
+  `;
+  let directory;
+  const origin=await startBackend(t,{
+    RESEND_API_KEY:'test-mail-key', MAIL_FROM:'practice@example.test',
+    NODE_OPTIONS:'--import=data:text/javascript,'+encodeURIComponent(mockMail)
+  }, value=>{directory=value;});
+  const call=api(origin);
+  const post=(route,body,cookie)=>call('/api/auth/'+route,{method:'POST',body,cookie});
+  const password='Practice-Test-123';
+  const email='Learner@example.test';
+  assert.equal((await call('/api/auth/me')).data.emailRegistrationEnabled,true);
+  assert.equal((await post('email-code',{email})).status,403);
+  const inviteCode=await issueTestInvite(origin,ADMIN,'marxism');
+  const loginInput={username:'test_learner',password,email,inviteCode};
+  assert.equal((await post('register',loginInput)).status,400);
+  assert.equal((await post('email-code',{email,inviteCode})).status,200);
+  assert.equal((await post('email-code',{email,inviteCode})).status,429);
+  const emailCode=await readFile(path.join(directory,'test-mail'),'utf8');
+  assert.equal((await post('register',{...loginInput,emailCode:emailCode==='000000'?'000001':'000000'})).status,400);
+  assert.equal((await post('register',{...loginInput,email:'other@example.test',emailCode})).status,400);
+  const registered=await post('register',{...loginInput,email:'learner@example.test',emailCode});
+  assert.equal(registered.status,201);
+  assert.equal(registered.data.user.subject,'marxism');
+  assert.equal((await post('register',{...loginInput,username:'test_replay',emailCode})).status,403);
+  const cookie=registered.cookie;
+  const bank=await call('/api/bank',{cookie});
+  assert.equal(bank.data.total,2320);
+  assert.deepEqual(bank.data.chapters.map(chapter=>chapter.count),[826,526,278,690]);
+  assert.equal((await fetch(origin+'/assets/questions/marxism/1532.jpeg')).status,404);
+  assert.equal((await fetch(origin+'/assets/questions/marxism/1532.jpeg',{headers:{Cookie:cookie}})).status,200);
+  assert.equal((await post('username',{username:'new_learner',currentPassword:'wrong'},cookie)).status,400);
+  const renamed=await post('username',{username:'new_learner',currentPassword:password},cookie);
+  assert.deepEqual(renamed.data.user,{...registered.data.user,username:'new_learner'});
+  assert.deepEqual((await call('/api/auth/me',{cookie})).data.user,renamed.data.user);
+  assert.equal((await post('login',{username:'test_learner',password})).status,401);
+  assert.equal((await post('login',{username:'new_learner',password})).status,200);
+});
+
 test('未设邀请密码或主动关闭注册时拒绝新注册，网站仍可访问', async t => {
   for (const environment of [{ INVITE_CODE: TEST_INVITE }, { ALLOW_REGISTRATION: 'false' }]) {
     const origin = await startBackend(t, environment);
@@ -201,7 +249,7 @@ test('旧账号保留全部科目及进度，一次性邀请码并发核销且�
   assert.equal(login.status,200);
   const legacy={cookie:login.cookie};
   const all=await call('/api/bank',legacy);
-  assert.equal(all.data.total,535);
+  assert.equal(all.data.total,2887);
   assert.deepEqual((await call('/api/progress',legacy)).data.state.favorites,['E001']);
   const code=await issueTestInvite(origin,ADMIN,'database');
   const register=(username,inviteCode=code)=>call('/api/auth/register',{method:'POST',body:{username,password,inviteCode,subject:'data-structures'}});

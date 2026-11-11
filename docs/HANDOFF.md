@@ -67,7 +67,7 @@ ssh root@47.76.55.90
 cd /opt/zhixue/ds-practice
 git fetch origin main && git reset --hard FETCH_HEAD
 docker compose up -d --build
-curl -s http://127.0.0.1:8080/api/health   # 期望 {"ok":true,"total":567}
+curl -s http://127.0.0.1:8080/api/health   # 期望 {"ok":true,"total":2887}
 ```
 
 ```bash
@@ -75,7 +75,7 @@ curl -s http://127.0.0.1:8080/api/health   # 期望 {"ok":true,"total":567}
 curl -s https://nexthub.space/api/health
 ```
 
-**判断是否成功**：`total` 数字必须等于题库总数（当前 567）；容器状态 `Up ... (healthy)`；`git log --oneline -1` 与 GitHub 一致。
+**判断是否成功**：`total` 数字必须等于题库总数（当前 2887）；容器状态 `Up ... (healthy)`；`git log --oneline -1` 与 GitHub 一致。
 
 > 只有改了 `dist/`、`server.mjs`、`banks.mjs`、`judge/` 才需要重建镜像；只改文档不需要重新部署。
 
@@ -153,7 +153,8 @@ node tests/core.test.mjs      # 判分与统计的单元测试
 | 数据结构 | 533 | 8 个章节 |
 | 数据库 | 2 | 测试题 |
 | 概率论与数理统计 | 32 | 选择 10 + 填空 9 + 计算证明 11 + 问题题 2 |
-| **合计** | **567** | |
+| 马克思主义基本原理 | 2320 | 单选 826、多项及不定项 526、判断 278、待核 690 |
+| **合计** | **2887** | |
 
 ---
 
@@ -224,7 +225,7 @@ certbot certificates
 每次改动必须同时满足：
 1) 本地提交并推送到 GitHub（用 SSH 地址，HTTPS 常被墙）
 2) 服务器 git fetch + git reset --hard + docker compose up -d --build
-3) 验证 https://nexthub.space/api/health 的 total 等于题库总数（当前 567）
+3) 验证 https://nexthub.space/api/health 的 total 等于题库总数（当前 2887）
 4) 题库改动要保证 chapter.count 与题数一致，并跑 node tests/core.test.mjs
 
 不要提交 .env、judge/cases.mjs、数据库文件；不要 docker compose down -v。

@@ -120,11 +120,11 @@ function practice(){
     answer=`<section class="answer-panel ${tone}" role="status" aria-label="本题解析"><h2 class="answer-title">${icon(invalid?'info':a.correct?'check':'book')}${title}</h2><p class="answer-description">参考答案：<strong>${escape(referenceLabel(q))}</strong>${selected.length?`<span>你的选择：${ordered?selected.map((x,i)=>`第${i+1}空 ${x<0?'未选':String.fromCharCode(65+x)}`).join('；'):selected.map(x=>String.fromCharCode(65+x)).join('、')}</span>`:''}</p><div class="answer-explanation"><strong>解析</strong><p>${escape(q.explanation)}</p></div>${q.reviewNote?`<p class="answer-footnote">${escape(q.reviewNote)}</p>`:''}${invalid?'<p class="answer-footnote">原题存在歧义或选项问题，本题不计入正误统计。</p>':multi||ordered?`<p class="answer-footnote">${a.graded?'本题结果已保存。':'可继续调整所选答案，切题时保存本次最终结果。'}</p>`:''}</section>`;
   }
   if(q.questionType==='essay'&&a.revealed&&a.self===null){answer+=`<div class="self-grade"><button class="button primary small" data-action="self-grade" data-value="1">自评：做对了</button><button class="button secondary small" data-action="self-grade" data-value="0">自评：没做对</button></div>`;}
-  const typeLabel=invalid?'原题问题说明':q.questionType==='fill'?'填空题':q.questionType==='essay'?'解答题':ordered?'按序填空':multi?'多选题':q.mode==='scan'?'原图选择题':'单选题';
-  const reference=q.mode==='text'&&q.images.length?`<details class="reference-details"><summary>${icon('book')}原始题图</summary><p>原图作答痕迹不作为正确性依据，以参考答案与解析为准。</p>${q.images.map((src,i)=>`<button class="scan-image-button" data-action="image" data-src="${escape(src)}" aria-label="放大原题图"><img class="scan-image" src="${escape(src)}" alt="原题参考图 ${i+1}" loading="lazy"></button>`).join('')}</details>`:'';
+  const typeLabel=q.chapter==='marxism-judgment'?'判断题':invalid?'原题问题说明':q.questionType==='fill'?'填空题':q.questionType==='essay'?'解答题':ordered?'按序填空':multi?'多选题':q.mode==='scan'?'原图选择题':'单选题';
+  const reference=q.mode==='text'&&q.images.length?`<details class="reference-details" ${q.imageInStem?'open':''}><summary>${icon('book')}${q.imageInStem?'题目插图':'原始题图'}</summary>${q.imageInStem?'':'<p>原图作答痕迹不作为正确性依据，以参考答案与解析为准。</p>'}${q.images.map((src,i)=>`<button class="scan-image-button" data-action="image" data-src="${escape(src)}" aria-label="放大原题图"><img class="scan-image" src="${escape(src)}" alt="原题参考图 ${i+1}" loading="lazy"></button>`).join('')}</details>`:'';
   const source=state.settings.showSource?`<p class="question-source">来源 ${escape(q.sourceCode || '')} · ${escape(q.source)} · 原题 ${escape(q.originalNumber)}</p>`:'';
   return `<section class="focus-workspace"><div class="focus-toolbar"><div class="focus-session-info"><strong>${escape(modeNames[session.mode] || '顺序练习')}</strong><span>${escape(chapterName(session.chapter))}</span><span class="focus-position">${session.index+1} / ${session.ids.length}</span><span class="focus-live-status" role="status" aria-live="polite"></span></div><div class="focus-tools"><label class="focus-font-select">字号<select id="practice-font" class="select" aria-label="题目字号"><option value="normal" ${state.settings.fontSize==='normal'?'selected':''}>22 px</option><option value="large" ${state.settings.fontSize==='large'?'selected':''}>26 px</option></select></label><button id="focus-map-button" class="focus-tool-button" data-action="question-map" title="答题卡" aria-label="打开答题卡">${icon('grid')}<span>答题卡</span></button><button class="focus-tool-button" data-action="practice-options" title="更换练习" aria-label="更换练习">${icon('settings')}<span>更换练习</span></button><button class="focus-tool-button" data-action="exit-practice" title="退出练习" aria-label="退出练习">${icon('close')}<span>退出</span></button></div></div>
-    <div class="focus-reader" data-question-id="${q.id}"><article class="focus-question"><div class="question-header"><div class="question-tags"><span class="pill accent">${escape(q.topic)}</span><span class="pill muted">${typeLabel}</span></div><button class="icon-button ${state.favorites.includes(q.id)?'is-favorite':''}" data-action="favorite" data-id="${q.id}" aria-label="${state.favorites.includes(q.id)?'取消收藏':'收藏此题'}" aria-pressed="${state.favorites.includes(q.id)}">${icon('star')}</button></div><div class="question-number" id="question-title" tabindex="-1"><strong>第 ${label(q.number)} 题</strong><span>${session.index+1} / ${session.ids.length}</span></div>${multi?'<p class="question-hint">可勾选多个选项，解析在下方显示；切题时保存最终选择。</p>':ordered?'<p class="question-hint">按空位顺序选择，完成全部空位后显示解析。</p>':''}${stem}<div class="focus-option-zone">${options}${answer}</div>${reference}${source}</article></div>
+    <div class="focus-reader" data-question-id="${q.id}"><article class="focus-question"><div class="question-header"><div class="question-tags"><span class="pill accent">${escape(q.topic)}</span><span class="pill muted">${typeLabel}</span></div><button class="icon-button ${state.favorites.includes(q.id)?'is-favorite':''}" data-action="favorite" data-id="${q.id}" aria-label="${state.favorites.includes(q.id)?'取消收藏':'收藏此题'}" aria-pressed="${state.favorites.includes(q.id)}">${icon('star')}</button></div><div class="question-number" id="question-title" tabindex="-1"><strong>第 ${label(q.number)} 题</strong><span>${session.index+1} / ${session.ids.length}</span></div>${multi?'<p class="question-hint">可勾选多个选项，解析在下方显示；切题时保存最终选择。</p>':ordered?'<p class="question-hint">按空位顺序选择，完成全部空位后显示解析。</p>':''}${stem}${q.imageInStem?reference:''}<div class="focus-option-zone">${options}${answer}</div>${q.imageInStem?'':reference}${source}</article></div>
     <footer class="focus-actions"><button class="button secondary" data-action="previous" ${session.index===0?'disabled':''}>← 上一题</button><span class="focus-navigation-status">${invalid?'本题不计正误':a.graded?'已作答 · 结果已保存':a.revealed?'所选即作答 · 切题时保存':'点击选项即可作答'}</span><button class="button primary" data-action="next">下一题 →</button></footer></section>`;
 }
 function showQuestionMap(){const session=state.session;if(!session)return;showModal(`<div class="question-map focus-question-map">${session.ids.map((id,index)=>`<button class="question-dot ${getQuestionStatus(state,id)} ${index===session.index?'current':''}" data-action="jump" data-index="${index}" aria-label="转到本组第 ${index+1} 题">${index+1}</button>`).join('')}</div>`,'','本组答题卡');}
@@ -147,10 +147,10 @@ function library(){
 }
 function settings(){
   return `${heading('MAKE IT YOURS','按你的习惯，安心地练习。','调整阅读体验，管理账号和学习记录。')}
-  <section class="settings-card"><h2>${icon('user')}账号与同步</h2>${account.user?`<div class="account-profile"><span class="account-avatar">${escape(account.user.username.slice(0,1).toUpperCase())}</span><div><strong>${escape(account.user.username)}</strong><p>${account.status==='online'?'已连接服务器，进度自动同步':'当前记录已保存在此设备，联网后自动补传'}${account.queue.length?' · 待同步 '+account.queue.length+' 条':''}</p></div><button class="button secondary small" data-action="logout">退出登录</button></div><div class="settings-account-actions"><button class="button secondary" data-action="sync">${icon('cloud')}立即同步</button><button class="button ghost" data-action="password">修改密码</button></div>`:`<p>登录同一个账号，就能在电脑与手机之间继续练习。</p><button class="button primary" data-action="auth">登录 / 注册</button>`}</section>
+  <section class="settings-card"><h2>${icon('user')}账号与同步</h2>${account.user?`<div class="account-profile"><span class="account-avatar">${escape(account.user.username.slice(0,1).toUpperCase())}</span><div><strong>${escape(account.user.username)}</strong><p>${account.status==='online'?'已连接服务器，进度自动同步':'当前记录已保存在此设备，联网后自动补传'}${account.queue.length?' · 待同步 '+account.queue.length+' 条':''}</p></div><button class="button secondary small" data-action="logout">退出登录</button></div><div class="settings-account-actions"><button class="button secondary" data-action="sync">${icon('cloud')}立即同步</button><button class="button ghost" data-action="rename">修改用户名</button><button class="button ghost" data-action="password">修改密码</button></div>`:`<p>登录同一个账号，就能在电脑与手机之间继续练习。</p><button class="button primary" data-action="auth">登录 / 注册</button>`}</section>
   <section class="settings-card"><h2>${icon('settings')}练习与阅读</h2><div class="settings-grid"><div class="settings-field"><span><strong class="settings-label">点选即作答</strong><span class="settings-hint">解析在选项下方显示，通过上一题、下一题手动切换。</span></span></div><label class="settings-field"><span><strong class="settings-label">显示题目来源</strong><span class="settings-hint">便于回到原资料查阅。</span></span><input class="switch" id="setting-source" type="checkbox" ${state.settings.showSource?'checked':''} ${!account.user?'disabled':''}></label><label class="settings-field"><span><strong class="settings-label">题目字号</strong><span class="settings-hint">放大题干与选项，阅读更轻松。</span></span><select class="select" id="setting-font" aria-label="题目字号" ${!account.user?'disabled':''}><option value="normal" ${state.settings.fontSize==='normal'?'selected':''}>标准 22 px</option><option value="large" ${state.settings.fontSize==='large'?'selected':''}>大字 26 px</option></select></label></div></section>
   <section class="settings-card"><h2>${icon('download')}学习记录备份</h2><p>备份包含答题记录、错题、收藏和设置。导入会替换当前账号记录，并同步到其他设备。</p><div class="settings-account-actions"><button class="button primary" data-action="export" ${!account.user?'disabled':''}>${icon('download')}导出备份</button><button class="button secondary" data-action="import" ${!account.user?'disabled':''}>${icon('upload')}导入备份</button></div></section>
-  <section class="settings-card"><h2>${icon('book')}关于题库</h2><p>${escape(bank.title)}共 ${bank.total} 道题。</p><div class="about-grid"><div><strong>${questions.filter(q=>q.answer?.length&&q.questionType!=='invalid').length} 道</strong><span>参考答案与自动判分</span></div><div><strong>${questions.filter(q=>q.questionType==='invalid').length} 道</strong><span>原题问题与参考结论</span></div></div><p class="settings-hint">全部题目均提供参考解析。原资料错误或有歧义的地方会单独说明。原图保留的作答痕迹不作为正确性依据。</p></section>
+  <section class="settings-card"><h2>${icon('book')}关于题库</h2><p>${escape(bank.title)}共 ${bank.total} 道题。</p><div class="about-grid"><div><strong>${questions.filter(q=>q.answer?.length&&q.questionType!=='invalid').length} 道</strong><span>参考答案与自动判分</span></div><div><strong>${questions.filter(q=>q.questionType==='invalid').length} 道</strong><span>原题问题与参考结论</span></div></div><p class="settings-hint">答案来源和待核情况见各题说明。</p></section>
   <section class="settings-card danger-zone"><h2>清空学习记录</h2><p>会清空当前账号在所有设备上的答题记录、收藏与练习设置。建议先导出备份。</p><button class="button danger" data-action="reset" ${!account.user?'disabled':''}>清空当前账号记录</button></section>`;
 }
 function startSession(config={},limit=null,custom=null){
@@ -208,13 +208,28 @@ function showAuth(){
   showModal(`<div class="auth-card"><div class="auth-logo">${icon('book')}</div>
     <h2>欢迎来到知序</h2><p class="auth-caption">登录账号，让电脑和手机接着练。</p>
     <div class="auth-tabs"><button class="auth-tab ${!registering?'active':''}" data-action="auth-mode" data-mode="login">登录</button><button class="auth-tab ${registering?'active':''}" data-action="auth-mode" data-mode="register">注册账号</button></div>
-    <form id="auth-form" class="auth-form">
+    <form id="auth-form" class="auth-form" data-register="${registering}">
+      ${registering?`<label class="form-field">注册方式<select class="input" id="registration-method"><option value="username">用户名注册</option><option value="email" ${account.emailRegistrationEnabled?'':'disabled'}>邮箱验证注册${account.emailRegistrationEnabled?'':'（暂未开通）'}</option></select></label>`:''}
       <label class="form-field">用户名<input class="input" name="username" autocomplete="username" required minlength="3" maxlength="32" placeholder="3–32 个字符，可使用汉字"></label>
       <label class="form-field">密码<div class="password-input"><input class="input" id="auth-password" type="password" name="password" autocomplete="${registering?'new-password':'current-password'}" required minlength="8" maxlength="128" placeholder="至少 8 个字符"><button class="password-toggle" type="button" data-action="toggle-password" aria-label="显示密码">显示</button></div></label>
       ${registering?`<label class="form-field">邀请码<input class="input" id="registration-invite" name="inviteCode" type="password" autocomplete="off" required maxlength="256" placeholder="请输入管理员提供的邀请码" aria-describedby="invite-hint"></label><p class="settings-hint" id="invite-hint">邀请码由网站管理员提供。请妥善保存自己的账号密码，当前版本不提供邮件找回。</p>`:''}
+      ${registering?`<fieldset id="registration-email-fields" class="auth-email-fields" hidden disabled><label class="form-field">邮箱<input class="input" type="email" name="email" autocomplete="email" required maxlength="254"></label><button class="button secondary" type="button" data-action="email-code">发送验证码</button><p id="registration-code-status" class="settings-hint" role="status" hidden></p><label class="form-field">邮箱验证码<input class="input" name="emailCode" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label></fieldset>`:''}
       <p class="form-error" id="auth-error" role="alert" hidden></p>
       <button class="button primary auth-submit" type="submit">${registering?'验证邀请并注册':'登录并同步进度'} ${icon('arrow')}</button>
     </form></div>`,'',registering?'邀请注册':'账号登录');
+}
+function showRename(){showModal(`<form id="rename-form" class="auth-form"><label class="form-field">新用户名<input class="input" name="username" autocomplete="username" value="${escape(account.user.username)}" required minlength="3" maxlength="32"></label><label class="form-field">当前密码<input class="input" name="currentPassword" type="password" autocomplete="current-password" required maxlength="128"></label><p class="form-error" role="alert" hidden></p><button class="button primary" type="submit">保存用户名</button></form>`,'','修改用户名');}
+async function sendEmailCode(button){
+  const form=button.form, email=form.elements.email, invite=form.elements.inviteCode;
+  if(!invite.reportValidity() || !email.reportValidity())return;
+  const error=form.querySelector('.form-error'), status=form.querySelector('#registration-code-status');
+  error.hidden=true;status.hidden=true;button.disabled=true;
+  try{
+    await account.sendEmailCode(email.value,invite.value);
+    status.textContent='验证码已发送，10 分钟内有效。';status.hidden=false;
+    button.textContent='60 秒后可重发';
+    setTimeout(()=>{button.disabled=false;button.textContent='重新发送验证码';},60000);
+  }catch(e){error.textContent=e.message;error.hidden=false;button.disabled=false;}
 }
 function showPassword(){showModal(`<form id="password-form" class="auth-form"><label class="form-field">当前密码<input class="input" name="currentPassword" type="password" autocomplete="current-password" required maxlength="128"></label><label class="form-field">新密码<input class="input" name="newPassword" type="password" autocomplete="new-password" required minlength="8" maxlength="128"></label><p class="form-error" id="password-error" role="alert" hidden></p><button class="button primary" type="submit">保存新密码</button></form>`,'','修改密码');}
 function confirmAction(title,body,action){showModal(`<p>${body}</p>`,`<button class="button secondary" data-action="close-modal">取消</button><button class="button danger" data-action="${action}">确认${title}</button>`,title);}
@@ -291,6 +306,8 @@ document.addEventListener('click',async event=>{
       case 'sync':if(account.status==='expired'){showAuth();break;}await account.sync();toast(account.status==='online'?'进度已同步':'已保存在此设备，联网后将自动同步');render();break;
       case 'logout':commitCurrentDraft();await account.logout();round.clear();toast('已退出登录');navigate('home');break;
       case 'password':showPassword();break;
+      case 'rename':showRename();break;
+      case 'email-code':await sendEmailCode(target);break;
       case 'export':{if(!logged())break;const blob=new Blob([exportBackup(state)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`知序学习记录_${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast('学习记录已导出');break;}
       case 'import':if(logged())$('#backup-file').click();break;
       case 'reset':confirmAction('清空记录','将清空当前账号在所有设备上的答题记录、收藏和设置，建议先导出备份。','confirm-reset');break;
@@ -316,21 +333,33 @@ document.addEventListener('change',async event=>{
     try{const raw=await file.text();const {importBackup}=await import('./core.js');const next=importBackup(raw,questions.map(q=>q.id));window.pendingBackup=raw;confirmAction('导入备份',`此备份包含 ${Object.keys(next.records).length} 道题的记录和 ${next.favorites.length} 道收藏题，将替换当前账号记录并同步到其他设备。`,'confirm-import');}catch(e){toast(e.message);}
   }
 });
-document.addEventListener('change',event=>{if(event.target.id==='coding-problem'){selectCodingProblem(event.target.value);render();}});
+document.addEventListener('change',event=>{
+  if(event.target.id==='coding-problem'){selectCodingProblem(event.target.value);render();}
+  if(event.target.id==='registration-method'){
+    const fields=$('#registration-email-fields');
+    fields.hidden=fields.disabled=event.target.value!=='email';
+  }
+});
 document.addEventListener('input',event=>{if(event.target.id==='coding-source')saveCodingDraft(event.target.value);if(event.target.id==='library-search'){libraryFilter.query=event.target.value;libraryPage=1;render();}});
 document.addEventListener('submit',async event=>{
   if(event.target.id==='coding-form'){event.preventDefault();await submitCoding(account,new FormData(event.target).get('source'),render,toast);return;}
-  if(!['auth-form','password-form'].includes(event.target.id))return;
+  if(!['auth-form','password-form','rename-form'].includes(event.target.id))return;
   event.preventDefault();const form=event.target,button=form.querySelector('[type="submit"]'),data=new FormData(form),error=form.querySelector('.form-error');button.disabled=true;error.hidden=true;
   try{
-    if(form.id==='auth-form'){await account.login(data.get('username'),data.get('password'),authMode==='register',data.get('inviteCode') || '');closeModal();toast('已登录，学习进度已载入');const action=afterLogin;afterLogin=null;action?.();render();}
+    if(form.id==='auth-form'){
+      const registration=form.dataset.register==='true'?{inviteCode:data.get('inviteCode')}:null;
+      if(registration && data.has('email'))Object.assign(registration,{email:data.get('email'),emailCode:data.get('emailCode')});
+      await account.login(data.get('username'),data.get('password'),registration);
+      closeModal();toast('已登录，学习进度已载入');const action=afterLogin;afterLogin=null;action?.();render();
+    }
+    else if(form.id==='rename-form'){await account.rename(data.get('username'),data.get('currentPassword'));closeModal();toast('用户名已修改，下次请用新用户名登录');}
     else{await account.password(data.get('currentPassword'),data.get('newPassword'));closeModal();toast('密码已修改，其他设备需重新登录');}
   }catch(e){error.textContent=e.message;error.hidden=false;button.disabled=false;}
 });
 document.addEventListener('keydown',event=>{
   const modal=$('#modal-root .modal');
   if(event.key==='Escape'){if(modal)closeModal();else if(menuOpen){menuOpen=false;render();}return;}
-  if(modal){if(event.key==='Tab'){const nodes=[...modal.querySelectorAll('button:not(:disabled),input,select,a[href]')];if(!nodes.length)return;const first=nodes[0],last=nodes.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}return;}
+  if(modal){if(event.key==='Tab'){const nodes=[...modal.querySelectorAll('button:enabled,input:enabled,select:enabled,a[href]')];if(!nodes.length)return;const first=nodes[0],last=nodes.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}return;}
   if(view!=='practice'||!currentQuestion()||event.ctrlKey||event.altKey||event.metaKey||/INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName))return;
   if(/^[1-9]$/.test(event.key)){const index=Number(event.key)-1;if(index<currentQuestion().options.length){event.preventDefault();chooseOption(index);}}
   if(event.key==='ArrowRight'){event.preventDefault();if(state.session.index<state.session.ids.length-1)changeQuestion(state.session.index+1);else{commitCurrentDraft();finish();}}

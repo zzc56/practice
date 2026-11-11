@@ -12,6 +12,8 @@ services:
       APP_ORIGIN: "${APP_ORIGIN:-}"
       BASE_PATH: "${BASE_PATH:-}"
       ALLOW_REGISTRATION: "${ALLOW_REGISTRATION:-true}"
+      RESEND_API_KEY: "${RESEND_API_KEY:-}"
+      MAIL_FROM: "${MAIL_FROM:-}"
       # 管理后台密码；留空则 /admin 无法登录
       ADMIN_PASSWORD: "${ADMIN_PASSWORD:-}"
       # 前面挂了 Nginx/Cloudflare 等反向代理时设为 "true"，才能拿到访客真实 IP 用于限流与日志
