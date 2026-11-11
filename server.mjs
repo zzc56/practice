@@ -383,7 +383,8 @@ async function api(req,res,route){
     if(route.endsWith('/register')){
       if(!registrationOpen)fail(403,'本站已关闭新账号注册');
       const invite=requireInvite(payload.inviteCode);
-      const email=payload.email===undefined?null:registrationEmail(payload.email);
+      const email=emailRegistrationEnabled?registrationEmail(payload.email):null;
+      if(emailRegistrationEnabled && !payload.emailCode)fail(400,'请输入邮箱验证码');
       if(row)fail(409,'该用户名已被注册');
       const salt=randomBytes(16).toString('hex'), passwordHash=(await derive(input.password,salt,64)).toString('hex');
       db.exec('BEGIN IMMEDIATE');

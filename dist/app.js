@@ -209,11 +209,11 @@ function showAuth(){
     <h2>欢迎来到知序</h2><p class="auth-caption">登录账号，让电脑和手机接着练。</p>
     <div class="auth-tabs"><button class="auth-tab ${!registering?'active':''}" data-action="auth-mode" data-mode="login">登录</button><button class="auth-tab ${registering?'active':''}" data-action="auth-mode" data-mode="register">注册账号</button></div>
     <form id="auth-form" class="auth-form" data-register="${registering}">
-      ${registering?`<label class="form-field">注册方式<select class="input" id="registration-method"><option value="username">用户名注册</option><option value="email" ${account.emailRegistrationEnabled?'':'disabled'}>邮箱验证注册${account.emailRegistrationEnabled?'':'（暂未开通）'}</option></select></label>`:''}
+      ${registering&&!account.emailRegistrationEnabled?'<p class="settings-hint">邮箱服务尚未配置，当前可直接用邀请码注册。</p>':''}
       <label class="form-field">用户名<input class="input" name="username" autocomplete="username" required minlength="3" maxlength="32" placeholder="3–32 个字符，可使用汉字"></label>
       <label class="form-field">密码<div class="password-input"><input class="input" id="auth-password" type="password" name="password" autocomplete="${registering?'new-password':'current-password'}" required minlength="8" maxlength="128" placeholder="至少 8 个字符"><button class="password-toggle" type="button" data-action="toggle-password" aria-label="显示密码">显示</button></div></label>
       ${registering?`<label class="form-field">邀请码<input class="input" id="registration-invite" name="inviteCode" type="password" autocomplete="off" required maxlength="256" placeholder="请输入管理员提供的邀请码" aria-describedby="invite-hint"></label><p class="settings-hint" id="invite-hint">邀请码由网站管理员提供。请妥善保存自己的账号密码，当前版本不提供邮件找回。</p>`:''}
-      ${registering?`<fieldset id="registration-email-fields" class="auth-email-fields" hidden disabled><label class="form-field">邮箱<input class="input" type="email" name="email" autocomplete="email" required maxlength="254"></label><button class="button secondary" type="button" data-action="email-code">发送验证码</button><p id="registration-code-status" class="settings-hint" role="status" hidden></p><label class="form-field">邮箱验证码<input class="input" name="emailCode" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label></fieldset>`:''}
+      ${registering?`<fieldset id="registration-email-fields" class="auth-email-fields" ${account.emailRegistrationEnabled?'':'hidden disabled'}><label class="form-field">邮箱<input class="input" type="email" name="email" autocomplete="email" required maxlength="254" placeholder="用于接收验证码，注册后不可修改"></label><button class="button secondary" type="button" data-action="email-code">发送验证码</button><p id="registration-code-status" class="settings-hint" role="status" hidden></p><label class="form-field">邮箱验证码<input class="input" name="emailCode" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label></fieldset>`:''}
       <p class="form-error" id="auth-error" role="alert" hidden></p>
       <button class="button primary auth-submit" type="submit">${registering?'验证邀请并注册':'登录并同步进度'} ${icon('arrow')}</button>
     </form></div>`,'',registering?'邀请注册':'账号登录');
@@ -335,10 +335,6 @@ document.addEventListener('change',async event=>{
 });
 document.addEventListener('change',event=>{
   if(event.target.id==='coding-problem'){selectCodingProblem(event.target.value);render();}
-  if(event.target.id==='registration-method'){
-    const fields=$('#registration-email-fields');
-    fields.hidden=fields.disabled=event.target.value!=='email';
-  }
 });
 document.addEventListener('input',event=>{if(event.target.id==='coding-source')saveCodingDraft(event.target.value);if(event.target.id==='library-search'){libraryFilter.query=event.target.value;libraryPage=1;render();}});
 document.addEventListener('submit',async event=>{
